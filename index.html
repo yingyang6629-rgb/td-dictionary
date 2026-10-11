@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TD 词典 · TouchDesigner 中文术语与参数速查手册</title>
+<meta name="description" content="TouchDesigner 中文词典：查英文术语不止给翻译，还给「在 TD 里的具体作用与使用场景」。覆盖 COMP/TOP/CHOP/SOP/DAT/MAT 六大家族 70 个高频节点的 1400+ 参数详解，下拉菜单选项逐项讲解，支持中英文搜索、分类浏览与生词本。">
+<meta name="keywords" content="TouchDesigner, TD词典, TouchDesigner教程, TouchDesigner参数, TOP, CHOP, SOP, DAT, COMP, MAT, TouchDesigner中文文档, 新媒体艺术, 互动媒体, 节点参数详解">
+<meta name="author" content="TD 词典">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TD 词典 · TouchDesigner 中文术语与参数速查手册">
+<meta property="og:description" content="专为 TouchDesigner 学习者打造的中文词典：213 词条 + 70 节点 1400+ 参数详解，讲清每个英文术语在 TD 里的作用、场景与下拉选项含义。">
+<meta property="og:locale" content="zh_CN">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --bg:#131417; --bg2:#191b1f; --card:#1d2026; --card-hover:#23262e;
+    --border:#2a2e36; --text:#e6e8ec; --sub:#9aa0ab; --dim:#6b7280;
+    --accent:#4a9eff; --star:#f5c518;
+    --c-core:#e8a25c; --c-top:#b478e0; --c-chop:#6fce85; --c-dat:#e078b4;
+    --c-sop:#6cb2e8; --c-comp:#9aa6b8; --c-mat:#e0d06c; --c-render:#e87c6c;
+    --c-ui:#7cc7d8; --c-py:#a98ce8; --c-io:#6cd8b8;
+  }
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:"Segoe UI","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+    min-height:100vh;
+  }
+  .wrap{ max-width:1200px; margin:0 auto; padding:28px 24px 60px; }
+
+  /* ===== Header ===== */
+  header{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:6px; }
+  .logo{ display:flex; align-items:center; gap:12px; }
+  .logo-mark{
+    width:44px;height:44px;border-radius:10px;flex:none;
+    background:linear-gradient(135deg,#2d6cb5,#4a9eff 60%,#7ce0ff);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:17px;color:#0d1220;letter-spacing:-.5px;
+    box-shadow:0 4px 18px rgba(74,158,255,.25);
+  }
+  .logo h1{ font-size:21px; font-weight:700; letter-spacing:.5px; }
+  .logo small{ display:block; color:var(--sub); font-size:12px; font-weight:400; margin-top:2px; }
+  .head-right{ margin-left:auto; display:flex; gap:10px; align-items:center; }
+  .star-btn{
+    display:flex;align-items:center;gap:7px;
+    background:var(--card); border:1px solid var(--border); color:var(--text);
+    padding:9px 16px; border-radius:10px; cursor:pointer; font-size:14px; transition:.15s;
+  }
+  .star-btn:hover{ border-color:var(--star); }
+  .star-btn.on{ background:rgba(245,197,24,.12); border-color:var(--star); color:var(--star); }
+  .star-btn svg{ width:16px;height:16px; }
+  .count-pill{ color:var(--dim); font-size:12.5px; }
+
+  /* ===== Search ===== */
+  .search-bar{
+    display:flex; align-items:center; gap:10px;
+    background:var(--card); border:1.5px solid var(--border); border-radius:12px;
+    padding:13px 18px; margin:18px 0 12px; transition:.15s;
+  }
+  .search-bar:focus-within{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(74,158,255,.12); }
+  .search-bar svg{ width:18px;height:18px;color:var(--dim);flex:none; }
+  #search{ flex:1; background:none; border:none; outline:none; color:var(--text); font-size:15.5px; font-family:inherit; }
+  #search::placeholder{ color:var(--dim); }
+  .kbd{ font-family:Consolas,monospace; font-size:11px; color:var(--dim); border:1px solid var(--border); border-radius:5px; padding:2px 7px; flex:none; }
+
+  /* ===== Chips ===== */
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+  .chip{
+    display:flex; align-items:center; gap:6px;
+    padding:6px 13px; border-radius:20px; font-size:13px; cursor:pointer;
+    background:var(--card); border:1px solid var(--border); color:var(--sub);
+    transition:.15s; user-select:none;
+  }
+  .chip:hover{ color:var(--text); border-color:var(--sub); }
+  .chip.on{ color:#10120f; font-weight:600; }
+  .chip .dot{ width:8px;height:8px;border-radius:50%; }
+  .chip .n{ font-size:11px; opacity:.75; }
+
+  /* ===== Cards ===== */
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:12px; }
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:15px 16px 13px; cursor:pointer; transition:.13s; position:relative;
+    display:flex; flex-direction:column; gap:7px;
+  }
+  .card:hover{ background:var(--card-hover); border-color:var(--sub); transform:translateY(-2px); }
+  .card.active{ border-color:var(--accent); box-shadow:0 0 0 2px rgba(74,158,255,.2); }
+  .card-top{ display:flex; align-items:baseline; gap:9px; flex-wrap:wrap; }
+  .card .w{ font-size:16.5px; font-weight:700; letter-spacing:.2px; }
+  .card .p{ font-size:12px; color:var(--dim); }
+  .tag{ font-size:10.5px; padding:2px 9px; border-radius:10px; font-weight:600; letter-spacing:.4px; align-self:flex-start; margin-top:-2px; }
+  .tag-row{ display:flex; gap:6px; align-items:flex-start; flex-wrap:wrap; }
+  .badge-detail{
+    font-size:10px; padding:2px 8px; border-radius:10px; font-weight:600;
+    background:rgba(74,158,255,.12); color:var(--accent); border:1px solid rgba(74,158,255,.3);
+  }
+  .card .m{ font-size:13.5px; color:var(--sub); line-height:1.55; }
+  .card .star-ico{ position:absolute; top:10px; right:10px; width:17px;height:17px; color:var(--dim); opacity:.45; transition:.12s; }
+  .card.starred .star-ico{ color:var(--star); opacity:1; }
+
+  .empty{ text-align:center; color:var(--dim); padding:70px 20px; font-size:14.5px; line-height:2; }
+  .empty b{ color:var(--sub); }
+
+  /* ===== Modal ===== */
+  .overlay{
+    position:fixed; inset:0; background:rgba(8,9,11,.72); backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center; z-index:50; padding:20px;
+  }
+  .overlay.show{ display:flex; }
+  .modal{
+    background:var(--bg2); border:1px solid var(--border); border-radius:16px;
+    max-width:680px; width:100%; max-height:85vh; overflow-y:auto;
+    box-shadow:0 24px 80px rgba(0,0,0,.55); animation:pop .18s ease;
+  }
+  @keyframes pop{ from{ transform:scale(.96); opacity:0; } to{ transform:scale(1); opacity:1; } }
+  .modal-head{ padding:26px 28px 20px; border-bottom:1px solid var(--border); position:relative; background:linear-gradient(180deg,rgba(74,158,255,.05),transparent); }
+  .modal-head .w{ font-size:26px; font-weight:800; letter-spacing:.2px; }
+  .modal-head .p{ color:var(--sub); font-size:14.5px; margin:6px 0 12px; }
+  .modal-head .m{ color:var(--sub); font-size:14.5px; }
+  .modal-close{ position:absolute; top:16px; right:16px; width:32px;height:32px; background:none; border:1px solid var(--border); border-radius:8px; color:var(--sub); font-size:15px; cursor:pointer; }
+  .modal-close:hover{ color:var(--text); border-color:var(--sub); }
+  .modal-body{ padding:22px 28px 28px; display:flex; flex-direction:column; gap:20px; }
+  .sec .sec-title{ display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; letter-spacing:1.5px; margin-bottom:9px; }
+  .sec .sec-title .bar{ width:4px; height:14px; border-radius:2px; }
+  .sec .txt{ font-size:15px; line-height:1.85; color:var(--text); }
+  .sec-role .txt{ color:#dbe6f5; }
+  .sec-scene .txt{ color:var(--sub); }
+  .modal-foot{ display:flex; align-items:center; gap:12px; border-top:1px solid var(--border); margin-top:2px; padding-top:18px; }
+  .btn-star{
+    display:flex; align-items:center; gap:8px; padding:9px 18px; border-radius:9px; cursor:pointer; font-size:14px;
+    background:var(--card); border:1px solid var(--border); color:var(--text); transition:.15s;
+  }
+  .btn-star:hover{ border-color:var(--star); }
+  .btn-star.on{ background:rgba(245,197,24,.12); border-color:var(--star); color:var(--star); }
+  .btn-star svg{ width:15px;height:15px; }
+  .foot-hint{ margin-left:auto; color:var(--dim); font-size:12px; }
+  .foot-hint .kbd{ margin:0 1px; }
+
+  /* ===== 参数详解（详情页内） ===== */
+  .detail-tabs{ display:flex; gap:8px; flex-wrap:wrap; }
+  .dtabs-title{ font-size:12.5px; font-weight:700; letter-spacing:1.5px; margin-bottom:10px; color:var(--dim); }
+  .dtab{
+    padding:5px 13px; border-radius:16px; border:1px solid var(--border);
+    background:var(--card); color:var(--sub); font-size:12.5px; cursor:pointer; transition:.13s;
+  }
+  .dtab:hover{ color:var(--text); border-color:var(--sub); }
+  .dtab.on{ background:var(--accent); color:#0b1624; border-color:var(--accent); font-weight:600; }
+  .dpanel{ display:none; }
+  .dpanel.on{ display:flex; flex-direction:column; gap:10px; }
+  .param{ background:var(--card); border:1px solid var(--border); border-radius:11px; overflow:hidden; }
+  .param-head{ display:flex; align-items:center; gap:11px; padding:12px 15px; border-bottom:1px solid var(--border); background:var(--bg2); flex-wrap:wrap; }
+  .param-name{ font-family:Consolas,monospace; font-size:14px; color:var(--accent); font-weight:600; }
+  .param-code{ font-family:Consolas,monospace; font-size:11.5px; color:var(--dim); background:var(--bg); padding:1px 7px; border-radius:5px; }
+  .param-body{ padding:12px 15px; }
+  .param-body p{ font-size:13.5px; line-height:1.75; color:var(--text); }
+  .param-body .note{ font-size:12.5px; color:var(--sub); margin-top:7px; padding-left:11px; border-left:3px solid var(--border); line-height:1.7; }
+  .dpage-note{ font-size:12.5px; color:var(--dim); padding:2px 4px 4px; }
+
+  .tips{ margin-top:34px; padding:16px 20px; border:1px dashed var(--border); border-radius:12px; color:var(--dim); font-size:12.5px; line-height:2; }
+  .tips b{ color:var(--sub); font-weight:600; }
+
+  ::-webkit-scrollbar{ width:9px; height:9px; }
+  ::-webkit-scrollbar-thumb{ background:#33373f; border-radius:5px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+
+  @media(max-width:640px){
+    .wrap{ padding:18px 14px 40px; }
+    .grid{ grid-template-columns:1fr 1fr; }
+    .modal-head{ padding:22px 20px 16px; } .modal-body{ padding:18px 20px 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">
+      <div class="logo-mark">TD</div>
+      <div>
+        <h1>TD 词典 <span style="font-size:12px;color:var(--accent);vertical-align:middle">v6</span></h1>
+        <small>TouchDesigner 英文术语 + 参数速查 · COMP + TOP + CHOP + SOP + DAT + MAT 六大家族已全部展开</small>
+      </div>
+    </div>
+    <div class="head-right">
+      <span class="count-pill" id="countPill"></span>
+      <button class="star-btn" id="starViewBtn" title="查看/退出 生词本">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+        <span id="starViewLabel">生词本</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input id="search" type="text" placeholder="搜索单词 / 中文 / 参数名，如 feedback / 拖尾 / dimmer / coneangle …" autocomplete="off" spellcheck="false">
+    <span class="kbd">/ 聚焦</span>
+  </div>
+
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none"></div>
+
+  <div class="tips">
+    <b>快捷键：</b> 输入即搜 · <b>↑ ↓</b> 选择词条 · <b>Enter</b> 查看详情 · <b>Esc</b> 关闭详情 / 清空搜索 · <b>/</b> 随时回到搜索框<br>
+    <b>参数详解：</b> 标有蓝色「参数」标签的词条（COMP 家族 10 个 + Audio Device Out CHOP）点开后可按参数页逐个查看参数含义，参数名同样支持搜索。<br>
+    <b>生词本：</b> 数据保存在浏览器本地。查不到的词记下来告诉我，持续补充进词库。
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+/* ============ 分类 ============ */
+const CATS = {
+  core:  {name:"核心概念", color:"var(--c-core)"},
+  top:   {name:"TOP 图像", color:"var(--c-top)"},
+  chop:  {name:"CHOP 通道", color:"var(--c-chop)"},
+  dat:   {name:"DAT 数据", color:"var(--c-dat)"},
+  sop:   {name:"SOP 几何", color:"var(--c-sop)"},
+  comp:  {name:"COMP 组件", color:"var(--c-comp)"},
+  mat:   {name:"MAT 材质", color:"var(--c-mat)"},
+  render:{name:"渲染 · 视觉", color:"var(--c-render)"},
+  ui:    {name:"界面 · 操作", color:"var(--c-ui)"},
+  py:    {name:"Python", color:"var(--c-py)"},
+  io:    {name:"协议 · 硬件", color:"var(--c-io)"},
+};
+
+/* ============ 词库 ============ */
+const DATA = [
+/* ---------- 核心概念 ---------- */
+{w:"Operator (OP)",p:"/ˈɒpəreɪtə/",c:"core",m:"n. 操作员；操作器",t:"TD 中所有节点元件的统称，一切计算都由 OP 完成：每个 OP 只干一件事，把结果沿连线传给下一个 OP。你搭建的整个程序，就是一个个 OP 连成的网络。",s:"教程里说「add an OP」「delete this OP」，指的就是任意一个节点。"},
+{w:"Operator Family",p:"",c:"core",m:"元件家族",t:"TD 用颜色把 OP 分成几大家族（TOP / CHOP / DAT / SOP / POP / COMP / MAT），只有同一家族（同色）的 OP 才能直接连线，跨家族要用转换节点（如 CHOP to TOP）。",s:"看到节点颜色就知道它处理什么类型的数据；连线连不上时先检查是不是家族不同。"},
+{w:"Network",p:"/ˈnetwɜːk/",c:"core",m:"n. 网络",t:"你搭建的程序本体，由节点和连线组成；网络可以嵌套在 COMP 内部，路径像文件夹一样层层展开（如 /project1/geo1）。",s:"教程里的 network editor、network path 都指这个；组织大项目就是把网络分装进不同 COMP。"},
+{w:"Node",p:"/nəʊd/",c:"core",m:"n. 节点",t:"OP 在编辑器里的可视化方块，可以拖动、连线、查看输出。Node 和 OP 在 TD 里基本是同义词。",s:"「node-based（基于节点）」就是形容 TD 这种搭积木式的编程方式。"},
+{w:"Wire",p:"/ˈwaɪə(r)/",c:"core",m:"n. 连线；导线",t:"节点之间的数据管道，数据永远从左往右流动；会动的线表示正在 cook（计算），静止的线表示结果被缓存没有变化。",s:"排性能问题时观察哪些 wire 一直在闪，就找到计算热点了。"},
+{w:"Parameter",p:"/pəˈræmɪtə(r)/",c:"core",m:"n. 参数",t:"节点上的可调设置项（数值、颜色、开关、菜单），改参数就是改效果；参数框里还能填表达式或引用其他节点的值。",s:"教程说「set the parameter to 0.5」「change this parameter」，就是让你改节点上的设置。"},
+{w:"Flag",p:"/flæɡ/",c:"core",m:"n. 标志；旗标",t:"节点右上角的小图标开关：Display Flag 控制哪个节点显示预览，Render Flag 控制哪个几何进入渲染，Bypass Flag 临时禁用节点。",s:"画面不显示/不渲染时，第一个检查的就是各种 flag 有没有插对位置。"},
+{w:"Cook",p:"/kʊk/",c:"core",m:"v. 烹饪；计算",t:"TD 对「计算当前帧」的官方叫法。画面卡 = 某些节点 cook 时间太长；性能优化的本质就是让网络少 cook、cook 得更便宜。",s:"中键点节点能看 cook time；听到「expensive to cook」就是说这个节点很耗算力。"},
+{w:"Frame",p:"/freɪm/",c:"core",m:"n. 帧",t:"TD 的基本计算单位，默认每秒计算 60 帧；每一帧把整张网络的数据从源头一路算到输出。",s:"frame 0、current frame 指时间轴当前所处的帧位置。"},
+{w:"FPS",p:"",c:"core",m:"Frames Per Second，帧率",t:"每秒实际完成的帧数。掉到 30 以下肉眼可见卡顿；实时演出项目一般锁定 60 FPS。",s:"软件右下角实时显示 FPS；优化后看这个数字有没有回升。"},
+{w:"Timeline",p:"/ˈtaɪmlaɪn/",c:"core",m:"n. 时间轴",t:"TD 的全局时间轴，控制播放/暂停/循环，是所有基于时间的动画基准；参数表达式里的 t 就来自它。",s:"按住时间轴可拖动帧位置；做循环动画时在这里设置 loop range。"},
+{w:"Generator",p:"/ˈdʒenəreɪtə(r)/",c:"core",m:"n. 生成器",t:"没有输入、凭空产生数据的 OP（节点底色更深），如 Movie File In、Noise、Sphere。每个家族都分生成器和过滤器两类。",s:"从零开始搭网络时，第一步一定是先放一个 generator。"},
+{w:"Filter",p:"/ˈfɪltə(r)/",c:"core",m:"n. 过滤器；滤器",t:"有输入端、加工上游数据再输出的 OP（节点底色更浅），如 Blur、Math CHOP。生成器接上过滤器才能变出效果。",s:"在 OP 创建菜单里看节点颜色深浅就能区分 generator / filter。"},
+{w:"Channel",p:"/ˈtʃænl/",c:"core",m:"n. 通道；频道",t:"CHOP 里的数值序列：一条通道 = 一列随时间变化的数字（一条动画曲线、一路音频信号）。通道可以被拖到参数上直接驱动它。",s:"教程说「drag the channel onto the parameter」就是把通道值绑到参数上。"},
+{w:"Sample",p:"/ˈsɑːmpl/",c:"core",m:"n. 采样（点）",t:"通道中的单个数值点，一条通道由成千上万个 sample 组成；sample 越多曲线越平滑，但也越耗性能。",s:"CHOP 参数里的 sample rate、length 决定采样密度。"},
+{w:"Resolution",p:"/ˌrezəˈluːʃn/",c:"core",m:"n. 分辨率",t:"TOP 图像的尺寸。TOP 的运算成本与分辨率直接相关，做草稿时把分辨率砍半是第一性能优化手段。",s:"常缩写为 res；输出投影/LED 前要把 res 匹配到设备实际像素。"},
+{w:"Pixel",p:"/ˈpɪksl/",c:"core",m:"n. 像素",t:"图像最小单元。TOP 在 GPU 上逐像素处理画面，像素越少算得越快。",s:"shader 里的 per-pixel 就是指对每个像素分别计算。"},
+{w:"Texture",p:"/ˈtekstʃə(r)/",c:"core",m:"n. 纹理；质感",t:"存在显卡（GPU）里的图像，是 TOP 家族统一操作的数据格式；视频、噪声、3D 渲染结果在 TD 里都是 texture。",s:"TOP 全称 Texture Operator 即来源于此；texture 也指贴在 3D 模型表面的图。"},
+{w:"Vertex",p:"/ˈvɜːteks/",c:"core",m:"n. 顶点",t:"3D 模型的基本构成点，模型 = 大量顶点 + 连接关系；粒子系统本质上就是一堆会动的顶点。",s:"顶点数（point count）决定几何运算量；vertex shader 逐顶点计算。"},
+{w:"Polygon",p:"/ˈpɒlɪɡən/",c:"core",m:"n. 多边形",t:"由顶点连成的面，是 3D 表面的基本单元，三角面/四边面都是 polygon。",s:"低多边形风格（low-poly）就是刻意保留明显 polygon 边缘的美术风格。"},
+{w:"Mesh",p:"/meʃ/",c:"core",m:"n. 网格；模型",t:"完整的 3D 模型（顶点+边+面的集合），SOP 家族处理的对象；也指表面网格结构。",s:"导入外部模型（.fbx/.obj）后就是一个 mesh；面数越多渲染越贵。"},
+{w:"Normal",p:"/ˈnɔːml/",c:"core",m:"n. 法线 adj. 正常的",t:"3D 表面朝外的方向向量，决定光照如何反应；法线乱了会导致模型黑块、光照错误。",s:"模型显示异常发黑时，先加一个 Normal SOP 重新计算法线。"},
+{w:"UV",p:"",c:"core",m:"纹理坐标",t:"把 2D 贴图「包」到 3D 表面上的映射关系。UV 不对，贴图就会错位、拉伸、重复。",s:"材质贴图错乱时检查 SOP 链里 UV 有没有正确生成（如用 Texture SOP）。"},
+{w:"Instancing",p:"/ˈɪnstənsɪŋ/",c:"core",m:"n. 实例化",t:"用一份几何体 + 一串通道数据，在 GPU 上批量生成成千上万个「各有不同」的副本，每个副本可被通道分别驱动位置/大小/颜色。",s:"粒子群、大厦灯光矩阵、万人大军等大规模重复效果的标准做法，比复制节点快得多。"},
+{w:"Export",p:"/ˈekspɔːt/",c:"core",m:"v./n. 导出；输出",t:"CHOP 的通道值自动写入其他节点参数的机制：通道变化 → 参数实时跟随，无需写代码。在 CHOP 的参数页 export 设置。",s:"把 LFO export 到 Level TOP 的亮度上，画面就会自动呼吸。"},
+{w:"Reference",p:"/ˈrefrəns/",c:"core",m:"n./v. 引用；参考",t:"在参数里写路径或表达式指向另一个值（如 op('null1')['chan1']），实现一处修改、多处联动，是 TD「参数化」的核心。",s:"参数右键 → Reference 可查看/复制引用；缩写 ref。"},
+{w:"Callback",p:"/ˈkɔːlbæk/",c:"core",m:"n. 回调",t:"预先挂好的函数，特定事件发生时自动执行（通道值变化、按钮点击、每帧开始）。TD 的交互逻辑大多靠 callback 实现。",s:"在 Execute DAT 的参数页里打开 callback 就能看到事件对应的函数模板。"},
+{w:"Hierarchy",p:"/ˈhaɪərɑːki/",c:"core",m:"n. 层级；等级制度",t:"COMP 一层层嵌套形成的树状结构，像文件夹一样组织大型项目；理解层级才能理解 TD 的路径系统。",s:"parent/child、dive into 都是在层级里上下移动。"},
+{w:"Pulse",p:"/pʌls/",c:"core",m:"n./v. 脉冲；跳动",t:"手动触发一次的参数按钮（参数标签旁的小圆点），常用于「重置」「触发一次」操作，也能被脚本调用。",s:"教程说「pulse the parameter」就是点一下那个小圆点触发一次。"},
+{w:"Absolute Time",p:"",c:"core",m:"绝对时间",t:"从软件启动开始累计的真实时间（absTime.seconds / absTime.frames），不受时间轴暂停、循环、跳转影响。",s:"做「永远在走」的动画（如流水噪声）要用 absTime 而不是 t，否则暂停时间轴画面就凝固了。"},
+
+/* ---------- TOP 图像 ---------- */
+{w:"TOP (Texture Operator)",p:"",c:"top",m:"纹理操作器",t:"紫色家族，处理一切 2D 图像：视频输入、噪声生成、合成、调色、输出显示。全部在 GPU 上运行，是视觉输出的最终形态。",s:"任何画面类工作都从 TOP 开始、在 TOP 结束；电影、噪声、反馈都在这个家族。"},
+{w:"Movie File In TOP",p:"",c:"top",m:"视频/图片文件输入",t:"读入硬盘或网络上的视频和图片，是最常用的素材入口；支持循环播放、进度控制、播放速度、静帧等。",s:"放背景视频、导入素材图都靠它；打不开文件先检查路径和编码格式（推荐 HAP 编码）。"},
+{w:"Noise TOP",p:"",c:"top",m:"噪声",t:"程序化生成随机流动的图案（分形、湍流、方块等多种类型），是万用初始素材：扭曲、融球、流动背景、随机驱动都靠它。",s:"配 Speed TOP 让噪声动起来，再配 Ramp 做颜色映射，一条流水线出动态背景。"},
+{w:"Feedback TOP",p:"",c:"top",m:"反馈；回授",t:"把网络上一帧的输出重新作为本帧的输入，让画面自我演化。拖尾、无限隧道、流体迭代等经典视觉的核心，常配 Blur + Transform 让画面「越拖越长」。",s:"想学「高级感」视觉效果，Feedback 是必须吃透的第一个 TOP。"},
+{w:"Composite TOP",p:"",c:"top",m:"合成；复合",t:"把两层图像叠加成一个，提供 Over / Multiply / Add / Subtract 等混合模式，对应 PS 里的图层混合模式。",s:"画面分层做后期（背景+主体+辉光）时用 Composite 逐层叠加。"},
+{w:"Level TOP",p:"",c:"top",m:"电平；调整",t:"调整亮度/对比度/透明度/RGB 各通道范围，最常用的调色节点；参数可被通道驱动，做呼吸明暗、闪烁等动态调色。",s:"Feedback 循环里配 Level 逐渐降亮度，就是经典拖尾渐隐。"},
+{w:"Blur TOP",p:"",c:"top",m:"模糊",t:"让画面变糊，半径越大越糊；是 Feedback 拖尾、辉光、磨砂玻璃质感的必备配料。",s:"高光部分 Blur 后再 Add 叠回原图，就是简易 Bloom 辉光。"},
+{w:"Transform TOP",p:"",c:"top",m:"变换",t:"对图像做位移/旋转/缩放/翻转。放在 Feedback 循环内逐帧累积变换，画面就会持续漂移、旋转、缩放出隧道效果。",s:"做无限放大隧道：Feedback + Transform（微放大）+ Blur。"},
+{w:"Speed TOP",p:"",c:"top",m:"速度",t:"按设定的速度持续滚动纹理坐标（UV），让静态噪声/图案变成流动效果，几乎零成本获得动态背景。",s:"Noise + Speed 两节点就是最常见的动态背景方案。"},
+{w:"Switch TOP",p:"",c:"top",m:"开关；切换",t:"多路输入按索引值选一路输出；索引可被通道驱动，做场景切换、素材轮播、随机切换。",s:"配 Timer CHOP 或按钮信号控制 index，实现演出时的画面切换。"},
+{w:"Select TOP",p:"",c:"top",m:"选取",t:"从网络其他位置按名字引用一个已存在的 TOP，替代长连线，让大网络保持整洁；上游变化自动跟随。",s:"工程规范：跨容器取画面用 Select 而不是拉一条横穿屏幕的线。"},
+{w:"Null TOP",p:"",c:"top",m:"空节点",t:"不做任何处理，仅作链条的「收口 + 命名」，方便被别处引用。工程规范：每条链末端放一个 Null。",s:"Select/引用都指向命名规范的 Null（如 null_out），重构时不会断引用。"},
+{w:"Out TOP",p:"",c:"top",m:"输出节点",t:"整个工程对外的最终画面出口；Window COMP 和监控设备最终显示的就是它。",s:"项目部署时确认最终画面都汇到 Out TOP。"},
+{w:"Ramp TOP",p:"",c:"top",m:"斜坡；渐变",t:"生成线性/径向/方形渐变，做遮罩、颜色映射、光带都从它开始；配合 Lookup 可做颜色表。",s:"把灰度噪声过 Ramp 渐变，就得到彩色流动背景。"},
+{w:"Text TOP",p:"",c:"top",m:"文字",t:"把文字渲染成纹理，支持中英文、字体、排版、逐字动画；可接 DAT 动态更新内容。",s:"歌词字幕、数据大屏、演出标题的标配。"},
+{w:"Constant TOP",p:"",c:"top",m:"常数；恒定",t:"生成一张纯色图，做纯色背景或调试色块，也能给参数表达式当颜色输入。",s:"调试合成时用 Constant 检查通道是否正常。"},
+{w:"Shape TOP",p:"",c:"top",m:"形状；图形",t:"绘制圆、矩形、十字等基本矢量图形，大小/圆角/边数全部参数化，是 UI 和图形构成的基础。",s:"做简约图形动画、仪表盘元素、加载动画都从 Shape 开始。"},
+{w:"Circle TOP",p:"",c:"top",m:"圆形；圆盘",t:"绘制圆形/圆环/扇形/正多边形，半径、边框、抗锯齿、圆角全参数化，是 UI 圆点、粒子贴图、光圈图形的基础生成器。",s:"给粒子做圆形贴图、做进度环/扇形仪表盘都靠它；Polygon 模式边数一改就变正多边形。"},
+{w:"Render TOP",p:"",c:"top",m:"渲染输出",t:"把 3D 场景（Geometry COMP + Camera + Light）渲染成一张 texture，是 3D 到 2D 的总出口；可接多个 Camera 做多层合成。",s:"所有 3D 内容最终都要经过 Render TOP 才能变成可显示的画面。"},
+{w:"Cross TOP",p:"",c:"top",m:"交叉；过渡",t:"两路画面按 0~1 的值平滑过渡（淡入淡出），值可被通道驱动。",s:"配 Timer CHOP 做 A/B 素材的柔和切换。"},
+{w:"Edge TOP",p:"",c:"top",m:"边缘",t:"提取画面轮廓线（边缘检测），做描边、线稿风格、运动边缘发光。",s:"视频过 Edge 再加颜色，一秒变科技线稿风。"},
+{w:"Mirror TOP",p:"",c:"top",m:"镜像",t:"水平/垂直翻转复制画面，一步做出对称万花筒效果。",s:"任何素材过 Mirror 立刻变对称构图，万花筒效果核心节点。"},
+{w:"Chroma Key TOP",p:"",c:"top",m:"色度键；抠像",t:"按颜色范围把画面某色变透明（绿幕/蓝幕抠像），保留主体用于合成。",s:"实拍绿幕素材与程序背景合成的标准工具。"},
+{w:"Resolution TOP",p:"",c:"top",m:"分辨率调整",t:"强制改变图像尺寸（放大/缩小），草稿提速和输出分辨率匹配的实用工具。",s:"开发时全链路降一半分辨率，性能立刻翻倍。"},
+{w:"GLSL TOP",p:"",c:"top",m:"GLSL 像素着色器 TOP",t:"直接编写 GLSL 像素着色器的 TOP，实现内置节点做不到的自定义 2D 效果，性能上限最高，但需要学 shader 语言。",s:"进阶阶段学习；网上大量 TD shader 教程都以 GLSL TOP 为入口。"},
+
+/* ---------- CHOP 通道 ---------- */
+{w:"CHOP (Channel Operator)",p:"",c:"chop",m:"通道操作器",t:"绿色家族，处理一切「随时间变化的数字」：动画曲线、音频、控制信号、设备通信、UI 状态。CHOP 是 TD 的神经系统，负责让静态画面动起来。",s:"想让任何参数「活」起来，基本都是从 CHOP 引一条通道过去。"},
+{w:"LFO CHOP",p:"",c:"chop",m:"低频振荡器",t:"自动生成正弦/三角/方波等周期曲线，让任何参数自动呼吸、摆动、闪烁；频率控制快慢，振幅控制幅度。",s:"新手第一课：LFO export 到画面缩放，得到自动呼吸的动效。"},
+{w:"Speed CHOP",p:"",c:"chop",m:"速度",t:"根据输入的速度值持续累加输出（积分），把「速度」变成「位移」。",s:"配 Feedback TOP 做速度控制的隧道穿梭：手柄推得越快，飞得越快。"},
+{w:"Math CHOP",p:"",c:"chop",m:"数学运算",t:"对通道做加减乘除、取绝对值、范围重映射（如 0-1 ↔ 0-100），是数据清洗和换算的基础节点。",s:"传感器/控制器数值范围和 TD 需要的不一致时，用 Math remap 一下。"},
+{w:"Lag CHOP",p:"",c:"chop",m:"滞后；缓动",t:"让输出值延迟跟随输入值（可分别设加速/减速时间），把生硬的跳变变成柔和的缓动。",s:"UI 面板数值切换太生硬时加 Lag，交互手感立刻高级。"},
+{w:"Filter CHOP",p:"",c:"chop",m:"滤波",t:"平滑毛刺数据（均值滤波等），传感器、鼠标原始信号去抖动的常用工具。",s:"Kinect/雷达数据抖动严重时，先过 Filter 再用。"},
+{w:"Trigger CHOP",p:"",c:"chop",m:"触发",t:"把瞬时输入（如一次按键）转成带 attack/release 包络的脉冲曲线，让触发有「形状」。",s:"点击出特效：按钮信号过 Trigger 得到先快冲后缓落的曲线，拿去驱动发光强度。"},
+{w:"Timer CHOP",p:"",c:"chop",m:"定时器",t:"可编程的倒计时/序列控制器：分段、循环、完成回调一应俱全，是演出 cue 控制、定时序列的核心节点。",s:"演出场景按时间自动切换、展览定时循环播放，都用 Timer 做总控。"},
+{w:"Noise CHOP",p:"",c:"chop",m:"噪声通道",t:"输出随机起伏的数值通道，给参数加自然抖动，比 LFO 更「活」更不可预测。",s:"画面位置加一点 Noise，机械感立刻变成有机感。"},
+{w:"Analyze CHOP",p:"",c:"chop",m:"分析",t:"从多通道中提取统计值：最大/最小/平均/总和等。",s:"音频频谱 64 段取平均，得到整体音量强度驱动全局缩放。"},
+{w:"Count CHOP",p:"",c:"chop",m:"计数器",t:"统计输入的上升/下降次数并输出累计值，可设上下限。",s:"做计分器、连击计数、按键次数触发彩蛋。"},
+{w:"Logic CHOP",p:"",c:"chop",m:"逻辑",t:"做与或非、阈值比较、信号翻转等布尔判断，是「如果…就…」的连线版。",s:"「音量超过阈值 且 模式为 A 时才触发闪烁」这类条件用 Logic 搭。"},
+{w:"Constant CHOP",p:"",c:"chop",m:"常数",t:"手动设置固定数值/通道的源头，相当于「数值积木」；通道可命名后被引用。",s:"把常用可调参数（如全局强度）集中在几个 Constant 里，做成简易控制台。"},
+{w:"Wave CHOP",p:"",c:"chop",m:"波形",t:"生成正弦、锯齿、方波等标准波形通道，比 LFO 更可控（多通道、相位错开、任意频率组合）。",s:"多个 Wave 相位错开叠加，得到复杂而规律的运动曲线。"},
+{w:"Keyboard In CHOP",p:"",c:"chop",m:"键盘输入",t:"捕获键盘按键状态（按下=1，松开=0）输出为通道，把键盘变成实时控制信号。",s:"演出时用键盘触发场景切换；注意和 Keyboard Execute DAT 的区别：这里给的是持续状态信号。"},
+{w:"Mouse In CHOP",p:"",c:"chop",m:"鼠标输入",t:"捕获鼠标位置/按键状态为通道，做鼠标跟随、交互区域检测。",s:"画一个圆跟随鼠标：Mouse In 的 tx/ty 过 Lag 缓动后驱动 Transform。"},
+{w:"OSC In / OSC Out CHOP",p:"",c:"chop",m:"OSC 收发",t:"通过 OSC 协议接收/发送数值信号，跨软件、跨设备实时通信的主力（TD↔TD、TD↔Resolume、手机传感器 App→TD）。",s:"手机装个 OSC 控制器 App，就能远程调 TD 参数；演出团队多机联动也用它。"},
+{w:"MIDI In CHOP",p:"",c:"chop",m:"MIDI 输入",t:"接收 MIDI 设备（键盘、Launchpad、推子控制器）的音符/旋钮/推子数据并转为通道。",s:"用 MIDI 控制器现场实时调画面参数，VJ 演出标配工作流。"},
+{w:"Select CHOP",p:"",c:"chop",m:"选取",t:"从别的 CHOP 里按通道名挑选需要的信号引过来，只留有用的通道。",s:"设备输入几十条通道，用 Select 只取要用的几条。"},
+{w:"Switch CHOP",p:"",c:"chop",m:"切换",t:"多路 CHOP 输入按索引值选一路原样输出，是数据流上的切换开关。",s:"配 Constant/Select 当选择器通道，实现信号源切换；要做平滑混合过渡需改用 Cross CHOP。"},
+{w:"Merge CHOP",p:"",c:"chop",m:"合并",t:"把多个 CHOP 的通道并排拼接成一路输出，同名通道可自动处理冲突。",s:"LFO + Noise + 传感器信号各自单独处理，最后 Merge 汇成一组通道统一导出。"},
+{w:"Shuffle CHOP",p:"",c:"chop",m:"重排；重组",t:"通道与样本的行列重组工具：转置、串联、拆分、按 N 分组，把数据整形成需要的样子。",s:"SOP to CHOP 出来的 p[xyz] 想按点分组用，是几何数据回流 CHOP 体系的桥梁。"},
+{w:"Null CHOP",p:"",c:"chop",m:"空节点",t:"CHOP 链的收口命名节点，不做处理，方便被引用。",s:"和 Null TOP 同理，工程规范标配。"},
+{w:"Trail CHOP",p:"",c:"chop",m:"轨迹图",t:"把通道画成随时间滚动的曲线图，相当于软件内的示波器，是调试动画/信号的可视化利器。",s:"「我的通道到底输出的是什么形状」，接一个 Trail 立刻看明白。"},
+{w:"Expression CHOP",p:"",c:"chop",m:"表达式",t:"用 Python 表达式按帧生成通道值，灵活生成自定义曲线。",s:"需要特殊数学曲线（如 sin(x)/x）时用 Expression 现写。"},
+{w:"Record CHOP",p:"",c:"chop",m:"录制",t:"把通道历史录下来供回放，做动作回放、数据缓冲。",s:"录下手绘轨迹再回放给粒子跟随，常见互动展项做法。"},
+{w:"Audio Device In CHOP",p:"",c:"chop",m:"音频输入",t:"从声卡/麦克风采集音频并转为通道，做音频可视化的第一步。",s:"麦克风收环境声音量，驱动画面随现场声音律动。"},
+{w:"Audio Spectrum CHOP",p:"",c:"chop",m:"频谱分析",t:"把音频分解成多个频段的能量通道（低音/中音/高音…），各频段可分别驱动不同视觉元素。",s:"音乐可视化核心：低频驱动缩放、高频驱动闪烁，画面随音乐起舞。"},
+{w:"Audio Device Out CHOP",p:"",c:"chop",m:"音频设备输出",t:"把 TD 里生成的音频通道发送到真实声卡、耳机或扬声器，是「让声音被听见」的最后一个 CHOP；相当于音频版 Out TOP。",s:"音乐可视化时播放背景音乐、互动装置触发音效、演出最终声音输出。"},
+
+/* ---------- DAT 数据 ---------- */
+{w:"DAT (Data Operator)",p:"",c:"dat",m:"数据操作器",t:"粉色家族，处理一切文本/表格/脚本：字符串、表格数据、Python 脚本、网络数据。是 TD 的「数据库 + 记事本」，编程和交互逻辑都住在这里。",s:"存配置、写脚本、接 API、做 UI 联动，都绕不开 DAT。"},
+{w:"Table DAT",p:"",c:"dat",m:"表格",t:"二维表格容器，既能手动编辑也能被脚本读写，是存配置、映射关系、cue 列表的标准容器。",s:"把「按钮名 → 场景编号」的对应表存在 Table 里，程序读表执行，改表不改代码。"},
+{w:"Text DAT",p:"",c:"dat",m:"文本",t:"存放纯文本或 Python 脚本的容器，是 TD 里写代码的地方；代码高亮、自动缩进都有。",s:"所有 Python 逻辑（回调、工具函数）都写在 Text DAT 里。"},
+{w:"Execute DAT",p:"",c:"dat",m:"执行器",t:"监听特定事件自动运行 Python：CHOP Execute（通道变化）、Panel Execute（UI 交互）、Keyboard Execute（按键）等。交互逻辑的核心。",s:"按钮点击时执行一段代码、通道超过阈值时记录日志，都用对应的 Execute DAT。"},
+{w:"OP Find DAT",p:"",c:"dat",m:"节点查找",t:"按名字/类型/标签批量搜索全工程的 OP 并列成表格，是批量操作（配合 Replicator/脚本）的前置步骤。",s:"找出所有叫 light1~light100 的节点统一改参数。"},
+{w:"Evaluate DAT",p:"",c:"dat",m:"求值",t:"把表格单元格里的表达式逐格计算成结果，实现「表格 → 数据」的管道。",s:"表格里存公式，Evaluate 算出数值给 CHOP 使用。"},
+{w:"Merge DAT",p:"",c:"dat",m:"合并",t:"把多个 DAT 的内容合并成一个，整理分散的数据流。",s:"多个设备各发一份数据，Merge 汇总后再处理。"},
+{w:"Select DAT",p:"",c:"dat",m:"选取",t:"按行列条件从别的 DAT 中提取需要的数据。",s:"API 返回一大坨 JSON，用 Select/解析后只取需要的字段。"},
+{w:"Script DAT",p:"",c:"dat",m:"脚本 DAT",t:"用 Python 代码动态生成/处理表格和文本，相当于「可编程的 DAT」。",s:"根据数据动态生成表格内容（如把通道数据格式化成显示文本）。"},
+{w:"Web Client DAT",p:"",c:"dat",m:"网络客户端",t:"发送 HTTP 请求并把网页/API 的返回内容存下来，是接入网络数据（天气、股票、弹幕）的入口。",s:"做数据可视化大屏时，用它定时拉取 API 数据。"},
+{w:"OSC In DAT",p:"",c:"dat",m:"OSC 数据接收",t:"以文本/表格形式接收 OSC 消息，相比 CHOP 版能看到完整的地址和参数列表。",s:"调试 OSC 通信时先用 DAT 版看看对方到底发了什么。"},
+{w:"CHOP Execute DAT",p:"",c:"dat",m:"通道事件执行器",t:"监听某个 CHOP 通道的 0↔1 变化与数值变化，自动触发对应 Python 回调（onOffToOn / whileOn / onOnToOff / onValueChange 等）。",s:"按钮按下执行一段代码、信号过阈值发 OSC，交互逻辑的第一站。"},
+{w:"Panel Execute DAT",p:"",c:"dat",m:"面板事件执行器",t:"监听某个 Panel COMP 的面板值（点击/悬停/键入/选中），变化时触发 Python 回调。",s:"按钮每次点击计数、滑条拖动实时联动，UI 交互全靠它。"},
+{w:"OP Execute DAT",p:"",c:"dat",m:"节点事件执行器",t:"监听任意 OP 的深层事件：cook 前后、删除、改名、路径变化、连线变化、缩放移动等 12 种，各对应一个回调方法。",s:"用户在界面里删了节点自动清理关联数据、节点被拖动时同步位置，批量管理场景用它。"},
+{w:"Folder DAT",p:"",c:"dat",m:"文件夹列表",t:"把磁盘文件夹的内容读成表格（文件名/类型/大小/日期/路径），支持递归子目录与模式过滤，还能持续监控变化。",s:"读素材库自动生成播放列表；配 Replicator 按文件批量建节点。"},
+
+/* ---------- SOP / POP 几何 ---------- */
+{w:"SOP (Surface Operator)",p:"",c:"sop",m:"表面操作器",t:"蓝色家族，处理 3D 几何体：建模、变形、复制、属性编辑。运行在 CPU 端的传统几何家族（新项目中部分工作被 GPU 端的 POP 取代）。",s:"做 3D 内容的第一站；教程里的 sphere/box/noise 这些几何操作基本都在 SOP。"},
+{w:"POP (Point Operator)",p:"",c:"sop",m:"点操作器",t:"TD 新引入的 GPU 端点云家族，用海量点/粒子做实时图形，性能远超 SOP，是官方力推的未来方向。",s:"大规模粒子系统（十万级以上）用 POP 做，还能和 SOP 数据互转。"},
+{w:"Sphere SOP",p:"",c:"sop",m:"球体",t:"程序化生成球体，可调半径、分段、类型（多边形/NURBS），最常用的 3D 素材起点。",s:"任何 3D 演示的第一个几何体，通常就是 Sphere。"},
+{w:"Box SOP",p:"",c:"sop",m:"盒子；方块",t:"生成方块，可调尺寸/分段/居中方式。",s:"做建筑方块、边框、阵列单元。"},
+{w:"Grid SOP",p:"",c:"sop",m:"网格面",t:"生成平面网格，是地形、矩阵阵列、2D 粒子发射面的最常用起点。",s:"网格 + Noise SOP = 波浪海面；网格顶点 + instancing = 点阵墙。"},
+{w:"Torus SOP",p:"",c:"sop",m:"圆环",t:"生成甜甜圈形几何，可调大小半径。",s:"做隧道、光环、能量环。"},
+{w:"Line SOP",p:"",c:"sop",m:"线",t:"生成一条线段，可调分段数（多段=多个顶点）。",s:"线上的多个顶点配 instancing 变成一排元素；也是扫掠路径。"},
+{w:"Circle SOP",p:"",c:"sop",m:"圆",t:"生成圆形曲线或多边形轮廓。",s:"做发射器轮廓、环形排布的依据。"},
+{w:"Tube SOP",p:"",c:"sop",m:"管道",t:"生成圆柱管，可调上下半径和高度。",s:"做隧道穿梭场景的筒壁。"},
+{w:"Text SOP",p:"",c:"sop",m:"文字几何",t:"把文字转成 3D 几何轮廓（可输出三角形面、封闭轮廓或开放轮廓），配合 Extrude 就是立体 LOGO。",s:"Text SOP 出轮廓 → Extrude 挤厚度 → Phong/Constant MAT 上材质，立体字三连。"},
+{w:"Trail SOP",p:"",c:"sop",m:"轨迹几何",t:"记录几何体过去 N 帧的位置并连成轨迹（网格/多边形/速度属性），是粒子拖尾、残影的经典做法。",s:"粒子系统的拖尾线、飞舞光点的残影都靠它；也能只算速度属性给 Shader 用。"},
+{w:"Merge SOP",p:"",c:"sop",m:"几何合并",t:"把多个 SOP 的几何合并成一个（连线或按名字引用，支持通配符批量），几何版的 Merge CHOP。",s:"多路几何各自处理完，Merge 成一个再进 Geometry COMP 渲染。"},
+{w:"Add SOP",p:"",c:"sop",m:"添加",t:"从零创建点/折线/多边形；也是把外来数据（CHOP/DAT 的数值）变成几何体的「翻译官」。",s:"把 Datatest 表格里的坐标数据变成空间中的一堆点。"},
+{w:"Copy SOP",p:"",c:"sop",m:"复制；拷贝",t:"把几何复制到输入的每个顶点上（配 Stamp 可逐个变参）。传统批量做法，如今大量场景被更快的 Instancing 取代。",s:"老教程里大量出现；新项目优先考虑 instancing 提升性能。"},
+{w:"Copy Stamp",p:"",c:"sop",m:"盖章参数",t:"Copy SOP 的配套机制：复制时给每个副本传一个不同的编号，让各副本参数不同。",s:"读老教程必备知识；新做法用通道数组 + instancing。"},
+{w:"Sort SOP",p:"",c:"sop",m:"排序",t:"按位置/随机等规则重排顶点顺序。",s:"顶点顺序影响复制次序和渲染，需要规律排布时用它。"},
+{w:"Group SOP",p:"",c:"sop",m:"组",t:"给点/边/面打上「组」标签，让后续节点只处理部分几何。",s:"只让球体的上半部分被 Noise 变形：先 Group 出上半，再让 Noise 只作用于这个组。"},
+{w:"Facet SOP",p:"",c:"sop",m:"面片处理",t:"焊接重复顶点、统一面朝向、保证几何「干净」，是渲染正常的前提保障。",s:"模型出现破面/闪烁时，先怀疑顶点没焊好，加 Facet。"},
+{w:"Normal SOP",p:"",c:"sop",m:"法线计算",t:"给几何计算/调整法线方向，能统一朝向或按点平均。",s:"光照错误、材质发黑时的排查第一步。"},
+{w:"Noise SOP",p:"",c:"sop",m:"噪声变形",t:"按噪声场推挤顶点，让几何自然起伏，一键「有机化」。",s:"平面变波浪、球体变岩石、盒子变果冻，都是 Noise SOP。"},
+{w:"Metaball SOP",p:"",c:"sop",m:"元球",t:"相互靠近时会融合的球体场，产生果冻/液体般的有机形态。",s:"经典融球效果；也被用来做力的场（配合其他节点）。"},
+{w:"Extrude SOP",p:"",c:"sop",m:"挤出",t:"给平面图形（文字轮廓、Circle）加厚度变成 3D 体。",s:"LOGO 立体化第一步：Text SOP 出轮廓 → Extrude 挤出厚度。"},
+{w:"Subdivide SOP",p:"",c:"sop",m:"细分",t:"增加面数并平滑模型，让低模变高模。",s:"几何棱角太硬时细分一下，配合 Noise 得到平滑起伏。"},
+{w:"Convert SOP",p:"",c:"sop",m:"转换",t:"在多边形/NURBS/贝塞尔等几何类型之间转换，让不同节点能对接。",s:"某节点要求特定几何类型报错时，中间加 Convert。"},
+{w:"Duplicate SOP",p:"",c:"sop",m:"阵列复制",t:"沿方向/旋转/缩进批量复制几何，做规律阵列。",s:"楼梯、扇叶、放射状重复元素。"},
+{w:"Transform SOP",p:"",c:"sop",m:"几何变换",t:"移动/旋转/缩放几何本身（写入顶点数据），区别于在场景中移动对象的 COMP 变换。",s:"要让几何被「真实地」改变时用 SOP 版 Transform。"},
+{w:"Point SOP",p:"",c:"sop",m:"逐点操作",t:"逐顶点修改位置/颜色/UV 等属性的传统节点（现多被 POP 替代）。",s:"老教程常客：给每个顶点按通道偏移位置。"},
+
+/* ---------- COMP 组件 ---------- */
+{w:"COMP (Component)",p:"",c:"comp",m:"组件",t:"灰色家族，特殊之处：既能「装东西」（内部含完整网络），又能做 UI 控件。整个工程就是 COMP 一层层嵌套而成。",s:"组织项目 = 规划 COMP 层级；做界面 = 用 Panel 类 COMP。"},
+{w:"Container COMP",p:"",c:"comp",m:"容器",t:"万能容器：内部装网络、对外呈现画面。既是「页面」（UI 界面的基本单位），也是分层的画布。",s:"做多页界面：每页一个 Container，用 Container COMP 切换层级。"},
+{w:"Base COMP",p:"",c:"comp",m:"基础容器",t:"纯净版容器：没有面板（UI）参数也没有 3D 参数，纯打包整理用，是复用逻辑模块的标准外壳。",s:"把常用工具（如 RGB→HSV 转换）封装成 Base，拖进任何项目就能用；要界面用 Container，纯封装用 Base。"},
+{w:"Geometry COMP",p:"",c:"comp",m:"几何组件",t:"3D 渲染的载体：把 SOP 装进去并放进渲染场景，自带变换（位置/旋转/缩放）；instance 页面配通道数据可批量复制。",s:"所有 3D 模型都要装进 Geometry COMP 才能被 Render TOP 渲染。"},
+{w:"Camera COMP",p:"",c:"comp",m:"相机",t:"定义渲染的视角/焦距/裁剪范围，一个场景可放多台相机切换。",s:"Render TOP 选择哪台 Camera，画面就是谁的视角；做运镜动画就是动 Camera 的变换。"},
+{w:"Light COMP",p:"",c:"comp",m:"灯光",t:"为 3D 场景提供照明，支持点光/锥形聚光/平行光等类型，决定画面的明暗氛围。",s:"3D 画面平平无奇时，先从打光开始救。"},
+{w:"Window COMP",p:"",c:"comp",m:"窗口",t:"把最终输出画面投到显示器/投影仪/LED 墙的出口组件，可设置全屏、无边框、跨屏；是演出部署的最后一步。",s:"展览现场：Window COMP 指定输出到投影所在屏幕，进 Perform Mode 全屏运行。"},
+{w:"Button COMP",p:"",c:"comp",m:"按钮",t:"UI 按钮组件，自带按下/悬停/释放状态并发出信号，样式完全可定制；有 11 种行为类型（瞬发/切换/单选组等）。",s:"做控制面板的触发按钮；其状态可被 Panel Execute DAT 监听。"},
+{w:"Slider COMP",p:"",c:"comp",m:"滑条",t:"UI 滑块组件，拖动产生 0-1 连续值，分水平 U、垂直 V、二维 UV（摇杆）三种类型；输出可直接 export 驱动参数。",s:"把 Slider 的值绑定到发光强度，现场实时拖动调节。"},
+{w:"Field COMP",p:"",c:"comp",m:"输入框",t:"UI 文本输入组件，可限定文本/数字类型、密码显示、多行输入。注意：2022.24200 版本起已被废弃，官方建议新项目改用 Text COMP。",s:"让操作者在界面上直接输入内容并传给程序；老教程里常见。"},
+{w:"Replicator COMP",p:"",c:"comp",m:"复制器",t:"按「模板节点 + 数据表/数量」自动批量生成节点（如 16×16 按钮墙），改表即改数量，是「数据驱动界面」的核心，相当于连线版的 for 循环。",s:"要 100 个一样的控制模块时，别手动复制——用 Replicator。"},
+{w:"Table COMP",p:"",c:"comp",m:"UI 表格",t:"可交互的表格控件（区别于存数据的 Table DAT），做数据面板、播放列表界面。",s:"做展示用的数据表格界面（可点击选行）。"},
+{w:"Panel",p:"/ˈpænl/",c:"comp",m:"n. 面板",t:"所有 UI 控件类 COMP 的统称；Panel 有统一的值输出（u/v 坐标、state 状态、val 值等）供程序读取。",s:"教程说「panel value」指的就是控件的这些输出值。"},
+
+/* ---------- MAT 材质 ---------- */
+{w:"MAT (Material)",p:"",c:"mat",m:"材质操作器",t:"黄色家族，定义 3D 表面如何着色、对光如何反应；接在 Geometry COMP 上决定模型「长什么样」。",s:"模型灰扑扑的时候，就是该上 MAT 了。"},
+{w:"Phong MAT",p:"",c:"mat",m:"Phong 材质",t:"带漫反射 + 高光的经典光照材质，参数直观易懂，新手做 3D 渲染的首选。",s:"给球体一个红色 Phong、加一盏灯，第一个 3D 画面就成了。"},
+{w:"Constant MAT",p:"",c:"mat",m:"常数材质",t:"纯色、完全不受光照影响的材质，做剪影、平涂、线框风格。",s:"要「扁平化」卡通风格时用 Constant，画面不受灯光影响稳定可控。"},
+{w:"PBR MAT",p:"",c:"mat",m:"物理材质",t:"基于物理的渲染材质（金属度/粗糙度/自发光），效果更真实，配 HDRI 环境光食用更佳。",s:"追求真实质感（金属、玻璃、陶瓷）的现代选择。"},
+{w:"Wireframe MAT",p:"",c:"mat",m:"线框材质",t:"把模型渲染成线框结构，做科技感、结构可视化效果。",s:"网格面 + Wireframe MAT = 经典赛博网格地面。"},
+{w:"Point Sprite MAT",p:"",c:"mat",m:"点精灵材质",t:"把每个顶点渲染成一张小贴图（可加颜色/大小控制），是粒子视觉效果的常用材质。",s:"万点星空、花瓣飘落：点 + 圆形渐变贴图 + Point Sprite。"},
+{w:"GLSL MAT",p:"",c:"mat",m:"自定义着色器材质",t:"用 GLSL 代码写完全自定义的材质：顶点/像素/几何着色器分别放在 Text DAT 里引用，uniform 和纹理自动映射到参数页。",s:"官方材质做不出的效果（溶解、描边、风格化处理）的最后答案。"},
+{w:"Line MAT",p:"",c:"mat",m:"线条材质",t:"专门渲染线、点、向量的材质：圆角/尖角/端帽、远近宽度插值、逐点颜色，不受灯光影响。",s:"数据可视化连线、轨迹线、网络结构图：Line MAT + Trail SOP 是标配。"},
+
+/* ---------- 渲染 · 视觉 ---------- */
+{w:"Render",p:"/ˈrendə(r)/",c:"render",m:"v./n. 渲染",t:"把 3D 场景 + 相机 + 灯光计算成 2D 图像的过程；TD 由 Render TOP 完成，实时渲染 = 每帧重新计算。",s:"TD 是 realtime render（实时渲染）软件，区别于 PR 里先渲后看的离线渲染。"},
+{w:"Shader",p:"/ˈʃeɪdə(r)/",c:"render",m:"n. 着色器",t:"运行在 GPU 上的小程序，逐顶点/逐像素计算画面，决定最终视觉；自定义效果的终极手段，也是进阶分水岭。",s:"「这个效果用 shader 做的」= 它是 GPU 逐像素算出来的，快且上限高。"},
+{w:"GLSL",p:"",c:"render",m:"OpenGL Shading Language",t:"写 shader 的语言；TD 的 GLSL TOP / GLSL MAT 里写的就是它。学会 GLSL 就能突破内置节点的效果上限。",s:"进阶学习路线：先玩熟内置节点，再学 GLSL 打开新世界。"},
+{w:"Ambient",p:"/ˈæmbiənt/",c:"render",m:"adj. 环境的 n. 环境光",t:"均匀照亮全场、不带方向的基础光；材质里的 ambient 值决定整体底色亮度。",s:"画面整体太暗时，适当抬 ambient 而不是盲目加灯。"},
+{w:"Diffuse",p:"/dɪˈfjuːz/",c:"render",m:"adj./n. 漫反射",t:"光照到粗糙表面后向四周均匀反弹的部分，决定物体的基础颜色和亮度。",s:"PBR 材质里的 diffuse map 就是「固有色贴图」。"},
+{w:"Specular",p:"/ˈspesjələ(r)/",c:"render",m:"adj./n. 镜面反射；高光",t:"光在光滑表面形成的镜面反射亮斑；高光强度/大小决定物体「多亮多锐」，是金属感的关键。",s:"塑料高光大而弥散、金属高光小而锐利，调 specular 区分质感。"},
+{w:"Alpha",p:"/ˈælfə/",c:"render",m:"n. 透明通道",t:"图像的第四通道（RGBA 里的 A），决定哪里透明哪里实心；抠像、叠加、渐显全靠它。",s:"画面叠加出现黑底/白底时，通常是 alpha 预乘（premultiply）问题。"},
+{w:"Mask",p:"/mɑːsk/",c:"render",m:"n. 遮罩；面具",t:"用一张图的明暗控制另一张图哪里显示/哪里生效；圆形渐变遮罩做局部效果是日常操作。",s:"只让画面中心清晰四周虚化：给 Blur 一个径向 Ramp 遮罩。"},
+{w:"Blend",p:"/blend/",c:"render",m:"v./n. 混合",t:"两层图像的叠加方式（加/乘/屏幕/叠加等）；Composite TOP 里的 blend mode 就是它。",s:"发光效果常用 Add blend 把亮部叠回去。"},
+{w:"Opacity",p:"/əʊˈpæsəti/",c:"render",m:"n. 不透明度",t:"0 = 全透明，1 = 全不透明，控制画面元素的显隐程度。",s:"UI 元素淡入淡出就是动画化 opacity。"},
+{w:"Bloom",p:"/bluːm/",c:"render",m:"n. 辉光；泛光",t:"画面高亮部分向外扩散形成的柔光，让高光「发热」的后期效果。TD 里用 Level 提取高亮 + Blur 模糊 + Add 叠回实现。",s:"画面太平没有气氛时，加一层 Bloom 立刻变高级。"},
+{w:"Particle",p:"/ˈpɑːtɪkl/",c:"render",m:"n. 粒子",t:"由大量小元素组成的动态系统（点、贴图、几何副本），TD 用 POP/instancing 实现，是交互视觉的常青树。",s:"新手到进阶的必经之路：先做一万粒子，再做一百万粒子。"},
+{w:"Trail",p:"/treɪl/",c:"render",m:"n. 拖尾；轨迹",t:"运动物体后面留下渐隐轨迹的效果，Feedback TOP 的经典应用。",s:"「拖尾」几乎等于 TD 的招牌视觉，一行 Feedback 就有。"},
+{w:"Gradient",p:"/ˈɡreɪdiənt/",c:"render",m:"n. 渐变；梯度",t:"颜色平滑过渡的填充（Ramp TOP 生成）；在数学语境里指变化率。",s:"灰度噪声配彩色 Gradient 映射，是生成流动色彩的标准手法。"},
+{w:"Threshold",p:"/ˈθreʃhəʊld/",c:"render",m:"n. 阈值；门槛",t:"把连续数值一刀切成黑/白、开/关的分界线；画面二值化、信号触发判定都靠它。",s:"把灰度噪声过 Threshold 变成黑白斑块，再做发光描边。"},
+{w:"Depth",p:"/depθ/",c:"render",m:"n. 深度",t:"3D 场景中物体离相机的距离；深度测试决定遮挡关系，深度图还能做雾效/景深/景深贴图。",s:"粒子穿模、前后关系错乱时检查深度设置。"},
+{w:"Culling",p:"/ˈkʌlɪŋ/",c:"render",m:"n. 剔除",t:"跳过背面/视野外物体的渲染以提速的加速手段（backface culling / frustum culling）。",s:"性能优化 checklist 里常见项。"},
+{w:"Anti-aliasing",p:"/ˌæntiˈeɪliəsɪŋ/",c:"render",m:"抗锯齿",t:"柔化图像边缘锯齿、让线条平滑的技术，常缩写 AA。",s:"Render TOP 里开 Multi-Sample 提升画面平滑度。"},
+{w:"Fresnel",p:"/freɪˈnel/",c:"render",m:"n. 菲涅尔",t:"视角越斜、反射越强的物理现象；shader 里用它做边缘发光、玻璃/水面质感。",s:"模型边缘自动发光的「高级感」多半是 fresnel。"},
+{w:"Projection Mapping",p:"",c:"render",m:"投影映射",t:"把画面精确贴合到实体建筑/物体表面的技术，需要配合几何校正、Kantan Mapper 等工具。",s:"楼体投影、汽车投影的幕后技术本体。"},
+{w:"Aspect Ratio",p:"",c:"render",m:"宽高比",t:"画面宽与高的比例（16:9、4:3 等）；输出设备与制作分辨率不匹配时画面会拉伸变形。",s:"投影画面被压扁时，先查两边的 aspect ratio 是否一致。"},
+
+/* ---------- 界面 · 操作 ---------- */
+{w:"Network Editor",p:"",c:"ui",m:"网络编辑器",t:"TD 的主工作区，显示节点和连线；双击空白或按 Tab 唤出节点创建菜单，按 H 一览全图。",s:"「open a network editor」= 新开一个看节点的窗格。"},
+{w:"Parameter Window",p:"",c:"ui",m:"参数窗口",t:"查看/编辑当前节点参数的窗口，快捷键 P 开关；点参数名旁的 ? 可跳转官方 wiki 对应页。",s:"新手最常用窗口没有之一；丢了就按 P。"},
+{w:"Perform Mode",p:"",c:"ui",m:"演出模式",t:"按 F1 进入的全屏运行界面（隐藏编辑器只留画面），Esc 退出；演出和展览时用这个模式跑。",s:"布展铁律：现场只跑 Perform Mode，别让编辑界面露出来。"},
+{w:"Designer Mode",p:"",c:"ui",m:"设计模式",t:"即默认的编辑界面，与 Perform Mode 相对；开发调试都在这里进行。",s:"教程说「go back to designer」就是退回编辑界面。"},
+{w:"Textport",p:"",c:"ui",m:"文本端口；控制台",t:"TD 内置控制台（菜单 Dialogs → Textport and DATs），看 Python 报错、打印信息的地方。",s:"脚本不工作时第一反应：打开 Textport 看红色报错。"},
+{w:"Palette",p:"/ˈpælət/",c:"ui",m:"n. 调色板；组件库",t:"官方现成组件库（工具栏 Palette 按钮），拖出来就能用的成品控件/组件，也是学习别人怎么搭的重要素材库。",s:"「don't reinvent the wheel」——先去 Palette 找找有没有现成的。"},
+{w:"OP Create Dialog",p:"",c:"ui",m:"节点创建菜单",t:"双击网络空白或按 Tab 唤出的节点选择菜单，输入名字过滤、回车创建；这是加节点的标准方式。",s:"熟练后基本不用鼠标找节点：Tab → 打几个字母 → 回车。"},
+{w:"Viewer",p:"/ˈvjuːə(r)/",c:"ui",m:"n. 视图；查看器",t:"节点上的实时预览窗口，点节点右下角小方块开/关；■ 按钮可弹出独立浮窗，边调参边看大图。",s:"调效果时把关键节点 viewer 打开，所见即所得。"},
+{w:"Pane",p:"/peɪn/",c:"ui",m:"n. 窗格",t:"主窗口里切分的子区域，可分别设为网络/参数/几何视图等不同类型；Alt+[ / Alt+] 切分。",s:"双屏工作流：左边网络右边参数各一个 pane。"},
+{w:"Dive Into",p:"",c:"ui",m:"进入内部",t:"双击 COMP 或按 I 进入其内部网络查看/编辑。",s:"「dive inside the component」就是进去看它肚子里的东西。"},
+{w:"Go Up / Parent",p:"",c:"ui",m:"返回上级",t:"快捷键 U，从内层网络跳回上一层。",s:"在层层嵌套里迷路时，连按 U 回到顶层。"},
+{w:"Frame All",p:"",c:"ui",m:"全览；居中",t:"快捷键 H，把当前网络缩放到全部节点可见（也叫 fit / home）。",s:"节点找不到了、视野飞了，按 H 一键回魂。"},
+{w:"Display Flag",p:"",c:"ui",m:"显示标志",t:"SOP 链/网络里决定「哪个节点作为预览显示」的蓝色小旗，同一层只能有一个。",s:"画面显示的不是想要的东西？检查 display flag 插在哪个节点上。"},
+{w:"Render Flag",p:"",c:"ui",m:"渲染标志",t:"SOP 链里决定「哪个几何真正进入渲染」的紫色小旗；和 display 可以指向不同节点——边看这个边渲那个。",s:"调试时常用：display 指向中间节点看中间结果，render 保持指向最终几何。"},
+{w:"Bypass",p:"/ˈbaɪpɑːs/",c:"ui",m:"v./n. 旁路；绕过",t:"让节点「临时不存在」（快捷键 B），信号直通下游；效果对比和排错时频繁使用。",s:"「这个效果不加会怎样？」按 B 切换对比。"},
+{w:"Clone",p:"/kləʊn/",c:"ui",m:"n./v. 克隆",t:"多个节点共享同一份内部定义的机制：改一处、全部同步；是组件复用和项目规范的基础。",s:"clone 点亮时这个节点只是母版的「影子」，改影子里的内容会同步到所有兄弟。"},
+{w:"Middle-Click Info",p:"",c:"ui",m:"中键信息",t:"按住鼠标中键点节点，弹窗显示输入输出、cook 耗时、错误信息。",s:"查性能瓶颈、看节点报错的第一操作。"},
+{w:"Bookmark",p:"/ˈbʊkmɑːk/",c:"ui",m:"n. 书签",t:"给网络位置加标记并可快速跳转（快捷键 Ctrl+B 添加）。",s:"大工程里给关键区域打书签，不用一层层 dive。"},
+{w:"RMB / LMB",p:"",c:"ui",m:"右键 / 左键",t:"Right / Left Mouse Button 的缩写；教程常用：「RMB click → Parameters」。",s:"读英文教程高频缩写，另有 MMB = 中键。"},
+{w:"Pin",p:"/pɪn/",c:"ui",m:"v. 钉住；固定",t:"让窗口/信息固定显示、不随当前选择变化，如钉住参数窗只看某个节点。",s:"调 A 节点参数同时想盯 B 节点，把 B 的窗口 pin 住。"},
+{w:"Operator Snippets",p:"",c:"ui",m:"节点示例库",t:"官方内置的每个 OP 的实例工程（菜单 Help → Operator Snippets），查「这个节点怎么用」最快的地方。",s:"学新节点三步走：看 wiki → 开 Snippets → 抄进自己工程。"},
+{w:"Wiki",p:"/ˈwɪki/",c:"ui",m:"官方文档",t:"TD 的百科全书 docs.derivative.ca；节点参数旁的 ? 直接跳转对应页面。",s:"所有节点的完整参数说明都在 wiki 上，查权威解释以它为准。"},
+
+/* ---------- Python ---------- */
+{w:"Python",p:"/ˈpaɪθɒn/",c:"py",m:"n. 蟒蛇；Python 语言",t:"TD 内置的脚本语言（3.x），从自动改参数到控制整个工程无所不能；TD 的所有 API 都以 Python 形式暴露。",s:"TD 进阶的必修课：不会 Python 也能做项目，会了效率翻十倍。"},
+{w:"op()",p:"",c:"py",m:"获取节点函数",t:"Python 里按路径获取 OP 对象的方法：op('null1') 返回那个节点，之后可以读它的通道/参数/调用方法。",s:"TD 脚本第一课：op() + me 这两个引用撑起大部分日常代码。"},
+{w:"me",p:"",c:"py",m:"我；自身引用",t:"Python 中的「当前这个节点」：me.par.Rate 就是自己身上的 Rate 参数，me.time 是自己的时间。回调脚本里高频出现。",s:"在 Execute DAT 的回调里写 me.par.xxx，操作的往往是挂载这个 DAT 的节点。"},
+{w:"parent",p:"/ˈpeərənt/",c:"py",m:"n. 父级",t:"跨层引用：parent() 指上一层 COMP，parent.ui 指定层的容器；跨层访问参数（如 parent().par.XXX）的桥梁。",s:"容器内的按钮想改容器本身的参数：parent().par.Width = 1。"},
+{w:"mod",p:"",c:"py",m:"模块访问",t:"访问其他 Text DAT 代码模块的机制：mod.myfuncs.hello() 调用名为 myfuncs 的 Text DAT 里的函数，实现代码复用。",s:"把工具函数集中写在一个 Text DAT 里，全工程通过 mod 调用。"},
+{w:"run()",p:"",c:"py",m:"延迟执行函数",t:"把一段代码延后若干帧/毫秒执行；做定时任务、避免「在回调里改触发源」造成的循环触发。",s:"想在按钮点击 0.5 秒后再切场景：run() 配 delayFrames/delayMS。"},
+{w:"absTime",p:"",c:"py",m:"绝对时间对象",t:"absTime.seconds / absTime.frames：不受时间轴暂停影响的真实时间。",s:"做「无论时间轴怎么循环都持续流动」的动画驱动源。"},
+{w:"Expression",p:"/ɪkˈspreʃn/",c:"py",m:"n. 表达式",t:"写在参数里的迷你公式（如 abs(sin(t))*20）；参数框右键 → Expression Mode 切换，是比写 Python 更轻量的参数化手段。",s:"参数需要「按帧计算」的值时，直接在参数里写 expression。"},
+{w:"Binding",p:"/ˈbaɪndɪŋ/",c:"py",m:"n. 绑定",t:"参数 ↔ 参数的双向同步机制（参数右键 → Bind）：一端变另一端自动跟着变。做 UI 面板控制的标准方式。",s:"自定义控制面板：界面上的滑条 Bind 到底层引擎的参数，双向实时。"},
+{w:"Extension",p:"/ɪkˈstenʃn/",c:"py",m:"n. 扩展；扩展名",t:"给 COMP 挂载自定义 Python 类（参数页 Extension），把组织好的方法暴露给内部节点调用；大型项目代码组织的标准做法。",s:"项目复杂到脚本满天飞时，用 Extension 把逻辑收进类里。"},
+{w:"tdu",p:"",c:"py",m:"TD 工具模块",t:"TD 内置工具函数库（tdu 包）：向量/矩阵运算、数学工具、文件路径处理等常用功能。",s:"要做向量加减、角度换算，先查 tdu 里有没有现成的。"},
+{w:"TScript",p:"",c:"py",m:"TD 旧脚本语言",t:"TD 上古时代的脚本语言（已淘汰），老教程里会见到。新代码一律用 Python。",s:"看老教程遇到不认识的语法（如 echo 开头），多半是 TScript，找新版教程替代。"},
+
+/* ---------- 协议 · 硬件 ---------- */
+{w:"OSC",p:"",c:"io",m:"Open Sound Control",t:"跨软件/硬件实时通信协议（地址 + 数值），轻量灵活；手机传感器控制 TD、TD 之间、TD 与 Resolume 联动首选。",s:"手机装 TouchOSC 之类 App，无线调 TD 参数，演出神器。"},
+{w:"MIDI",p:"",c:"io",m:"Musical Instrument Digital Interface",t:"电子乐器/控制器的标准通信协议；MIDI 键盘、Launchpad、推子台都可以变成 TD 的控制面板。",s:"VJ 演出标配：MIDI 控制器的旋钮推子实时调画面。"},
+{w:"DMX",p:"",c:"io",m:"舞台灯光协议",t:"舞台灯光控制协议（512 路通道标准）；配 DMX Out CHOP 让 TD 反过来控制真实灯光、帕灯。",s:"视觉与灯光同步演出：TD 同时输出画面 + DMX 灯光信号。"},
+{w:"Art-Net",p:"",c:"io",m:"网络 DMX",t:"通过以太网传输 DMX 信号的协议，突破 512 路限制，大规模灯光矩阵/LED 墙的方案。",s:"上千通道的灯光控制走 Art-Net，一根网线搞定。"},
+{w:"NDI",p:"",c:"io",m:"Network Device Interface",t:"网络视频传输协议，跨软件低延迟传画面（TD ↔ OBS ↔ Resolume 互通）。",s:"线上演出：TD 画面 NDI 发给 OBS 推流。"},
+{w:"Spout",p:"",c:"io",m:"GPU 视频共享（Windows）",t:"Windows 下软件间 GPU 共享视频的框架，零拷贝、几乎无损；TD 与 Resolume、Max 等互通画面。",s:"本地多软件画面互通首选；Mac 上对应 Syphon。"},
+{w:"Syphon",p:"",c:"io",m:"GPU 视频共享（Mac）",t:"Mac 下的 Spout 等价物，软件间共享 GPU 画面。",s:"读 Mac 教程时遇到，含义同 Spout。"},
+{w:"Serial",p:"/ˈsɪəriəl/",c:"io",m:"adj. 串行的 n. 串口",t:"Arduino 等硬件的通信方式；Serial DAT/CHOP 收发原始字节，是 DIY 硬件与 TD 交互的桥梁。",s:"自己焊的传感器盒子，用串口把数据喂给 TD。"},
+{w:"GPU",p:"",c:"io",m:"Graphics Processing Unit",t:"显卡处理器。TOP/shader 全部跑在 GPU 上；GPU 强弱直接决定视觉复杂度上限。",s:"画面卡时先分清：TOP 多是 GPU 瓶颈，SOP/Python 多是 CPU 瓶颈。"},
+{w:"CPU",p:"",c:"io",m:"Central Processing Unit",t:"中央处理器；SOP、DAT、Python 跑在 CPU 上。CPU 瓶颈表现为帧率低 + 鼠标操作卡顿。",s:"优化方向判断：中键看节点 cook 时间，贵的在 CPU 类节点就精简逻辑。"},
+{w:"Realtime",p:"/ˈriːəltaɪm/",c:"io",m:"adj. 实时的",t:"逐帧即时计算并响应（区别于先渲染后播放的离线渲染）；TD 的本质属性，一切设计都要考虑「一帧内算得完吗」。",s:"TD 全称里的 real-time 就是它；互动装置的核心承诺。"},
+];
+
+/* ============ 共享参数页（官方 wiki 核对） ============ */
+const SEC_XFORM = {title:"XForm", note:"世界空间变换：3D 对象（Geometry/Camera/Light）共有的位置、旋转、缩放页。", params:[
+{n:"Transform Order",c:"xord",d:"位移/旋转/缩放的应用顺序（SRT 等 6 种），顺序不同结果不同。",tip:"一般保持默认；做复杂动画叠加发现旋转「不对劲」时才需要改。"},
+{n:"Rotate Order",c:"rord",d:"旋转轴的应用顺序（xyz 等 6 种），如 xyz 表示 R = Rz·Ry·Rx。",tip:"物体翻滚动作不自然时，先怀疑旋转顺序。"},
+{n:"Translate",c:"t",d:"X/Y/Z 三轴位移（世界坐标）。",tip:"可在 3D 视图里直接拖动小工具操作。"},
+{n:"Rotate",c:"r",d:"X/Y/Z 三轴旋转，单位是度。"},
+{n:"Scale",c:"s",d:"X/Y/Z 三轴缩放，可非均匀（各轴不同值）。",tip:"相机不推荐缩放。"},
+{n:"Pivot",c:"p",d:"旋转/缩放的轴心点；枢轴位置不同，同样的旋转会产生不同结果。"},
+{n:"Uniform Scale",c:"scale",d:"三轴统一缩放，一个值控制整体大小。"},
+{n:"Parent Transform Source",c:"parentxformsrc",d:"初始位置的参照来源：hierarchy 按层级父对象 / specify 指定父对象 / worldorigin 世界原点。"},
+{n:"Parent Object",c:"parentobject",d:"指定要跟随（约束）的父对象路径。",tip:"让 A 跟着 B 动的标准做法。"},
+{n:"Look At",c:"lookat",d:"让节点始终朝向另一个 3D 组件。",tip:"相机跟随目标、舞台追光灯的核心；常配一个 Null COMP 当注视点。"},
+{n:"Forward Direction",c:"forwarddir",d:"定义哪个轴算「前方」（±X/±Y/±Z），配合 Look At 使用。"},
+{n:"Look At Up Vector",c:"lookup",d:"朝向时的上方向控制：off / on / quat / roll。",tip:"物体绕目标滚动、翻转错乱时调它。"},
+{n:"Path SOP",c:"pathsop",d:"指定一条 SOP 曲线作为运动路径。"},
+{n:"Position",c:"pos",d:"沿路径的位置，0~1（0=起点，1=终点），最大可到 10。"},
+{n:"Orient along Path",c:"pathorient",d:"沿路径自动转向：+Z 轴始终指向前进方向。"},
+{n:"Auto-Bank Factor",c:"bank",d:"按路径弯曲程度自动侧倾，0 = 关闭。",tip:"做过山车转弯倾斜效果。"},
+]};
+const SEC_PREXFORM = {title:"Pre-XForm", note:"前置变换：在 XForm 之前应用，相当于凭空给它加了一个父对象。矩阵顺序 = preXForm × xform × Position。", params:[
+{n:"Apply Pre-Transform",c:"pxform",d:"启用本页的全部变换。"},
+{n:"Translate / Rotate / Scale / Pivot",c:"pt/pr/ps/pp",d:"与 XForm 页含义相同的变换参数，但先于 XForm 生效。"},
+{n:"Reset Transform",c:"preset",d:"一键重置本页变换（脉冲按钮）。"},
+{n:"Commit to Main Transform",c:"pcommit",d:"把本页变换合并进 XForm 页并清零本页（脉冲按钮）。",tip:"调好 Pre-XForm 后想固化时用它。"},
+{n:"Xform Matrix / CHOP / DAT",c:"xformmatrixop",d:"直接用 4×4 矩阵做变换（tdu.Matrix / CHOP / DAT）。",tip:"从外部数据（如追踪系统）直接驱动变换时用。"},
+]};
+const SEC_EXT = {title:"Extensions", note:"Python 扩展页：给组件挂载自定义 Python 类，所有 COMP 通用。", params:[
+{n:"Re-Init Extensions",c:"reinitextensions",d:"重新编译所有扩展对象（脉冲按钮）。",tip:"改了扩展代码后点它生效。"},
+{n:"Init Extensions On Start",c:"initextonstart",d:"TD 启动时自动 Re-Init 扩展。"},
+{n:"Extension Object",c:"ext0object",d:"挂到组件上的 Python 扩展类。"},
+{n:"Name",c:"ext0name",d:"扩展的查找名（可选，默认用类名）。"},
+{n:"Promote",c:"ext0promote",d:"提升开关：开 = 组件层级直接访问 n.myFunc()；关 = 通过 n.ext.MyClass.myFunc()。"},
+]};
+const SEC_COMMON = {title:"Common", note:"通用页：快捷方式、克隆、外部 .tox 管理，所有 COMP 通用。", params:[
+{n:"Parent Shortcut",c:"parentshortcut",d:"给组件起「父级快捷名」，内部用 parent.Name 直接引用它。"},
+{n:"Global OP Shortcut",c:"opshortcut",d:"全局快捷名：工程任何位置 op.Name 都能引用。"},
+{n:"Internal OP",c:"iop",d:"给内部某节点起快捷名，配合 iop 引用（如 iop.Table）。"},
+{n:"Node View",c:"nodeview",d:"节点查看器显示什么：default 默认 / opviewer 显示指定 OP 的画面。"},
+{n:"Enable Cloning / Clone Master",c:"clone",d:"克隆控制：指定母版组件后，本组件内容与母版保持同步。",tip:"改母版，所有克隆体一起变。"},
+{n:"Load on Demand",c:"loadondemand",d:"按需加载：不常用组件不占内存。"},
+{n:"Enable External .tox",c:"enableexternaltox",d:"启用外部 .tox 文件加载。"},
+{n:"External .tox Path",c:"externaltox",d:".tox 文件路径；组件内容从文件读取，改文件即改组件。",tip:"多人协作/模块化项目的标准做法。"},
+{n:"Save Backup of External",c:"savebackup",d:"在 .toe 里存一份 .tox 备份，防外部文件丢失。"},
+{n:"Sub-Component to Load",c:"subcompname",d:"从 .tox 中只加载指定的子组件。"},
+{n:"Relative File Path Behavior",c:"relpath",d:"相对路径基准：inherit 继承 / project 相对 .toe / externaltox 相对 .tox。"},
+{n:"Parameter Color Space",c:"parmcolorspace",d:"参数颜色空间解释（sRGB / Rec.709 / ACES…），配工程 Working Color Space 使用。"},
+]};
+const SEC_LAYOUT = {title:"Layout", note:"面板布局页：位置与尺寸（panel units，DPI=1 时约等于像素），所有 Panel COMP 通用。", params:[
+{n:"X / Y",c:"x/y",d:"相对父面板的水平/垂直位置。"},
+{n:"Width / Height",c:"w/h",d:"面板宽高。"},
+{n:"Fixed Aspect",c:"aspect",d:"固定宽高比：只设一边自动算另一边。"},
+{n:"Depth Layer",c:"depth",d:"绘制层级（类似 PS 图层），值大的画在上面。"},
+{n:"Horizontal / Vertical Mode",c:"hmode/vmode",d:"尺寸模式：Fixed 固定 / Fill 填充父级 / Anchors 锚点拉伸。",tip:"做响应式 UI（窗口拉大控件跟着变）的关键参数。"},
+{n:"Left/Right/Top/Bottom Anchor + Offset",c:"l/r/t/b",d:"锚点定位（0-1 相对父级）+ 偏移量。"},
+{n:"Parent Alignment / Align Order",c:"align/order",d:"是否响应父级 Children 页的自动排列，以及排列顺序号。"},
+]};
+const SEC_PANEL = {title:"Panel", note:"面板交互页：显示、启用、鼠标/触摸行为，所有 Panel COMP 通用。", params:[
+{n:"Display",c:"display",d:"显示/隐藏面板。",tip:"频繁切换显隐建议改 Look 页的 opacity，性能更好。"},
+{n:"Enable",c:"enable",d:"总开关：关闭后禁止与该面板的一切交互（置灰效果配 Look 页 Disable Color）。"},
+{n:"Help DAT",c:"helpdat",d:"指定一个 Text DAT，鼠标悬停时弹出帮助内容。"},
+{n:"Cursor",c:"cursor",d:"光标悬停样式：手型、文本、忙碌、隐藏等。"},
+{n:"Multi-Touch",c:"multitouch",d:"内置多点触控：跟父级设置 / 启用（首根手指当鼠标，更新 u、v、state）/ 禁用。",tip:"用 Multi Touch In DAT 自己处理触摸数据时，选禁用。"},
+{n:"Constrain Cursor",c:"constraincursor",d:"光标进入后被限制在面板内。"},
+{n:"Click Through",c:"clickthrough",d:"忽略所有鼠标点击（做纯展示的叠加层）。"},
+{n:"Use Mouse Wheel",c:"mousewheel",d:"捕获滚轮事件。"},
+{n:"Drag Edges to Resize",c:"resize",d:"拖边缘/角落调整面板大小（可设宽高范围）。"},
+{n:"Drag to Reposition",c:"reposition",d:"整体拖动面板重新定位：Off / Window / Component。"},
+]};
+const SEC_LOOK = {title:"Look", note:"外观页：背景、边框、透明度，所有 Panel COMP 通用。", params:[
+{n:"Background Color / Alpha",c:"bgcolor/bgalpha",d:"背景颜色与透明度（默认黑色）。"},
+{n:"Background TOP",c:"top",d:"指定一个 TOP 作为背景（图片或动态画面）。"},
+{n:"TOP Fill",c:"topfill",d:"背景 TOP 填充方式：Stretch 拉伸 / Fill Width / Fill Height / Fill Best 等比填满 / Native Resolution 原生分辨率。"},
+{n:"TOP Smoothness",c:"topsmoothness",d:"背景平滑方式：Nearest Pixel / Interpolate Pixels（默认）/ Mipmap Pixels。"},
+{n:"Border A / Border B",c:"bordera/borderb",d:"两组边框颜色定义。"},
+{n:"Left/Right/Top/Bottom Border",c:"leftborder 等",d:"各边 2 像素边框选用 Border A 色还是 Border B 色（0 = 无）。"},
+{n:"Border Over Children",c:"borderover",d:"边框画在子面板之上。"},
+{n:"Disable Color",c:"disablecolor",d:"Enable=Off 时的置灰颜色。"},
+{n:"Composite",c:"composite",d:"与兄弟面板的合成方式：Over / Under / Inside / Add / Subtract / Multiply 等。"},
+{n:"Opacity",c:"opacity",d:"面板整体透明度。",tip:"比开关 Display 更高效的显隐手段。"},
+]};
+const SEC_CHILDREN = {title:"Children", note:"子面板管理页：自动布局、对齐、滚动，容器类 Panel COMP 通用。", params:[
+{n:"Align",c:"align",d:"子面板自动布局：None / Left to Right / Right to Left / Top to Bottom / Bottom to Top / Grid Rows / Grid Columns / Match Network Nodes（按网络里节点的摆放位置）。"},
+{n:"Spacing",c:"spacing",d:"自动布局的子面板间距。"},
+{n:"Max per Line",c:"maxperline",d:"每行/每列最多放几个子面板。"},
+{n:"Margin L/R/B/T",c:"margin",d:"边距（绝对单位，不随窗口拉伸）。"},
+{n:"Justify Method + Horizontal/Vertical",c:"justify",d:"子面板对齐：Individual 各自对齐 / Group 整体对齐 + 水平垂直方向。"},
+{n:"Fit",c:"fit",d:"强制缩放子面板适配容器（会覆盖 Justify）。"},
+{n:"Scale / Offset",c:"scale/offset",d:"统一缩放/偏移全部子面板。"},
+{n:"Crop",c:"crop",d:"超出容器边界的子面板是否裁剪。"},
+{n:"Horizontal / Vertical Scrollbar",c:"scrollbar",d:"滚动条：Off / On / Automatic（超出时自动出现）。"},
+]};
+const SEC_DRAGDROP = {title:"Drag/Drop", note:"拖放页：面板能否被拖动、能否接受拖入，Panel COMP 通用。", params:[
+{n:"When Dragging This",c:"drag",d:"本面板能否被拖动：跟父级设置 / 传统方式 / 不允许 / Use Drag/Drop Callbacks（推荐，功能最强）。"},
+{n:"On Dropping Into",c:"drop",d:"是否接受拖入：不允许 / 回调 / Fill Custom Parameter（免脚本：拖入的节点路径直接填进自定义参数）。"},
+{n:"Drag/Drop Callbacks",c:"dragdropcallbacks",d:"存放拖放回调脚本的 DAT。"},
+]};
+const SEC_RENDER3D = {title:"Render", note:"渲染页：材质与渲染可见性，3D 对象 COMP（Geometry/Camera/Light）通用。", params:[
+{n:"Material",c:"material",d:"给几何体指定 MAT 材质。",tip:"渲染 3D 必须有材质，Geometry COMP 必接。"},
+{n:"Render",c:"render",d:"是否在 Render TOP 中可见（与节点的 Render Flag 是「与」关系，两个都开才渲染）。"},
+{n:"Draw Priority",c:"drawpriority",d:"绘制顺序：值小的后画。",tip:"透明物体互相穿插错乱时，用它控制谁画在前面。"},
+{n:"Pick Priority",c:"pickpriority",d:"Render Pick 点击区域有多个对象重叠时，谁优先被选中。"},
+{n:"Wireframe Color",c:"wcolor",d:"线框模式下的显示颜色。"},
+{n:"Light Mask",c:"lightmask",d:"指定只受哪些灯影响（灯光须同时列在 Render TOP 里）。",tip:"分区打光（如舞台只照主角）靠它。"},
+]};
+
+/* ============ 参数详解数据（按官方 wiki 核对） ============ */
+const SEC_TOP_COMMON = {title:"Common", note:"TOP 通用页：分辨率、宽高比、像素过滤、像素格式，所有 TOP 通用。", params:[
+{n:"Output Resolution",c:"outputresolution",d:"输出分辨率模式（下拉）：Use Input 跟随输入 / Eighth·Quarter·Half 缩到输入的 1/8·1/4·1/2 / 2X·4X·8X 放大倍数 / Fit Resolution 按给定分辨率保持比例适配 / Limit Resolution 不超上限 / Custom Resolution 自定义宽高。",tip:"开发期降半分辨率提速，输出前改回。"},
+{n:"Resolution",c:"resolutionw",d:"自定义输出宽高，仅 Custom 模式生效；无输入的发生器（Ramp、Noise、Circle）靠它确定尺寸。"},
+{n:"Use Global Res Multiplier",c:"resmult",d:"受 Preferences→TOPs 全局分辨率倍增器影响，方便在低配机器整体降载。"},
+{n:"Output Aspect",c:"outputaspect",d:"宽高比来源（下拉）：Use Input 跟随输入 / Resolution 按像素比例（正方形像素）/ Custom Aspect 自定义。"},
+{n:"Input Smoothness",c:"inputfiltertype",d:"输入采样过滤（下拉）：Nearest Pixel 最近邻（非原分辨率缩放有锯齿）/ Interpolate Pixels 线性插值（默认，平滑）/ Mipmap Pixels mipmap 过滤（图像缩放动画时减少闪烁）。",tip:"缩放动画画面闪烁时换 Mipmap。"},
+{n:"Fill Viewer",c:"fillmode",d:"查看器显示方式（下拉）：Fill 拉伸填满 / Fit Horizontal·Fit Vertical 单边适配 / Fit Best 全部可见 / Fit Outside 填满并裁切 / Native Resolution 原始分辨率。",tip:"官方建议初学者用 Native Resolution，看到的是真实输出。"},
+{n:"Viewer Smoothness",c:"filtertype",d:"查看器像素过滤，选项同 Input Smoothness。"},
+{n:"Passes",c:"npasses",d:"重复执行次数；>1 相当于输出循环接回输入再处理一遍。"},
+{n:"Channel Mask",c:"chanmask",d:"只作用于选中的通道（R/G/B/A），默认全选。"},
+{n:"Pixel Format",c:"format",d:"每通道存储精度（下拉）：Use Input 跟随输入 / 8-bit fixed 最省显存 / sRGB 8-bit / 16-bit·32-bit float 浮点 / 10-bit RGB + 2-bit Alpha / 16-bit fixed / 11-bit float (RGB) / 单通道 Mono、双通道 RG、仅 Alpha、Mono+Alpha 等组合。",tip:"Feedback 循环、多级叠加调色用 16/32-bit float，防止暗部色带。"},
+{n:"Parameter Color Space",c:"parmcolorspace",d:"颜色参数解释空间（下拉）：sRGB / Rec.709 / Rec.2020 / DCI-P3 / ACES 等，配合工程 Working Color Space 使用。"},
+]};
+const DETAILS = {
+"Geometry COMP": [
+  SEC_XFORM, SEC_PREXFORM,
+  {title:"Instance", note:"GPU 实例化页：用一份几何 + 通道数据批量生成各有不同的副本。", params:[
+  {n:"Instancing",c:"instancing",d:"开启硬件实例化。"},
+  {n:"Instance Count Mode",c:"instancecountmode",d:"实例数量来源：manual 手动指定 / oplength 由 CHOP 采样数或 DAT 行数自动决定。"},
+  {n:"Num Instances",c:"numinstances",d:"manual 模式下的实例数量。"},
+  {n:"Default Instance OP",c:"instanceop",d:"提供实例数据的 OP：CHOP（通道）、DAT（列）、SOP（属性）、TOP（RGBA）都能映射。"},
+  {n:"First Row is",c:"instancefirstrow",d:"DAT 首行的处理：ignored 忽略 / names 当列名 / values 当第一个实例的数据。"},
+  {n:"Translate / Rotate / Scale / Pivot OP",c:"instancet 等",d:"每个实例的位移/旋转/缩放/枢轴数据来源，X/Y/Z 各自可指向不同 OP。",tip:"一条 Noise CHOP 接到 Translate，就是一万个各自乱跳的副本。"},
+  {n:"Active",c:"instanceactive",d:"实例开关数据：0 = 该实例不渲染，非 0 = 渲染。",tip:"做「按需点亮」效果（如音频能量低时隐藏一半粒子）。"},
+  ]},
+  {title:"Instance 2", note:"实例的高级属性：定向、纹理、颜色。", params:[
+  {n:"Rotate to Vector X/Y/Z + Rotate Up",c:"instancerottovec",d:"按向量数据定向每个实例（如面片朝向目标点），Forward Direction 定哪个轴朝前。"},
+  {n:"Instance Order",c:"instanceorder",d:"instanceworld 先实例变换再世界变换 / worldinstance 反之。",tip:"实例自转和整体位移的先后关系不对时切换它。"},
+  {n:"Texture Mode",c:"instancetexmode",d:"replace 完全替换 UV / transform 在原 UV 上偏移。"},
+  {n:"U / V / W",c:"instanceu 等",d:"每个实例的 UV 偏移数据。"},
+  {n:"Color Mode",c:"instancecolormode",d:"实例颜色与几何 Cd 属性的交互：replace / multiply / add / subtract。"},
+  {n:"Instance Textures",c:"instancetexs",d:"每个实例可用不同的 TOP 纹理（支持通配符批量指定），Windows 上限 16384 张。",tip:"万人大军每人一张脸、点阵屏每点一个画面的做法。"},
+  {n:"Texture Index",c:"instancetexindex",d:"每个实例选用纹理列表里的第几张。"},
+  ]},
+  SEC_RENDER3D, SEC_EXT, SEC_COMMON,
+],
+"Camera COMP": [
+  SEC_XFORM, SEC_PREXFORM,
+  {title:"View", note:"相机核心页：投影方式、视场角、裁剪面都在这里。", params:[
+  {n:"Projection",c:"projection",d:"投影类型：perspective 透视（近大远小，默认）/ ortho 正交（无透视，2D 感）/ 透视↔正交混合 / custommatrix 自定义投影矩阵。"},
+  {n:"Projection Blend",c:"projectionblend",d:"透视与正交的混合比例（仅混合模式有效）。",tip:"从 3D 无缝过渡到 2D 平面感的动画效果。"},
+  {n:"Ortho Width",c:"orthowidth",d:"正交模式下的视野宽度。"},
+  {n:"Viewing Angle Method",c:"viewanglemethod",d:"视角定义方式：水平 FOV / 垂直 FOV / Focal Length + Aperture（焦距+光圈）。"},
+  {n:"FOV Angle",c:"fov",d:"视场角；关系式 FOV = arctan((aperture/2)/focal) × 2。",tip:"FOV 越大视野越广、透视畸变越强（广角/鱼眼感）。"},
+  {n:"Focal Length / Aperture",c:"focal/aperture",d:"镜头焦距与光圈，共同决定 FOV；焦距长 = 长焦拉近、透视弱。",tip:"做相机推拉变焦动画就是动这两个。"},
+  {n:"Near / Far",c:"near/far",d:"近/远裁剪面：比 near 更近、比 far 更远的几何不渲染。",tip:"出现深度闪烁伪影（z-fighting）时，增大 near、减小 far，收窄范围提高深度精度。"},
+  {n:"Window X / Y",c:"win",d:"画面平移：不动相机，把渲染窗口在画面上偏移。"},
+  {n:"Window Size",c:"winsize",d:"画面缩放：渲染前的数码变焦。"},
+  {n:"Window Roll",c:"winroll",d:"画面绕中心旋转（倾斜镜头感）。"},
+  ]},
+  {title:"Settings", note:"相机附属设置：背景色与雾效。", params:[
+  {n:"Background Color",c:"bgcolor",d:"该相机渲染画面的背景色 + alpha。"},
+  {n:"Pre-Multiply RGB by Alpha",c:"premultrgbbyalpha",d:"背景色是否按 alpha 预乘。"},
+  {n:"Fog",c:"fog",d:"雾效类型：off / linear 线性 / exp 指数 / exp2 平方指数。"},
+  {n:"Fog Density / Near / Far / Color / Map",c:"fog 等",d:"雾密度（指数雾）、起止距离（线性雾）、雾颜色、雾纹理 TOP。",tip:"深度感不足的场景加一点雾，层次立刻出来。"},
+  {n:"Camera Light Mask",c:"camlightmask",d:"该相机渲染时只使用哪些灯。"},
+  ]},
+  SEC_RENDER3D, SEC_EXT, SEC_COMMON,
+],
+"Light COMP": [
+  SEC_XFORM, SEC_PREXFORM,
+  {title:"Light", note:"灯光核心页：类型、颜色、亮度、衰减、投影贴图。", params:[
+  {n:"Light Color",c:"c",d:"灯光颜色（R/G/B）。"},
+  {n:"Dimmer",c:"dimmer",d:"亮度值，不影响色相。",tip:"低于 0.001 的灯会被剔除不参与渲染计算（性能优化机制）。"},
+  {n:"Light Type",c:"lighttype",d:"point 点光（四周均匀辐射）/ cone 锥形聚光 / distant 平行光（模拟太阳，只看方向不看位置）。"},
+  {n:"Cone Angle",c:"coneangle",d:"聚光灯的全强度锥角，10~40 度是比较自然的聚光范围。"},
+  {n:"Cone Delta",c:"conedelta",d:"强度衰减到 0 的外扩角度（边缘软化区）。"},
+  {n:"Cone Rolloff",c:"coneroll",d:"锥形边缘的衰减柔和度（1~10）。",tip:"要「硬边聚光」就把 delta 调小；要「柔和光斑」就调大。"},
+  {n:"Distance-Attenuated + Start / End / Rolloff",c:"attenuated",d:"距离衰减开关及起止距离、衰减曲线：越远越暗。",tip:"模拟真实灯具的照度衰减。"},
+  {n:"Projector Map",c:"projmap",d:"投影贴图：把一个 TOP 当作灯的投射内容。",tip:"图案灯/投影灯效果：把 logo 或花纹从灯里投出去。"},
+  {n:"Front / Back Faces Lit",c:"frontfacelit",d:"只照亮正面/背面/双面照明控制。"},
+  ]},
+  {title:"Shadows", note:"阴影页：让灯投射阴影。", params:[
+  {n:"Shadow Type",c:"shadowtype",d:"Off 关闭 / Hard 2D 硬阴影 / Soft 2D 软阴影 / Custom 自定义阴影贴图。"},
+  {n:"Shadow Casters",c:"shadowcasters",d:"指定哪些 Geometry COMP 参与投影。"},
+  {n:"Light Size / Max Shadow Softness / Filter Samples / Search Steps",c:"lightsize 等",d:"软阴影的质量参数：光源尺寸决定阴影虚化程度，采样数决定噪点。"},
+  {n:"Shadow Resolution",c:"shadowres",d:"阴影贴图分辨率。",tip:"阴影锯齿明显时提高它（代价是显存和性能）。"},
+  ]},
+  {title:"View", note:"灯光也能当相机用：从灯的位置看场景（配聚光锥角）。", params:[
+  {n:"Projection / Ortho Width",c:"projection",d:"透视 / 正交及正交宽度。"},
+  {n:"Use Cone Angle/Delta for FOV",c:"useconeforfov",d:"用 Light 页的锥角参数作为 FOV。"},
+  {n:"FOV / Focal Length / Aperture / Near / Far",c:"fov 等",d:"与 Camera COMP 的 View 页同义。"},
+  ]},
+  SEC_RENDER3D, SEC_EXT, SEC_COMMON,
+],
+"Container COMP": [
+  SEC_LAYOUT, SEC_PANEL, SEC_LOOK, SEC_CHILDREN, SEC_DRAGDROP, SEC_EXT, SEC_COMMON,
+],
+"Base COMP": [
+  {title:"Base", note:"Base COMP 没有面板（UI）参数也没有 3D 参数，是纯封装用的容器。", params:[
+  {n:"（无特有参数）",c:"",d:"Base COMP 的价值在于「干净」：不带 Layout/Panel/Look 页，适合打包纯逻辑模块。",tip:"要界面用 Container，纯封装用 Base。"},
+  ]},
+  SEC_EXT, SEC_COMMON,
+],
+"Window COMP": [
+  {title:"Window", note:"窗口核心页：显示什么、放哪个屏幕、多大、带不带边框。", params:[
+  {n:"Window Operator",c:"winop",d:"窗口显示哪个 Panel 或 TOP——最终画面的来源。"},
+  {n:"Title",c:"title",d:"窗口标题栏文字。"},
+  {n:"Justify and Offset to...",c:"justifyoffsetto",d:"定位参照：Primary Display 主显示器 / Specify Display 指定显示器 / Bounds of All Displays 全部显示器的范围（忽略任务栏）。"},
+  {n:"Display",c:"display",d:"指定输出到第几块显示器（索引）。",tip:"多屏演出：一块屏一个 Window COMP，各自指定 Display。"},
+  {n:"Opening Size",c:"size",d:"窗口尺寸：Automatic from Panel 按内容自动 / Fill Location 填充目标区域 / Custom 自定义宽高 / Single Display Exclusive 独占整块屏。"},
+  {n:"Width / Height",c:"winw/winh",d:"Custom 模式下的窗口宽高。"},
+  {n:"Borders",c:"borders",d:"是否带系统边框和标题栏（全屏输出一般关掉）。"},
+  {n:"Always on Top",c:"alwaysontop",d:"窗口置顶。"},
+  {n:"Justify H / V + Offset X / Y",c:"justifyh",d:"窗口在目标区域中的对齐（左/中/右、上/中/下）与偏移。"},
+  {n:"Cursor Visible",c:"cursorvisible",d:"光标显示：Never 永不 / When Moving 移动时 / Always 总是。",tip:"展览场景一般设 Never，并配 Constrain Cursor 把鼠标锁住。"},
+  {n:"Constrain Cursor",c:"constraincursor",d:"把光标限制在窗口/显示器内。"},
+  {n:"Allow Viewer Interaction",c:"interact",d:"允许窗口内的 UI 控件响应鼠标。",tip:"做互动界面时必须开。"},
+  {n:"V-Sync Mode",c:"vsyncmode",d:"垂直同步：Disabled 不锁帧（高帧率但可能撕裂）/ Enabled 与显示器同步（稳定）。"},
+  {n:"Window Pixel Format",c:"windowpixelformat",d:"输出像素格式：8/10-Bit SDR、10-Bit HDR、16-Bit Float HDR。",tip:"接 HDR 屏或做高带宽数字输出时才需要动。"},
+  {n:"Draw Window",c:"drawwindow",d:"关闭则窗口完全不渲染（纯后台音频/网络进程用）。"},
+  ]},
+  {title:"Open/Close", note:"窗口开关与演出模式控制。", params:[
+  {n:"Open as Perform Window",c:"performance",d:"以 Perform 模式打开本窗口（不改默认设置）。"},
+  {n:"Open as Separate Window",c:"winopen",d:"作为独立浮动窗口打开。",tip:"适合调试对话框；不建议用于最终输出。"},
+  {n:"Close",c:"winclose",d:"关闭窗口。"},
+  {n:"Set as Perform Window",c:"setperform",d:"永久设为 F1 的默认演出窗口。"},
+  {n:"Window Placement Dialog",c:"opendialog",d:"打开窗口布局对话框：控制 TD 启动时显示哪些窗口。"},
+  {n:"Prevent Display Sleep",c:"blocksleep",d:"阻止显示器休眠。",tip:"无人值守的展览装置必开。"},
+  {n:"Close on Escape Key",c:"closeescape",d:"按 Esc 关窗（Shift+Esc 任何时候都能关）。"},
+  ]},
+  SEC_EXT, SEC_COMMON,
+],
+"Replicator COMP": [
+  {title:"Replicator", note:"复制器核心页：相当于连线版的 for 循环，按数据批量生成节点。", params:[
+  {n:"Replication Method",c:"method",d:"复制方式：By Number 按数量 / By Table 按表格（每行生成一个副本）。"},
+  {n:"Number of Replicants",c:"numreplicants",d:"By Number 模式下的复制数量。"},
+  {n:"Template DAT Table",c:"template",d:"By Table 模式的数据表：表格每行 = 一个副本。",tip:"改表即改数量和内容，界面随数据自动增减。"},
+  {n:"Name from Table + Ignore First Row",c:"namefromtable",d:"副本命名方式（行号 / 按列索引 / 按列名）及是否跳过表头。"},
+  {n:"Operator Prefix",c:"opprefix",d:"副本名前缀（如 item → item1、item2…）。"},
+  {n:"Master Operator",c:"master",d:"被复制的主节点——不一定是 COMP，Movie File In TOP 也可以。",tip:"Master 的 Clone 参数设为自身，所有副本即成为克隆，改一处全同步。"},
+  {n:"Destination",c:"destination",d:"副本生成在哪：.. 与 Replicator 并列 / . 放进 Replicator 内部。",tip:"留空会报错。"},
+  {n:"Maximum Operators",c:"maxops",d:"副本数量上限保护。"},
+  {n:"Callbacks DAT",c:"callbacks",d:"创建/删除副本时触发的 Python 回调（onReplicate / onRemoveReplicant）。",tip:"在回调里给每个副本连不同的数据（如 c.par.file = 表格对应行的文件名）。"},
+  {n:"Layout",c:"layout",d:"副本在网络里的摆放：Off / Horizontal / Vertical / Grid。"},
+  {n:"Incremental Update",c:"increment",d:"每帧最多新建几个副本（默认 1），避免一次建 500 个导致掉帧。"},
+  {n:"Recreate All / Missing Operators",c:"recreate",d:"全部删除重建 / 只补建缺失的副本（不重建已有的）。"},
+  ]},
+  SEC_EXT, SEC_COMMON,
+],
+"Button COMP": [
+  {title:"Button", note:"按钮核心页：行为类型决定按下后发生什么。", params:[
+  {n:"Label",c:"label",d:"按钮上显示的文字。"},
+  {n:"Value",c:"value0",d:"按钮的状态值——最重要的 Panel Value 输出，脚本和 CHOP 都读它。"},
+  {n:"Button Type",c:"buttontype",d:"11 种行为：Momentary 按住才开 / Momentary Up 松开时触发 / Toggle Down/Up 按下/松开切换 / Toggle Up Anywhere 拖出按钮后松开仍生效 / Radio Down/Up/Up Anywhere 单选组（组内互斥）/ Exclusive 同单选但允许全部关闭。",tip:"做「确认」按钮用 Momentary Up；做模式切换用 Toggle；做选项卡用 Radio。"},
+  {n:"Button Group Label",c:"buttongroup",d:"用相同标签创建单选分组（按钮须在同一组件内）。"},
+  {n:"Button Group DAT",c:"buttongroupdat",d:"用 Table DAT 定义分组，按钮可分布在不同网络（支持通配符）。"},
+  {n:"Scale Text to Fit",c:"scaletofit",d:"文字自动缩放适配面板：Never / Always / Only when Too Large。"},
+  {n:"Font Size / Line Spacing / Text Padding",c:"fontsize",d:"排版三件套：字号、行距（默认 1.2 倍字号）、文字与边缘间距。"},
+  {n:"Color",c:"color",d:"按钮元素的 RGB 色调。"},
+  ]},
+  SEC_LAYOUT, SEC_PANEL, SEC_LOOK, SEC_EXT, SEC_COMMON,
+],
+"Slider COMP": [
+  {title:"Slider", note:"滑块核心页：类型与取值范围。", params:[
+  {n:"Label",c:"label",d:"滑块上显示的标签。"},
+  {n:"Slider Type",c:"slidertype",d:"Slider U 水平滑块（只跟踪 u 值）/ Slider V 垂直滑块（只跟踪 v 值）/ Slider UV 二维滑块（同时跟踪 u 和 v）。",tip:"UV 型就是「摇杆」，可同时输出两个方向的值。"},
+  {n:"Value",c:"value0/value1",d:"一维滑块的位置值 / 二维滑块的 V 值。"},
+  {n:"Zone L / R / B / T",c:"zonel 等",d:"滑块可拖动的活动区域边界（0-1 归一化，可留边做装饰）。"},
+  {n:"Clamp U / V",c:"clampul 等",d:"把输出的 u/v 值钳制在 0~1。"},
+  {n:"输出说明",c:"",d:"滑块值通过内部 Panel CHOP 输出为通道，可直接 export 或被引用驱动任何参数。"},
+  ]},
+  SEC_LAYOUT, SEC_PANEL, SEC_LOOK, SEC_EXT, SEC_COMMON,
+],
+"Field COMP": [
+  {title:"Field", note:"文本输入核心页。注意：Field COMP 自 2022.24200 起已废弃，新项目请用 Text COMP。", params:[
+  {n:"Field Type",c:"fieldtype",d:"限定输入类型：String 任意文本 / Float 浮点数 / Integer 整数。"},
+  {n:"Format Numbers + Total Digits / Decimal Digits",c:"fieldformat",d:"数字格式化：总位数、小数位数、前导零/尾随零。"},
+  {n:"Field Lock",c:"fieldlock",d:"锁定字段禁止编辑（只读显示）。"},
+  {n:"Render Password Protected",c:"password",d:"密码框：所有字符显示为 *。"},
+  {n:"Allow Multi-Line Input / Enter as Newline",c:"multiline",d:"多行输入及回车直接换行（无需 Shift）。"},
+  {n:"Focus Order",c:"focusorder",d:"指向焦点顺序表的 DAT，支持 Tab / Shift+Tab 在多个输入框间切换。"},
+  {n:"文本内容",c:"",d:"输入的文字存在组件内部的 DAT 单元格里，用脚本读取。"},
+  ]},
+  SEC_LAYOUT, SEC_PANEL, SEC_LOOK, SEC_EXT, SEC_COMMON,
+],
+"Audio Device Out CHOP": [
+  {title:"Audio Device Out", note:"主参数页：开关、驱动、设备、音量。", params:[
+  {n:"Active",c:"active",d:"开启/关闭音频输出。",tip:"演出临时静音用它，比拔连线安全。"},
+  {n:"Driver",c:"driver",d:"驱动类型：default（DirectSound/CoreAudio，兼容性好）/ ASIO（低延迟专业驱动）。"},
+  {n:"Device",c:"device",d:"输出到哪个设备；选 default 跟随系统默认播放设备。",tip:"换电脑部署时先检查目标设备是否存在。"},
+  {n:"Error if Missing",c:"errormissing",d:"设备找不到时是否报错。"},
+  {n:"Outputs",c:"outputs",d:"ASIO/CoreAudio 驱动下，选择使用哪些物理输出通道。"},
+  {n:"Volume",c:"volume",d:"输出音量：0 静音，1 原始音量；也可由第二个输入通道动态控制。",tip:"演出前保持 ≤ 1，防止炸音。"},
+  {n:"Pan",c:"pan",d:"声像：0 极左 / 0.5 居中 / 1 极右。"},
+  {n:"Clamp Output",c:"clampoutput",d:"把输出钳制在 -1~1，防止削波爆音；建议保持开启。"},
+  {n:"Cook Every Frame",c:"cookalways",d:"强制每帧 cook。",tip:"输出音频时必须开启，否则声音断断续续。"},
+  ]},
+  {title:"Buffer", note:"缓冲页：输出延迟与速度调整。", params:[
+  {n:"Buffer Length",c:"bufferlength",d:"音频缓冲长度（秒），默认 0.15——输出会比画面延迟这么多秒。",tip:"出现爆音/噼啪声时增大此值；上限受 Maximum Time Slice Size（默认 0.2 秒）限制。"},
+  {n:"Adjust Speed",c:"adjustspeed",d:"输出队列过长/过短时的播放速度调整力度。",tip:"值越大恢复越快，但会产生可听见的音调变化。"},
+  ]},
+  {title:"Output 1 / Output 2", note:"DirectSound（Windows）下的扬声器路由：输入通道按顺序送到勾选的扬声器。", params:[
+  {n:"Stereo Mode",c:"stereo",d:"简单立体声左右输出。"},
+  {n:"Front Left / Front Right / Front Center",c:"frontleft 等",d:"前左、前右、前中扬声器（前中是对白声道）。"},
+  {n:"Low Frequency",c:"lowfrequency",d:"低频（低音炮）通道。",tip:"把超低频单独送到 sub 的做法。"},
+  {n:"Back Left / Right / Center、Side Left / Right",c:"backleft 等",d:"后方与侧方环绕声道。"},
+  {n:"Top Center / Top Front / Top Back 系列",c:"topcenter 等",d:"顶层（Dolby Atmos 类）声道。",tip:"并非所有设备都支持；勾了没声先确认声卡能力。"},
+  ]},
+  {title:"Common", note:"CHOP 通用参数页。", params:[
+  {n:"Time Slice",c:"timeslice",d:"强制通道使用 Time Slice 模式（只计算两次 cook 之间的时间片），音频/实时控制类建议开启。"},
+  {n:"Scope",c:"scope",d:"用模式匹配限制处理哪些输入通道（如 *left*）。"},
+  {n:"Sample Rate Match",c:"srselect",d:"多输入采样率不一致时的处理：first 按第一输入 / max / min / err 报错。"},
+  {n:"Export Method",c:"exportmethod",d:"通道导出方式：datindex / datname / autoname（通道名即参数路径）。"},
+  {n:"Rename from / to",c:"renaming",d:"通道重命名规则（如 chan1 → left）。"},
+  ]},
+  {title:"Info CHOP 通道", note:"用 Info CHOP 监控输出状态的内部通道。", params:[
+  {n:"queue_speed",c:"",d:"缓冲播放速度，正常应接近 1.0。"},
+  {n:"queue_read_pos / queue_write_pos",c:"",d:"队列读/写位置，判断延迟或欠载。"},
+  {n:"queue_length",c:"",d:"当前缓冲总长（秒）。"},
+  ]},
+]};
+
+/* ============ TOP 家族参数详解 ============ */
+Object.assign(DETAILS, {
+"Movie File In TOP": [
+  {title:"Play 播放", note:"文件加载与播放控制核心页。", params:[
+  {n:"File",c:"file",d:"媒体文件路径；支持 http(s) URL、图片序列文件夹（同分辨率按名排序，可放 info.xml 指定 fps 与音轨）。",tip:"视频推荐 HAP 编码：解码快、显存友好。"},
+  {n:"Play Mode",c:"playmode",d:"播放模式（下拉）：Locked to Timeline 影片锁定到时间线，拖时间线即拖影片 / Specify Index 用 Index 参数指定任意帧 / Sequential 持续播放忽略时间线（Speed 可调、可 Cue）/ Timecode Object·CHOP·DAT 用时间码数据定位影片。",tip:"交互中随机跳帧用 Specify Index；纯背景循环播放用 Sequential。"},
+  {n:"Play",c:"play",d:"1 播放 / 0 暂停（Locked to Timeline 模式下无效）。"},
+  {n:"Speed",c:"speed",d:"播放速度倍数，仅 Sequential 有效：2=双倍速，0.5=半速，负值倒放。"},
+  {n:"Cue / Cue Pulse / Cue Point",c:"cue",d:"跳转到 Cue Point 指定的帧位；单位可选 Index / Frames / Seconds / Fraction(%)。"},
+  {n:"Cue Behavior",c:"cuebehavior",d:"松开 Cue 后行为（下拉）：Repeat Cued Frame 重复当前帧再继续 / Play Next Frame 播完跳转帧后继续。"},
+  {n:"Index",c:"index",d:"Specify Index 模式下指定影片位置，单位同 Cue Point，负值会回绕。"},
+  {n:"Loop Crossfade",c:"loopcrossfade",d:"循环时首尾交叉淡化（配合 Trim 使用时是 Trim 首尾互化）。"},
+  {n:"Step Size",c:"stepsize",d:"跳帧步长：设 30 表示每 30 帧显示一帧但播放计时不变（抽帧快进感）。"},
+  {n:"Audio Loop",c:"audioloop",d:"音频循环方式（下拉）：Silence 结束静音 / Fade 结束淡出 / Match Start to End 首尾匹配。"},
+  {n:"Image Sequence Indexing",c:"imageindexing",d:"图片序列编号（下拉）：Zero Based 按排序从 0 编号 / Filename Based 用文件名末尾数字当帧号（flower400.tiff = 第 400 帧）。"},
+  ]},
+  {title:"Image 图像", note:"解码、反交错与色彩空间处理。", params:[
+  {n:"Interpolate Frames",c:"interp",d:"在两帧之间按精确时间插值混合，慢速播放更平滑。"},
+  {n:"Deinterlace",c:"deinterlace",d:"反交错（下拉）：Off 不处理 / Even 取偶数行 / Odd 取奇数行 / Bob (Split) 交替行合成。",tip:"老电视素材出现横纹时用它。"},
+  {n:"Field Precedence",c:"precedence",d:"场优先级（下拉）：Even / Odd，决定先取哪一场。"},
+  {n:"Pre-Multiply RGB by Alpha",c:"premultrgbbyalpha",d:"RGB 是否预乘 alpha（下拉）：Off / On / Automatic 按文件自动。"},
+  {n:"Input Color Space",c:"inputcolorspace",d:"输入文件色彩空间（下拉）：Automatic 按元数据判断 / sRGB / sRGB-Linear / Rec.709 / Rec.2020（含 PQ、HLG）/ DCI-P3 / Display-P3 / ACES2065-1 / ACEScg / Passthrough 原样不转换等。"},
+  {n:"Loading/Error Image",c:"errimg",d:"加载失败提示（下拉）：Colored Bottom Right Square 右下角方块（红=失败，灰=加载中）/ Zero 空白图。",tip:"画面右下角出现红方块 = 文件路径或编码有问题。"},
+  {n:"Decode Pixel Format",c:"decodeformat",d:"解码精度（下拉）：Fastest 最快（通常 8-bit）/ Best 最高质量（10/12-bit 源输出 16-bit）。"},
+  ]},
+  {title:"Trim 修剪", note:"截取片段播放。", params:[
+  {n:"Trim / Trim Start / Trim End",c:"trim",d:"启用修剪并设定入出点，单位可选 Index / Frames / Seconds / Fraction(%)。"},
+  {n:"Extend Left",c:"textendleft",d:"Trim Start 之前（下拉）：Hold 定格首帧 / Cycle 循环 / Mirror 之字往返 / Black 黑帧 / Zero 透明。"},
+  {n:"Extend Right",c:"textendright",d:"Trim End 之后（下拉）：选项同 Extend Left。"},
+  ]},
+  {title:"Tune 调优", note:"播放性能与网络流；视频卡顿时先看这里。", params:[
+  {n:"Pre-Read Frames",c:"prereadframes",d:"预读帧数缓存进内存消除卡顿；可多帧并行解码（.exr 序列实时播放靠它）。"},
+  {n:"Frame Read Timeout / Strategy",c:"frametimeout",d:"读帧超时（毫秒）与策略（下拉）：Keep Frame 保持当前帧 / Best for Playback 选最适合播放的帧 / Best for Seeking 选目标前后任一帧（适合拖动定位）。"},
+  {n:"File Open Timeout",c:"filetimeout",d:"打开文件超时（毫秒），超时输出黑帧 + 右下灰方块。"},
+  {n:"Pre-Download HTTP Addresses",c:"predownloadhttp",d:"On = HTTP 文件完整下载后才播放 / Off = 边下边播。"},
+  {n:"Update Image",c:"updateimage",d:"设 0 时索引照常前进但画面不更新（只要音频时用）。"},
+  {n:"Max Decode CPUs",c:"maxdecodecpus",d:"限制 H264/H265、Cineform 多核解码占用的核数。"},
+  {n:"High Performance Read",c:"hiperfread",d:"4K+ HAP Q 高速 SSD 读取优化；低码率文件（1080p H264）不要开。"},
+  {n:"Hardware Decode",c:"hwdecode",d:"使用 Nvidia 硬件解码（Hap/NotchLC 本身总是硬件解码）。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Feedback TOP": [
+  {title:"Feedback 反馈", note:"单帧延迟记忆节点：Target 指回自身下游，形成『上一帧 → 处理 → 本帧』的自我演化循环。", params:[
+  {n:"Target TOP",c:"top",d:"反馈激活时的输出来源 TOP，通常是反馈链下游的节点（如 Blur、Transform 之后的画面）。",tip:"Target 必须指向本节点的下游，TD 靠它识别反馈环。"},
+  {n:"Reset",c:"reset",d:"0 = 反馈激活（正常工作）；1 = 禁用反馈，输入图像直通。",tip:"常把按钮或条件表达式接进来，一键清空拖尾。"},
+  {n:"Reset Pulse",c:"resetpulse",d:"单击后在单帧内重置反馈（脉冲按钮）。"},
+  {n:"Info CHOP 通道",c:"",d:"resx/resy 分辨率、gpu_memory_used 显存占用、cook_time 单帧耗时。",tip:"反馈链越长越吃显存，做复杂循环时用 Info CHOP 盯着。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Composite TOP": [
+  {title:"Composite 合成", note:"把多路输入按混合模式两两合成；相当于 TD 版的图层混合。", params:[
+  {n:"TOP",c:"top",d:"附加输入的 TOP 列表，支持通配符（ramp* 匹配所有 ramp 开头的 TOP）。"},
+  {n:"Preview Grid",c:"previewgrid",d:"输出一张网格图，同时展示所有混合模式的效果（右侧瓦片为交换输入顺序后的效果）。",tip:"不知道选哪个模式时先开它看一眼。"},
+  {n:"Select Input",c:"selectinput",d:"开启后不做合成，只放行单路输入；Input Index 指定放行第几路。"},
+  {n:"Operation",c:"operand",d:"混合运算（下拉，47 种）：完整选项说明见下方『混合模式速查』页。"},
+  {n:"Swap Operation Order",c:"swaporder",d:"交换两输入角色（A op B → B op A）；Add 无差别，Over、Hard Light 等顺序敏感。"},
+  ]},
+  {title:"Operand 变换", note:"只作用于 Overlay 层的适配、对齐与变换；输出分辨率默认取 Fixed Layer 的。", params:[
+  {n:"Fixed Layer",c:"fixedlayer",d:"指定哪个输入为固定层，另一个即 Overlay 层；合成输出的分辨率/宽高比取固定层的。"},
+  {n:"Pre-Fit Overlay",c:"prefitoverlay",d:"Overlay 适配方式（下拉）：Fill 拉伸填满 / Fit Horizontal·Fit Vertical 单边适配 / Fit Best 全部可见不裁切 / Fit Outside 填满并裁切 / Native Resolution 不缩放像素对齐。",tip:"同尺寸素材精确叠加必须用 Native Resolution，否则会被隐式缩放。"},
+  {n:"Justify Horizontal",c:"justifyh",d:"Overlay 水平对齐（下拉）：Left / Center / Right。"},
+  {n:"Justify Vertical",c:"justifyv",d:"Overlay 垂直对齐（下拉）：Bottom / Center / Top。"},
+  {n:"Extend Overlay",c:"extend",d:"Overlay 超出部分（下拉）：Hold 延伸边缘像素 / Zero 透明 / Repeat 重复 / Mirror 镜像。"},
+  {n:"Rotate / Translate / Scale / Pivot",c:"rotate",d:"对 Overlay 层的常规 2D 变换，正值旋转为顺时针；Translate 与 Pivot 有单位选项（Pixels / Fraction / Fraction Aspect）。"},
+  {n:"Translate Step (X/Y)",c:"tstep",d:"从第 3 个输入起，每层按步长倍数累积平移（1×、2×、3×…），一次铺出等距多层。"},
+  ]},
+  {title:"混合模式速查", note:"Operation 下拉的 47 种模式按用途分组讲解（A=第一输入，B=第二输入）。", params:[
+  {n:"Over / Under",c:"operand",d:"Over：A 叠在上层，A 的透明处露出 B（最常用的正常叠图）；Under：B 在上层，把 A 垫底。"},
+  {n:"Atop",c:"operand",d:"只在 B 有 alpha 的地方显示 A，其余显示 B。"},
+  {n:"Inside / Outside",c:"operand",d:"Inside：B 的 alpha 裁剪 A（只留交集）；Outside：只留 B 透明处的 A（相当于挖洞）。"},
+  {n:"Xor",c:"operand",d:"只显示两图互不重叠的部分，重叠处变透明。"},
+  {n:"Add",c:"operand",d:"逐通道相加，越叠越亮；辉光叠加、光斑合成首选。"},
+  {n:"Subtract",c:"operand",d:"A - B，两图相减，做差异检测、颜色相消。"},
+  {n:"Multiply",c:"operand",d:"逐通道相乘，白区保留、黑区变黑；做暗角、纹理压暗。"},
+  {n:"Divide",c:"operand",d:"A ÷ B，除以暗值会过曝，慎用。"},
+  {n:"Average",c:"operand",d:"(A+B)/2 两图平均；慢动作叠帧降噪常用。"},
+  {n:"Screen",c:"operand",d:"1-(1-A)(1-B)：亮部叠加更亮、纯黑透明；叠光效不挡底图。"},
+  {n:"Difference",c:"operand",d:"|A-B| 两帧差异提取（运动检测、找不同），alpha 恒为 1。"},
+  {n:"Maximum / Minimum",c:"operand",d:"逐通道取最大/最小值：Maximum 只取更亮、Minimum 只取更暗。"},
+  {n:"Brightest / Dimmest",c:"operand",d:"按像素整体亮度取更亮/更暗一路（整像素判断，不会通道混色）。"},
+  {n:"Lighter Color / Darker Color",c:"operand",d:"与上条类似，按颜色整体比较后整像素替换。"},
+  {n:"Overlay",c:"operand",d:"底图暗部相乘、亮部 Screen，保留底图明暗结构的高对比叠加。"},
+  {n:"Hard Light / Soft Light",c:"operand",d:"Hard Light：按上层亮暗做 Multiply/Screen，效果生硬；Soft Light：同逻辑的柔和版，像柔光打在底图上。"},
+  {n:"Linear Light / Vivid Light / Pinlight / Hard Mix",c:"operand",d:"PS 高级光效组：Linear Light 线性增亮压暗 / Vivid Light 高对比增亮压暗 / Pinlight 按亮暗只做 Multiply 或 Screen / Hard Mix 结果只有黑白极端值。"},
+  {n:"Dodge / Burn Color / Burn Linear",c:"operand",d:"减淡与加深：Dodge 提亮底图（上层白处全白）/ Burn 压暗底图（上层黑处全黑）。"},
+  {n:"Subtractive / Exclude / Negate / Inverse",c:"operand",d:"Subtractive 减法反转版 / Exclude 类似 Difference 但过渡更柔 / Negate 反相参与合成 / Inverse 输出反转。"},
+  {n:"Hue / Color",c:"operand",d:"把上层的色相 / 色相+饱和度应用到下层，保留下层明度结构（快速统一色调）。"},
+  {n:"Glow / Reflect / Heat / Freeze",c:"operand",d:"风格化组：Glow 底图亮部发散光晕 / Reflect 金属反射感 / Heat·Freeze 冷暖色映射。"},
+  {n:"Inside / Outside Luminance",c:"operand",d:"用上层亮度当蒙版：Inside Luminance 只留底图亮处 / Outside Luminance 只留暗处。"},
+  {n:"Stencil Luminance / Luminance Difference",c:"operand",d:"Stencil Luminance 用上层亮度镂空下层 / Luminance Difference 只比亮度差。"},
+  {n:"Chroma Difference / Y Film / Z Film",c:"operand",d:"Chroma Difference 只比色度差（忽略明暗）/ Y Film 在亮度信号域合成 / Z Film 比较深度取更近者（3D 场景合成用）。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Transform TOP": [
+  {title:"Transform 变换", note:"对图像做 2D 位移/旋转/缩放，露出的区域填背景色；放 Feedback 循环里就是隧道动画的引擎。", params:[
+  {n:"Transform Order",c:"xord",d:"变换应用顺序（下拉 6 种）：SRT 先缩放、再旋转、后位移等；顺序不同结果不同。",tip:"位移结果不对劲时先检查顺序。"},
+  {n:"Translate",c:"t",d:"X/Y 平移，单位可选 Pixels / Fraction（0-1 画面宽）/ Fraction Aspect。"},
+  {n:"Rotate",c:"rotate",d:"旋转角度（度）。"},
+  {n:"Scale",c:"s",d:"X/Y 缩放，负值即翻转。"},
+  {n:"Grow / Shrink",c:"growshrink",d:"以像素为单位的缩放：正=放大、负=缩小，适合做像素级逐帧增长动画。"},
+  {n:"Pivot",c:"p",d:"缩放/旋转的轴心点；轴心在 (-1,-1) 缩放 0.5 时图像会向左下滑动。",tip:"做「从角落展开」的动画改 Pivot，不要硬算 Translate。"},
+  {n:"Background Color",c:"bgcolor",d:"前景背后露出的填充色（RGBA）；Comp Over Background Color 开启后对 alpha<1 区域也填背景色。"},
+  {n:"Pre-Multiply RGB by Alpha",c:"premultrgbbyalpha",d:"背景色按 alpha 预乘，避免边缘黑边/白边。"},
+  {n:"Mipmap Bias",c:"mipmapbias",d:"采样 mip 层级偏置（需 Input Smoothness 设为 Mipmap Pixels）：负值更清晰、正值更模糊。"},
+  ]},
+  {title:"Tile 平铺", note:"把缩小后的图像向四周复制平铺。", params:[
+  {n:"Extend",c:"extend",d:"平铺边缘之外（下拉）：Hold 边缘像素向外延伸 / Zero 超出部分透明 / Repeat 无限重复 / Mirror 镜像往返。",tip:"无缝滚动背景：Repeat 配合 Feedback 或 Speed。"},
+  {n:"Limit Tiles",c:"limittiles",d:"开启后限制 U/V 方向的平铺数量。"},
+  {n:"Tile U1 / U2",c:"tileu",d:"源图像左侧/右侧重复的平铺数（需先缩小图像才能看到效果）。"},
+  {n:"Tile V1 / V2",c:"tilev",d:"源图像底部/顶部重复的平铺数。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Level TOP": [
+  {title:"Pre 前期", note:"按顺序逐级调色：Clamp/Invert → Black Level → Brightness → Gamma → Contrast。", params:[
+  {n:"Clamp Input",c:"clampinput",d:"输入钳制（下拉）：Automatic 自动 / Clamp 限到 0-1 / Unclamped 不限。"},
+  {n:"Invert",c:"invert",d:"颜色反转：黑↔白、红↔青。"},
+  {n:"Black Level",c:"blacklevel",d:"低于等于此值的像素变黑；先压黑再提亮 = 去灰雾。"},
+  {n:"Brightness 1",c:"brightness1",d:"亮度偏移（整体加减一个量）。"},
+  {n:"Gamma 1",c:"gamma1",d:"伽马校正，1=不变；>1 压暗中间调、<1 提亮中间调，不丢高光阴影。"},
+  {n:"Contrast",c:"contrast",d:"对比度（增益缩放）。",tip:"Feedback 循环里调低 Contrast+Brightness，拖尾自然渐隐——经典配方。"},
+  ]},
+  {title:"Range 范围", note:"等价 PS 的输入/输出色阶：In 范围重映射到 Out 范围。", params:[
+  {n:"In Low / In High",c:"inlow",d:"输入黑点/白点：低于 In Low 全黑、高于 In High 全白，中间被拉伸。"},
+  {n:"Out Low / Out High",c:"outlow",d:"输出钳制上下限；Out Low > 0 画面整体蒙灰（胶片褪色感）。"},
+  ]},
+  {title:"RGBA 分通道", note:"对 R/G/B/A 每个通道单独设范围，做偏色与通道处理。", params:[
+  {n:"Low/High R·G·B·A",c:"lowr",d:"各通道独立的输入范围重映射；单独拉高 R 通道的 Low 就是暖色滤镜。"},
+  ]},
+  {title:"Step 色调分离", note:"Posterize 色阶化效果。", params:[
+  {n:"Apply Stepping / Step Size",c:"stepping",d:"开启分带；带宽 0.25 = 4 条色带。"},
+  {n:"Threshold / Clamp Low·High / Soften",c:"threshold",d:"偏移分带边界、限制明度范围、柔化带间过渡。"},
+  ]},
+  {title:"Post 后期", note:"最后生效的第二轮调色。", params:[
+  {n:"Gamma 2 / Brightness 2 / Opacity",c:"gamma2",d:"二次伽马、二次亮度、整体不透明度（画面淡入淡出）。"},
+  {n:"Clamp / Clamp Low·High",c:"clamp",d:"最终输出钳制。"},
+  {n:"Pre-Multiply RGB by Alpha",c:"premultrgbbyalpha",d:"输出前 RGB 预乘 alpha。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Noise TOP": [
+  {title:"Noise 噪声", note:"程序化噪声图案生成器，视觉流水线的万能起点。", params:[
+  {n:"Type",c:"type",d:"噪声函数（下拉 10 种），每种特点见下方『Type 类型速查』页。"},
+  {n:"Seed",c:"seed",d:"随机种子：不同值得到特征相似但图案不同的结果。"},
+  {n:"Period",c:"period",d:"噪声峰间大致间距（频率的倒数），调大 = 图案拉伸；Random 类型设 0 可得纯白噪声。"},
+  {n:"Harmonics",c:"harmon",d:"叠加的高频分量数，越多越凹凸不平；0 = 只有基频形状。"},
+  {n:"Harmonic Spread",c:"spread",d:"谐波频率递增因子（通常 2）：spread=3、基频 0.1 时谐波为 0.3/0.9/2.7…（仅 Harmonic Summation 类型有效）。"},
+  {n:"Harmonic Gain / Roughness",c:"gain",d:"谐波增益与粗糙度：Roughness 0 = 谐波无效，1 = 各谐波与基频等幅，默认 0.5。"},
+  {n:"Exponent",c:"exp",d:"指数重塑：>1 值趋向 0（云絮感），<1 峰值趋向 ±1（对比强烈）。"},
+  {n:"Amplitude",c:"amp",d:"输出振幅缩放。"},
+  {n:"Offset",c:"offset",d:"中间值/底色偏移，默认 0.5 灰。"},
+  {n:"Monochrome",c:"mono",d:"单色（灰度）与彩色噪声切换。"},
+  {n:"Aspect Correct",c:"aspectcorrect",d:"非方形纹理按宽高比修正采样坐标，关闭则图案被拉伸。"},
+  ]},
+  {title:"Type 类型速查", note:"Type 下拉 10 种噪声函数的特点与取舍。", params:[
+  {n:"Perlin 2D / 3D / 4D (GPU)",c:"type",d:"经典 Perlin 梯度噪声，平滑连续；2D 平面图案，3D 可做体积感，4D 多一维可随时间演化。"},
+  {n:"Simplex 2D / 3D / 4D (GPU)",c:"type",d:"Perlin 升级版：更快、方向伪影更少；Quality 模式仅 Simplex 支持。"},
+  {n:"Random (GPU) / Random",c:"type",d:"白噪声（电视雪花），每像素相互无关；GPU 版逐像素随机，CPU 版按采样点随机。"},
+  {n:"Sparse",c:"type",d:"稀疏卷积噪声，质量较高的连续噪声。"},
+  {n:"Hermite",c:"type",d:"比 Sparse 快、质量略低的连续噪声。"},
+  {n:"Harmonic Summation",c:"type",d:"可控制谐波步进的 Sparse 噪声：速度最慢但谐波控制最细。"},
+  {n:"Alligator",c:"type",d:"细胞噪声（Cell Noise），产生细胞/鳞片状纹理。",tip:"Alligator + HSV Adjust = 经典细胞流光背景。"},
+  ]},
+  {title:"Transform 采样变换", note:"在噪声空间里平移/旋转/缩放采样平面（变换的是采样坐标，不是输出画面）。", params:[
+  {n:"Translate / Rotate / Scale / Pivot",c:"t",d:"采样平面的变换；让噪声「流动」的正规做法就是动画这里的 Translate。",tip:"本页 Translate 接 CHOP 动画，或外接 Speed TOP，都是流动背景。"},
+  {n:"Translate 4D / Scale 4D",c:"t4",d:"4D 噪声对第 4 坐标（时间维）的平移/缩放，不受上面变换影响。"},
+  ]},
+  {title:"Output 输出", note:"与 Composite Input 输入的合成方式。", params:[
+  {n:"RGB",c:"rgb",d:"输出混合（下拉）：Noise 只输出噪声 / Input*Noise 相乘 / Input+Noise 相加 / Input-Noise 相减。"},
+  {n:"Alpha",c:"alpha",d:"Alpha 通道来源（下拉）：Zero 全透明 / One 全不透明 / Noise 用噪声 / Input 用输入 / Input*Noise / Input+Noise / Input+clamp(Noise)。"},
+  {n:"Dither",c:"dither",d:"抖动，缓解 8-bit 显示的色带。"},
+  {n:"Gradient",c:"gradient",d:"输出噪声梯度/斜率（仅 Performance 模式的 Simplex 与 Perlin 支持）。"},
+  {n:"Mode",c:"mode",d:"渲染模式（下拉）：Performance 快速（默认）/ Quality 减少伪影（仅 Simplex，较慢）。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Text TOP": [
+  {title:"Text 文本", note:"文本内容来源与动态更新。", params:[
+  {n:"Field / DAT",c:"field",d:"文本来源：Field COMP 交互输入框 / DAT 表格（DAT Row / DAT Col 指定单元格）。"},
+  {n:"Specification DAT",c:"specdat",d:"用 Table DAT 按坐标放字：列头 x、y、text，每行一个字符串。",tip:"做散点文字云、多点标签用它，比堆多个 Text TOP 省节点。"},
+  {n:"Text",c:"text",d:"文本字符串；需要换行时切表达式模式写 '第一行\\n第二行'。"},
+  {n:"Append Value / Value / Digits / Post Text",c:"append",d:"在文本后追加数值：Total Digits 总位数、Decimal Digits 小数位，Post Text 数值后缀——数据大屏标配。"},
+  {n:"CHOP Value %-Replace",c:"chopvalue",d:"用 printf 语法（如 %4d、%5.2f）把 CHOP 通道实时值插入文本。"},
+  {n:"Word Wrap",c:"wordwrap",d:"自动换行，不超出 TOP 边界。"},
+  ]},
+  {title:"Font 字体", note:"字体、字号、对齐与自动缩放。", params:[
+  {n:"Font / Font File",c:"font",d:"下拉选系统字体 / 直接指定 .ttf·.otf 文件路径（用自定义中文字体走后者）。"},
+  {n:"Display Method",c:"displaymethod",d:"渲染方式（下拉）：Automatic 按字号自动选 / Polygon 多边形填充（大字号、抗锯齿好）/ Stroke 只描轮廓 / Bitmap 位图（小字号最清晰）/ Scalable Slug 库高质量分辨率无关渲染。",tip:"小字发虚换 Bitmap 或 Scalable，大字用 Polygon。"},
+  {n:"Anti-Alias",c:"antialias",d:"抗锯齿倍率（下拉 1x Off ~ 32x），越高越平滑越耗性能。"},
+  {n:"Stroke Width",c:"strokewidth",d:"描边宽度（Stroke 模式）。"},
+  {n:"Auto-Size Font",c:"autosize",d:"自动字号（下拉）：No Auto-Fit 不缩放 / Auto-Fit Always 始终缩放到边到边 / Auto-Fit if Too Large 溢出时才缩小。"},
+  {n:"Font Size X / Y",c:"fontsize",d:"字号，单位（下拉）：Pixels 像素 / Fraction 画面比例 / Fraction Aspect / Points（1pt=96/72 像素）；Keep Font Ratio 开启时只看 X。"},
+  {n:"Tracking / Line Spacing / Position",c:"tracking",d:"字间距、行距、文字块起始位置。"},
+  {n:"Horizontal Align",c:"alignh",d:"水平对齐（下拉）：Left / Center / Right；模式 Font Metrics 按字体度量 / Text Bounding Box 按文本包围盒。"},
+  {n:"Vertical Align",c:"alignv",d:"垂直对齐（下拉）：Bottom / Center / Top。"},
+  {n:"Reading Direction",c:"readdirection",d:"阅读方向（下拉）：Left To Right / Right To Left（阿拉伯语等 RTL 文字用）。"},
+  ]},
+  {title:"Color 颜色", note:"字体色、背景色与描边。", params:[
+  {n:"Font Color / Font Alpha",c:"fontcolor",d:"文字颜色（默认白）与透明度。"},
+  {n:"Background Color / Alpha",c:"bgcolor",d:"背景色与透明度（默认黑透明）。"},
+  {n:"Border A / Border B + 四边 Border",c:"border",d:"最外 2 像素着色为 Border A/B（可分 Inside/Outside），做 UI 卡片描边。"},
+  {n:"Multiply RGB by Alpha",c:"multrgbbyalpha",d:"预乘 alpha。"},
+  ]},
+  {title:"Output 合成", note:"与输入图像合成输出。", params:[
+  {n:"Comp Over Input",c:"compoverinput",d:"开启后文字与输入图像合成。"},
+  {n:"Operation",c:"operand",d:"合成模式（下拉 40+ 种）：Add / Over / Multiply / Screen / Difference / Inside / Outside / Xor 等，语义同 Composite TOP 的混合模式速查。"},
+  {n:"Swap Order",c:"swaporder",d:"交换合成顺序。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Circle TOP": [
+  {title:"Circle 圆形", note:"绘制圆、圆环、扇形与正多边形的基础图形生成器。", params:[
+  {n:"Radius",c:"radius",d:"X/Y 半径（多边形只用 X），单位（下拉）：Pixels / Fraction（0-1 画面比例）/ Fraction Aspect。"},
+  {n:"Center",c:"center",d:"圆心 X/Y，(0,0) 为画面居中。"},
+  {n:"Justify H / V",c:"justifyh",d:"定位基准（下拉）：Left/Center/Right 与 Bottom/Center/Top；Center 时 Center 坐标即圆心。"},
+  {n:"Rotate",c:"rotate",d:"旋转角度（度）。"},
+  {n:"Fill Color / Fill Alpha",c:"fillcolor",d:"填充颜色与透明度。"},
+  {n:"Border Color / Alpha / Width / Offset",c:"bordercolor",d:"边框颜色、透明度、宽度；Border Offset（0-1）控制边框向半径外扩的比例。",tip:"Fill 透明 + Border 实色 = 圆环；配 Arc 就是进度环。"},
+  {n:"Background Color / Alpha",c:"bgcolor",d:"圆之外的背景色。"},
+  {n:"Arc Angles",c:"arcangle",d:"扇形控制：begin 到 end（顺时针）之间的区域不绘制。"},
+  {n:"Softness",c:"softness",d:"背景色向形状边缘的柔化程度（边缘羽化）。"},
+  {n:"Anti-Alias",c:"antialias",d:"抗锯齿开关。"},
+  {n:"Polygon / Sides",c:"ispolygon",d:"开启多边形模式并指定边数：3=三角、6=六边形。",tip:"Sides 接 CHOP 动画 = 圆 ↔ 多边形渐变的图形动画。"},
+  ]},
+  {title:"Output 合成", note:"与输入图像合成输出。", params:[
+  {n:"Comp Over Input / Operation / Swap Order",c:"compoverinput",d:"开启合成、选混合模式（Add / Over / Multiply / Screen / Inside / Outside 等，语义同 Composite TOP）、交换顺序。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Ramp TOP": [
+  {title:"Ramp 渐变", note:"颜色关键帧渐变生成器：点击渐变条加关键帧，拖出去删除。", params:[
+  {n:"DAT",c:"dat",d:"用 Table DAT 定义渐变：每行 = 位置(0-1) + RGBA 四列，改表格渐变实时更新。",tip:"让 UI 或数据动态改配色时，用 DAT 驱动渐变。"},
+  {n:"Color",c:"color",d:"渐变条上的关键帧颜色与 alpha（拾色器操作）。"},
+  {n:"Type",c:"type",d:"渐变类型（下拉）：Vertical 垂直 / Horizontal 水平 / Radial 放射（中心向外）/ Circular 圆环。"},
+  {n:"Position",c:"position",d:"Radial / Circular 渐变的中心点位置。"},
+  {n:"Phase / Period",c:"phase",d:"偏移渐变起点 / 拉长缩短渐变长度（相当于 UV 缩放）。",tip:"Phase 接 CHOP 动画 = 流动渐变背景。"},
+  {n:"Extend Left / Right",c:"extend",d:"范围外延伸（下拉）：Hold 延续边缘 / Black 黑色不透明 / Zero 透明 / Repeat 重复 / Mirror 镜像；右侧额外有 Same as Left。"},
+  {n:"Interpolate Notches",c:"interp",d:"关键帧插值（下拉）：Step 阶梯跳变无过渡 / Linear 线性 / Ease-in Ease-out 缓入缓出 / Hermite 厄米曲线（可调张力）。",tip:"Step=色块分带，Hermite=最平滑。"},
+  {n:"Curve Tension",c:"tension",d:"Hermite 插值的曲线张力。"},
+  {n:"Anti-Alias / Dither",c:"antialias",d:"Radial / Circular 的抗锯齿级别；Dither 抖动减轻色带。"},
+  {n:"Fit Aspect",c:"fitaspect",d:"Radial / Circular 的宽高比适配（下拉）：Fill / Fit Horizontal / Fit Vertical / Fit Best。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Blur TOP": [
+  {title:"Blur 模糊", note:"卷积模糊，7 种滤波核；辉光、景深、拖尾、磨砂质感都靠它。", params:[
+  {n:"Type",c:"type",d:"滤波核（下拉 7 种），特点见下方『Type 核速查』页。"},
+  {n:"Extend",c:"extend",d:"边缘处理（下拉）：Hold 边缘截断 / Repeat 视为平铺（底部模糊溢出到顶部）/ Mirror 视为镜像。"},
+  {n:"Pre-Shrink",c:"preshrink",d:"模糊前先降采样（等效 2x2 box 预滤）：大模糊量时性能远优于直接加大核，画质略降。",tip:"超大模糊半径先开 Pre-Shrink 提速。"},
+  {n:"Filter Size",c:"size",d:"模糊量（像素）；要分辨率无关可写表达式 me.par.resolutionw/100（= 画面宽的 1%）。"},
+  {n:"Filter Scale",c:"scale",d:"X/Y/Z 三轴分别缩放 Filter Size，做单方向拉伸模糊。",tip:"只在 Y 轴模糊 = 速度感/雨丝效果。"},
+  {n:"Sample Step",c:"offset",d:"采样间距（跳过中间像素），单位（下拉）：Pixel / Fraction / Fraction Aspect；调大更快但可能出现波纹。"},
+  {n:"Rotate Kernel",c:"rotate",d:"旋转模糊核（斜向模糊），水平模糊时效果最明显。"},
+  {n:"Dither",c:"dither",d:"抖动，减轻 8-bit 模糊产生的色带。"},
+  ]},
+  {title:"Type 核速查", note:"7 种滤波核的特点与取舍。", params:[
+  {n:"Gaussian",c:"type",d:"正态分布：最平滑自然、抗振铃，默认之选。"},
+  {n:"Box",c:"type",d:"盒内等权：开销最低但有方块感，快速草稿用。"},
+  {n:"Catmull-Rom",c:"type",d:"高斯的样条近似：纹理更锐、边缘更精确。"},
+  {n:"Bartlette",c:"type",d:"三角滤波：权重随距离线性递减。"},
+  {n:"Sinc",c:"type",d:"锐化型核（部分负权重）：保留细节和边缘优于 Gaussian，但可能振铃。"},
+  {n:"Hanning / Blackman",c:"type",d:"高斯核的余弦近似 / 高阶余弦近似：介于两者之间的折中。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Switch TOP": [
+  {title:"Switch 切换", note:"多路输入按索引选一路输出，画面切换台。", params:[
+  {n:"Index",c:"index",d:"选择第几路输入（从 0 开始）；可用浮点数配合 Blend 做过渡。",tip:"Index 接 Timer CHOP 或按钮计数，就是演出画面切换台。"},
+  {n:"Blend between Inputs",c:"blend",d:"Index 为浮点时在相邻两路之间按小数部分混合，实现平滑过渡/淡入淡出。"},
+  {n:"Extend",c:"extend",d:"Index 超界时（下拉）：Clamp 钳制在边界 / Loop 循环回绕 / ZigZag 之字折返（0→n→0）。",tip:"Index 接 LFO 或 Noise + Loop/ZigZag = 自动轮播。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Out TOP": [
+  {title:"Out 输出", note:"在组件内开一个对外 TOP 输出端口；组件的输出按字母数字顺序排在右侧。", params:[
+  {n:"Label",c:"label",d:"鼠标悬停在输出端口上时显示的提示文字。",tip:"注意：控制显示器输出、Perform 窗口的是 Window COMP；Out TOP 只负责『把画面递出本组件』。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+"Render TOP": [
+  {title:"Render 渲染", note:"3D 场景到纹理的总出口：至少一个 Camera COMP + 带材质的 Geometry COMP。", params:[
+  {n:"Camera(s)",c:"camera",d:"渲染用的相机；可指定多个，结果用 Render Select TOP 分别提取。"},
+  {n:"Multi-Camera Hint",c:"multicamerahint",d:"多相机优化（下拉）：Automatic 自动判断 / Off (One Pass Per Camera) 每相机单独渲染 / X-Offset Stereo Cameras 双相机仅 X 轴位移差（多数 VR 头显）时启用加速。"},
+  {n:"Geometry",c:"geometry",d:"参与渲染的几何体，支持模式匹配：geo* ^geo7 = geo 开头但排除 geo7。"},
+  {n:"Lights",c:"lights",d:"场景灯光列表，同样支持模式匹配。"},
+  {n:"Anti-Alias",c:"antialias",d:"抗锯齿倍数（下拉）：1x (Off) / 2x / 4x / 8x / 16x / 32x，越高边缘越好、显存越贵。",tip:"先关抗锯齿跑性能，最后按需加。"},
+  {n:"Background Color",c:"bgcolor",d:"背景色 RGBA，与 Camera COMP 的背景色共同决定最终背景。"},
+  {n:"Render Mode",c:"rendermode",d:"渲染模式（下拉）：2D 标准透视渲染 / Cube Map 六面各 90°（环境贴图、全景）/ Fish-Eye (180°) 鱼眼（不保直线，需细分几何）/ Dual Paraboloid 前后双抛物面（遗留模式）/ UV Unwrap 按几何 UV 展开 / Cube Map (Omnidirectional Stereo) 双眼立体全景（配 Camera 的 IPD Shift）。",tip:"做穹顶投影、360 视频从这里切换模式。"},
+  {n:"Positive / Negative Sides",c:"posside",d:"Cube Map 模式下选择渲染 ±X/±Y/±Z 哪些面。"},
+  {n:"Transparency",c:"transparency",d:"透明处理（下拉）：Sorted Draw with Blending 排序绘制+混合（常规）/ Order Independent Transparency 顺序无关透明 OIT（多透明物体穿插时）/ Alpha-to-Coverage alpha 转覆盖率（配合多重采样）。"},
+  {n:"Depth Peel / Layers",c:"depthpeel",d:"深度剥离分层渲染，各层可用 Render Select TOP 提取（如玻璃球内外层）。"},
+  ]},
+  {title:"Advanced 高级", note:"渲染开关、深度格式与性能调试。", params:[
+  {n:"Render / Render Pulse",c:"render",d:"渲染总开关；关闭时 Render Pulse 可手动渲单帧（渲染到文件的工作流）。"},
+  {n:"Dither",c:"dither",d:"抖动缓解 8-bit 显示色带。"},
+  {n:"Draw Depth Only",c:"drawdepthonly",d:"只渲染深度，配 Depth TOP 提取深度图。"},
+  {n:"# of Color Buffers",c:"numcolorbufs",d:"多渲染目标（MRT）数量：GLSL MAT 一次输出多张图时用。"},
+  {n:"Depth Buffer Format",c:"depthformat",d:"深度缓冲精度（下拉）：24-Bit Fixed-Point 常规 / 32-Bit Floating-Point（大场景远近精度更好）。"},
+  {n:"Cull Face",c:"cullface",d:"面剔除（下拉）：Neither 不剔除 / Back Faces 剔除背面（封闭几何提速）/ Front Faces 剔除正面 / Both Faces 全剔除。"},
+  {n:"Override Material",c:"overridemat",d:"强制所有几何用同一材质——做深度 pass、线框 pass 的经典技巧。"},
+  {n:"Polygon Depth Offset",c:"polygonoffset",d:"多边形深度偏移（Factor/Units）：缓解 Z-Fighting，渲染阴影时重要。"},
+  ]},
+  SEC_TOP_COMMON,
+],
+});
+
+/* ============ CHOP 家族参数详解 ============ */
+const SEC_CHOP_COMMON = {title:"Common", note:"CHOP 通用页：Time Slice、采样率匹配、通道导出与重命名，所有 CHOP 通用。", params:[
+{n:"Time Slice",c:"timeslice",d:"强制通道为时间切片模式：只输出上一帧到当前帧之间的数据，实时控制类 CHOP 建议开启。"},
+{n:"Scope",c:"scope",d:"模式匹配限定处理哪些通道（如 *left* 只处理名字含 left 的通道）。"},
+{n:"Sample Rate Match",c:"srselect",d:"多输入采样率不一致时（下拉）：Resample At First Input's Rate 按第一输入 / Maximum Rate 最高率 / Minimum Rate 最低率 / Error If Rates Differ 报错。"},
+{n:"Export Method",c:"exportmethod",d:"通道导出方式（下拉）：DAT Table by Index 按索引查导出表 / DAT Table by Name 按名称查表 / Channel Name is Path:Parameter 通道名即目标（如 geo1/transform1:tx）。",tip:"autoname 方式：通道直接命名为目标参数路径，导出全自动。"},
+{n:"Export Root / Export Table",c:"autoexportroot",d:"autoname 的相对根节点 / DAT 表格导出方式用的表格。"},
+{n:"Rename from / to",c:"renamefrom",d:"通道重命名模式替换（如 c[1-10:2] ambient → b[1-5] amb）。"},
+]};
+
+Object.assign(DETAILS, {
+"Timer CHOP": [
+  {title:"Timer 定时器", note:"可编程计时/序列控制核心节点：Initialize → ready → Start → 计时 → Done 的状态机。", params:[
+  {n:"Active",c:"active",d:"何时 cook（下拉）：Never 从不（省资源）/ Always 每帧 / While Running 仅运行期间 / While Playing 仅时间线播放时。"},
+  {n:"Time Control",c:"timecontrol",d:"时间来源（下拉）：Lock To Timeline 锁定时间线，输出由帧位置决定 / Sequential 独立连续运行（最常用）/ External CHOP Channel 由外部 CHOP 通道驱动 / External Timecode 由外部时间码驱动。",tip:"演出 cue 控制用 Sequential + 回调；跟时间线逐帧对应用 Lock To Timeline。"},
+  {n:"Initialize / Start（pulse）",c:"initialize",d:"Initialize 复位计数器并触发 onInitialize()，进入 ready；Start 开始计时（先经过 Delay 再计时），触发 onStart()。"},
+  {n:"Length Type / Length",c:"lengthtype",d:"Fixed 有限时长 / Infinite 无限运行；时长单位可选 Seconds / Frames / Samples。"},
+  {n:"Delay",c:"delay",d:"Start 之后、正式计时之前的延迟时间。"},
+  {n:"Play / Speed",c:"play",d:"Play=暂停开关（相当于速度 0/1）；Speed 计时倍速：0.5 半速、2 双倍速。"},
+  {n:"Cue / Cue Point / Cue Pulse",c:"cue",d:"冻结在 Cue 点 / Cue 点位置 / 脉冲跳到 Cue 点，单位 Samples/Frames/Seconds/Fraction。"},
+  {n:"Cycle / Cycle Limit / Maximum Cycles",c:"cycle",d:"到末尾回 0 循环；可限制最大循环次数。"},
+  {n:"Cycle End Alert",c:"cycleendalert",d:"循环结束前 N 秒/帧触发 onCycleEndAlert() 回调。",tip:"演出轮播前用它在结尾提前预热下一场景。"},
+  {n:"On Done",c:"ondone",d:"完成时行为（下拉）：Do Nothing 什么都不做 / Re-Initialize 重新初始化 / Re-Start 重新开始 / Re-Start without Initializing 不初始化直接重开。"},
+  {n:"Callbacks DAT",c:"callback",d:"回调脚本路径：onInitialize / onStart / onTimerActive / onCycleStart / onSegmentEnter / onSegmentExit / onDone 等。",tip:"演出序列的「大脑」，每个时间节点要发生的事写进对应回调函数。"},
+  ]},
+  {title:"Segments 分段", note:"用 Table DAT 定义多段计时，每行一个 segment。", params:[
+  {n:"Segments DAT",c:"segdat",d:"Table DAT 每行一个 segment；可用列 delay 或 begin、length、cycle、cyclelimit、maxcycles、cycleendalert 覆盖参数，自定义列进 Info DAT。"},
+  {n:"Segment Method",c:"segmethod",d:"（下拉）：Serial Timers 顺序播放，一段接一段 / Parallel Timers 并行播放，每段独立输出一组通道。"},
+  {n:"Segments End Time",c:"segend",d:"总时长来源（下拉）：From Segments DAT 按表格 / From Length Parameter 按参数 / Max of Parameter/Table 取两者较大。"},
+  {n:"Custom Channel Interpolation",c:"seginterp",d:"自定义数字列转通道的插值（下拉）：Step 阶跃 / Linear 线性 / Ease In / Ease Out / Ease In-Out to Value。"},
+  {n:"Go to Next / Previous Segment（pulse）",c:"nextseg",d:"手动跳转到下一段/上一段。"},
+  ]},
+  {title:"Outputs 输出通道", note:"Timer 自带的状态通道开关都在这里。", params:[
+  {n:"Timer Fraction / Timer Count",c:"timer_fraction",d:"进度 0-1；计数可选（下拉）Off / Samples / Frames / Seconds / All 输出 timer_seconds 等。",tip:"timer_fraction 驱动进度条和动画曲线的首选。"},
+  {n:"Timer Active / Timer Pulse",c:"timer_active",d:"计时期间为 1；到达长度时发出单帧脉冲。"},
+  {n:"Ready / Running / Done / Done Pulse",c:"done",d:"各状态位与完成脉冲，写条件逻辑用。"},
+  {n:"Cycles / Cycle Pulse",c:"cycles",d:"当前循环数与每次循环结束的单帧脉冲。"},
+  {n:"Segment / Segment Pulse / Segment Fraction",c:"segment",d:"当前段编号、进入段时的脉冲、段内进度 0-1。"},
+  {n:"Cumulative / Playing / Running / Master Time Count",c:"cumulative_seconds",d:"四种累计时间：Cumulative 受 Speed 影响 / Playing 不受 Speed 影响的纯播放时长 / Running 从 Start 起的墙钟时间 / Master 含 Delay 且受 Speed 影响。"},
+  ]},
+  {title:"External 外部时间", note:"用外部 CHOP 或时间码驱动计时点。", params:[
+  {n:"External CHOP / External Channel / External Units",c:"extchop",d:"用指定 CHOP 通道的值当计时点，单位 Samples / Frames / Seconds / Fraction。"},
+  {n:"External Timecode Object",c:"exttimecode",d:"支持 Timecode 对象、CHOP（hour/minute/second/frame 通道）或 DAT（时间码字符串）。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"LFO CHOP": [
+  {title:"LFO 波形", note:"周期振荡曲线生成器；接 Source Wave 输入可用任意自定义曲线替代内置波形。", params:[
+  {n:"Type",c:"type",d:"波形（下拉 6 种）：Sine 正弦 -1~1 最平滑 / Gaussian 高斯钟形 0~1 / Triangle 三角波 -1~1（Bias 可移动峰位）/ Ramp 斜坡 0~1 即锯齿 / Square 方波 -1~1（Bias 调占空比变矩形）/ Pulse 脉冲（仅一个采样点为 1 其余 0）。",tip:"呼吸感用 Sine；往复运动用 Triangle；闪烁用 Square。"},
+  {n:"Play",c:"play",d:"1 振荡 / 0 暂停（暂停时保持当前值）。"},
+  {n:"Frequency",c:"frequency",d:"频率（周期/秒）；接了 Octave Control 输入时按指数变频率：每 +1 翻倍、-1 减半。"},
+  {n:"Offset / Amplitude",c:"offset",d:"输出偏移与幅度缩放：默认输出 -1~1，设 Amplitude 0.5 + Offset 0.5 即 0~1。"},
+  {n:"Bias",c:"bias",d:"形状偏置：Triangle 移动峰值位置、Square 改变占空比、Gaussian 调整钟形。"},
+  {n:"Phase",c:"phase",d:"相位，0.5 = 180° 相移；通道名模式 + $C 表达式错开相位 = 波浪阵列。"},
+  {n:"Reset Condition",c:"resetcondition",d:"Reset 触发方式（下拉）：Off to On 关→开时复位 / While On 开着期间保持复位值 / On to Off 开→关时复位 / While Off 关着期间保持复位值。"},
+  {n:"Reset / Reset Pulse",c:"reset",d:"开启时持续复位为 0；Pulse 单次复位。"},
+  {n:"三个输入",c:"",d:"① Octave Control 倍频控制 ② Reset 复位 ③ Source Wave 自定义波形曲线（接入后 Type 参数失效）。"},
+  ]},
+  {title:"Channel 通道", note:"通道命名与采样率。", params:[
+  {n:"Channel Names",c:"channelname",d:"通道名，支持模式：chan[1-10] 一次生成 10 条；参数里写 $C（通道索引）让每条通道不同。"},
+  {n:"Sample Rate",c:"rate",d:"采样率，默认 60。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Noise CHOP": [
+  {title:"Noise 噪声", note:"输出随机起伏的数值通道，比 LFO 更有机、不可预测。", params:[
+  {n:"Type",c:"type",d:"噪声函数（下拉 6 种）：Sparse 稀疏卷积，质量最高的连续噪声 / Hermite 更快但质量略低 / Harmonic Summation 可控谐波步进（最慢）/ Brownian 布朗运动，像乱飞的虫子 / Random 白噪声，每个采样独立 / Alligator 细胞噪声，鳞片晶格感。"},
+  {n:"Seed",c:"seed",d:"随机种子，不同值得到特征相似但图案不同的噪声。"},
+  {n:"Period / Period Unit",c:"period",d:"峰间大致间距（=频率的倒数），单位 Samples / Frames / Seconds / Fraction；Random 类型设 0 得纯随机。"},
+  {n:"Harmonics / Harmonic Spread / Roughness",c:"harmon",d:"叠加的高频分量数 / 谐波频率递增因子（仅 Harmonic Summation）/ 高频强度：0 谐波无效、1 各谐波等幅、默认 0.5 指数衰减。"},
+  {n:"Exponent",c:"exp",d:"对噪声值求幂：>1 趋向 0（云絮感），<1 峰值趋向 ±1（对比强）。"},
+  {n:"Num of Integrals",c:"numint",d:"Brownian 噪声的积分次数，越大曲线越平滑，>4 后基本相同。"},
+  {n:"Amplitude",c:"amp",d:"输出幅度缩放。"},
+  {n:"Reset / Reset Pulse",c:"reset",d:"仅 Time Slice 开启时有效：重置噪声计算并保持当前值。"},
+  ]},
+  {title:"Transform 采样变换", note:"在 3D 噪声空间里平移/旋转/缩放采样线（默认从原点沿 X 轴采样）。", params:[
+  {n:"Translate / Rotate / Scale / Pivot",c:"t",d:"采样位置的变换；动画 Translate 就是让噪声「流动」。",tip:"Noise + 匀速移动 = 无限演化的有机运动。"},
+  ]},
+  {title:"Constraints 约束", note:"约束噪声曲线的起止值/均值（Time Slice 关闭时有效）。", params:[
+  {n:"Constraint",c:"constraint",d:"约束方式（下拉）：None 不约束 / Start Value 固定起点 / End Value 固定终点 / Mean Value 固定均值 / Start-End Values 首尾都固定。"},
+  {n:"Normalize",c:"normal",d:"把曲线归一化到 -1~1；仅 Random 和 Harmonic Summation 有效。"},
+  ]},
+  {title:"Channel 通道", note:"通道命名、区间与外延条件。", params:[
+  {n:"Channel Names",c:"channelname",d:"通道名模式：chan[1-20] 生成 20 条，每条有唯一 seed。"},
+  {n:"Start / End / Sample Rate",c:"start",d:"输出区间与采样率（默认跟随时间线帧率）。"},
+  {n:"Extend Left / Right",c:"left",d:"区间外延展（下拉）：Hold 保持边缘值 / Slope 按斜率延伸 / Cycle 循环 / Mirror 镜像 / Default Value 填常量。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Trigger CHOP": [
+  {title:"Trigger 触发", note:"把瞬时输入转成 ADSR 包络曲线，让触发有「形状」。", params:[
+  {n:"Trigger Threshold / Release Threshold",c:"threshup",d:"通道值向上越过触发阈值开始 attack；降到释放阈值以下开始 release；Release = Trigger Threshold 开启时两者同值。"},
+  {n:"Re-Trigger Delay",c:"retrigger",d:"触发后允许再次触发的延迟时间（防抖/节流）。"},
+  {n:"Min Trigger Length",c:"mintrigger",d:"触发保持激活的最短时间。"},
+  {n:"Trigger On",c:"triggeron",d:"触发方向（下拉）：Increasing Values 上升沿越过阈值 / Decreasing Values 下降沿越过阈值。"},
+  {n:"Multi Trigger",c:"multitrigger",d:"多触发处理（下拉）：Ignore During Attack attack 期间忽略新触发 / Add 多个包络值相加 / Restart Envelope 重启包络。",tip:"Add + Clamp at Peak Level = 快速连点也只到峰值不打爆。"},
+  {n:"Complete Envelope",c:"complete",d:"开启时每个触发点都生成完整包络（即使输入提前释放）。"},
+  {n:"Remainder",c:"remainder",d:"区间末尾剩余样本（下拉）：Discard Remainder 丢弃 / Make Output Longer 延长输出到包络结束 / Mix Remainder with Beginning 剩余部分叠加回开头。"},
+  {n:"Trigger / Release / Reset（pulse）",c:"triggerpulse",d:"手动触发、释放、重置。"},
+  ]},
+  {title:"Attack 起振", note:"触发后的延迟与上升段。", params:[
+  {n:"Delay Length / Attack Length",c:"delay",d:"触发后先延迟再起振；Attack 是从 0 升到 Peak 的时长。"},
+  {n:"Attack Shape",c:"ashape",d:"上升形状（下拉 4 种）：Linear 线性 / Ease In 缓入 / Ease Out 缓出 / Ease in Ease out 缓入缓出。"},
+  {n:"Peak Level / Peak Length",c:"peak",d:"峰值电平与峰值保持时长。"},
+  ]},
+  {title:"Sustain 延音", note:"衰减、保持与释放段——完整的合成器包络。", params:[
+  {n:"Decay Length / Decay Shape / Sustain Level",c:"decay",d:"从 Peak 衰减到 Sustain 的时长、形状与保持电平（设 0 = 无延音，触发完直接进 release）。"},
+  {n:"Release Length / Release Shape",c:"release",d:"从 Sustain 降回 0 的时长与形状。",tip:"「一闪即逝」：短 Attack + Sustain 0 + 中 Release；「缓慢熄灭」：长 Release。"},
+  ]},
+  {title:"Chan 通道", note:"输出通道命名与长度。", params:[
+  {n:"Channel Name / Sample Rate",c:"channame",d:"输出通道名与采样率。"},
+  {n:"Remap Length",c:"remaplength",d:"把总包络长度重映射到指定长度（sustain 保持段不参与）。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Math CHOP": [
+  {title:"OP 运算", note:"三级结构：Pre OP（每通道单目）→ Combine（合并）→ Post OP（结果单目）。", params:[
+  {n:"Channel Pre OP",c:"preop",d:"对每个输入通道的单目运算（下拉）：Off / Negate 取负 / Positive 绝对值 / Root 开方 / Square 平方 / Inverse 取倒数 1/x。"},
+  {n:"Combine Channels",c:"chanop",d:"同一输入内通道间合并 N→1（下拉）：Off / Add 求和 / Subtract 首通道减其余 / Multiply / Divide 首通道除其余 / Average 平均 / Minimum / Maximum / Length 视为向量求模长。"},
+  {n:"Combine CHOPs",c:"chopop",d:"多个输入 CHOP 之间合并 N→1，选项同上。",tip:"两个传感器读数融合：Combine CHOPs = Add 或 Average。"},
+  {n:"Channel Post OP",c:"postop",d:"对合并结果的末级单目运算，选项同 Pre OP。"},
+  {n:"Match By",c:"match",d:"多输入配对方式（下拉）：Channel Number 按通道序号 / Channel Name 按通道名。"},
+  {n:"Align",c:"align",d:"输入起止时间不一致时（下拉 11 种）：Automatic 自动（Time Slice 优先裁剪）/ Extend to Min/Max 扩展到最大范围 / Stretch to Min/Max 拉伸 / Shift to Minimum/Maximum 平移到最早或最晚 / Shift·Trim·Stretch to First Interval 对齐到第一输入 / Trim·Stretch to Smallest Interval 裁剪或压缩到最小公共区间。"},
+  {n:"Integer",c:"integer",d:"结果取整（下拉）：Off / Ceiling 向上 / Floor 向下 / Round 四舍五入。"},
+  ]},
+  {title:"Mult-Add 乘加", note:"按顺序执行：输出 = (输入 + Pre-Add) × Multiply + Post-Add。", params:[
+  {n:"Pre-Add / Multiply / Post-Add",c:"preoff",d:"先加偏移、再乘缩放、后加偏移的三步组合。"},
+  ]},
+  {title:"Range 范围", note:"线性范围重映射（其他软件叫 Fit），输出前最后一步。", params:[
+  {n:"From Range / To Range",c:"fromrange1",d:"把 From 区间线性映射到 To 区间：传感器 0-1023 → TD 的 0-1 就靠它。",tip:"数值范围换算用 Range 页，别用 Mult-Add 硬算。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Filter CHOP": [
+  {title:"Filter 滤波", note:"时域滤波器：平滑、锐化、去尖峰，传感器数据去抖主力。", params:[
+  {n:"Type",c:"type",d:"滤波类型（下拉 9 种）：Gaussian 高斯平滑，低通，最常用 / Left Half Gaussian 只用过去采样，带延迟但时序更真实 / Box 盒形等权平滑 / Left Half Box 同上仅过去采样 / Edge Detect 边缘检测，高通，找突变 / Sharpen 锐化高频（= 原数据 + 边缘检测）/ De-spike 去尖峰，剔除超出容差的孤立毛刺 / Ramp Preserve 按固定斜率外推，偏离容差才重置 / One Euro 交互专用滤波，平滑与响应速度兼顾。",tip:"鼠标/体感跟踪去抖：Gaussian 或 One Euro；剔除传感器坏点：De-spike。"},
+  {n:"Effect",c:"effect",d:"滤波强度：0 无效 → 1 全效。"},
+  {n:"Filter Width / Filter Width Unit",c:"width",d:"参与计算的邻近采样数量，单位 Samples / Frames / Seconds；越大越平滑也越延迟。"},
+  {n:"Spike Tolerance",c:"spiketolerance",d:"De-spike 判定尖峰的偏离阈值。"},
+  {n:"Ramp Tolerance / Ramp Rate",c:"ramptolerance",d:"Ramp Preserve 的重置偏差量与输出递增速率。"},
+  {n:"Number of Passes",c:"passes",d:"滤波器应用次数，多次 = 更平滑。"},
+  {n:"One Euro 参数",c:"cutofffreq",d:"Cutoff Frequency 慢速抖动大就减小 / Speed Coefficient 高速跟不上就增大 / Slope Cutoff Frequency 抑制抖动引起的导数突发。"},
+  {n:"Reset / Reset Pulse",c:"reset",d:"重置（旁路）滤波效果。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Speed CHOP": [
+  {title:"Speed 积分", note:"把「速度」积分成「位置」：输入是多少，就每秒累加多少。", params:[
+  {n:"Order",c:"order",d:"积分阶数（下拉）：First 一阶，速度→位置 / Second 二阶，加速度→位置（一阶输出速度）/ Third 三阶。",tip:"摇杆推杆量接 First，就是速度控制的飞行穿梭。"},
+  {n:"Speed",c:"speed",d:"无输入时的固定速度值；接了输入则由输入通道决定。"},
+  {n:"First/Second/Third Constant",c:"constant1",d:"各阶积分后叠加的常数。"},
+  {n:"Limit Type / Minimum / Maximum",c:"limittype",d:"限值方式（下拉）：Off 不限 / Clamp 超界截断 / Loop 超界从另一端继续 / Zigzag 超界镜像折回。",tip:"Zigzag + 范围 0~1 = 永远往返滚动的值，免写表达式。"},
+  {n:"Reset Condition / Reset Value",c:"resetcondition",d:"Reset 触发方式（下拉）：Off to On / While On / On to Off / While Off；Reset Value 是重置时的值。"},
+  {n:"Reset / Reset Pulse / Reset on Start",c:"reset",d:"持续重置 / 单次重置 / .toe 启动时重置（长时运行项目建议开启，防累计漂移）。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Lag CHOP": [
+  {title:"Lag 缓动", note:"让输出柔和跟随输入：跳变进来，缓动出去。", params:[
+  {n:"Method",c:"lagmethod",d:"应用方式（下拉 4 种）：Lag Value 按值大小，升/降分别设 / Lag Amplitude 按幅值（远离 0 与趋向 0 分别设）/ Lag Magnitude 所有通道视为一个向量整体处理 / Quaternion Rotation 四元数旋转专用。"},
+  {n:"Lag",c:"lag1",d:"滞后量：第一个值=上升滞后、第二个=下降滞后，约为跟随 90% 变化所需时间。",tip:"快升慢降（弹出快、收回慢）就是两个值设不一样。"},
+  {n:"Lag Unit",c:"lagunit",d:"单位（下拉）：Samples / Frames / Seconds。"},
+  {n:"Overshoot",c:"overshoot1",d:"过冲量：冲过头再弹回的弹簧感，上升/下降分别设。"},
+  {n:"Clamp Slope / Max Slope",c:"clamp",d:"开启后限制输出变化速率（值/单位时间），上升/下降分别设。"},
+  {n:"Clamp Acceleration / Max Acceleration",c:"aclamp",d:"限制加速度（值/单位时间²），更高级的平滑。"},
+  {n:"Snap / Threshold",c:"snap",d:"输出与输入差值小于阈值时直接吸附到输入值，防止永远追不上。"},
+  {n:"Reset / Reset Pulse",c:"reset",d:"重置（旁路）缓动效果。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Constant CHOP": [
+  {title:"Constant 常数", note:"手动数值的源头：填名字创建通道，值即常量。", params:[
+  {n:"Names / Values",c:"const0name",d:"通道名 + 常量值配对；Name 支持模式批量创建通道：geo[1-5:2]:s[xyz] 一行生成 15 条。",tip:"把全局可调参数集中到几个 Constant，就是简易控制台。"},
+  {n:"Snapshot Input（Snap 页）",c:"snap",d:"一键抓取输入 CHOP 的通道名和当前值变成常量（最多 40 通道）。"},
+  ]},
+  {title:"Channel 通道", note:"输出区间与外延条件。", params:[
+  {n:"Single Sample",c:"single",d:"开启后输出单采样通道（只有当前值），实时控制最常用形态。"},
+  {n:"Start / End / Sample Rate",c:"start",d:"多采样模式下的区间与采样率。"},
+  {n:"Extend Left / Right / Default Value",c:"left",d:"区间外延展（下拉）：Hold / Slope / Cycle / Mirror / Default Value 填常量。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Select CHOP": [
+  {title:"Select 选取", note:"按通道名从其他 CHOP 挑选信号，不连线也能引用。", params:[
+  {n:"CHOP",c:"chop",d:"通道来源 CHOP（不连线，填路径即可引用）。"},
+  {n:"Channel Names",c:"channenames",d:"要保留的通道，支持模式匹配：chan[1-5]、*x、/project1/geo1:t[xyz]；顺序决定输出顺序，重复指定会重复包含。"},
+  {n:"Rename From / To",c:"renamefrom",d:"通道重命名模式替换：c[1-10:2] ambient → b[1-5] amb。"},
+  {n:"Filter by Digits / Digits / Strip Digits",c:"filterbydigits",d:"按通道名末尾数字筛选（如取所有以 1 结尾的 tx1、ty1）；Strip Digits 开启时输出名去掉数字。"},
+  {n:"Align",c:"align",d:"多输入时间不一致处理（下拉 11 种）：Automatic / Extend to Min/Max / Stretch to Min/Max / Shift to Minimum/Maximum / Shift·Trim·Stretch to First Interval / Trim·Stretch to Smallest Interval。"},
+  {n:"Automatic Prefix",c:"autoprefix",d:"通道重名时自动加来源节点名前缀，如 wave1:chan1。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Switch CHOP": [
+  {title:"Switch 切换", note:"多路 CHOP 输入按索引选一路原样输出（一次只有一路；要做混合用 Cross CHOP）。", params:[
+  {n:"First Input is Index",c:"indexfirst",d:"开启后第一个输入当「选择器」（其第一通道的值决定选谁），第二个输入才是索引 0。",tip:"通道驱动切换的标准接法：Constant/Select 接第一输入当选择器。"},
+  {n:"Index",c:"index",d:"关闭上述开关时手动指定索引；负数视为 0，超界选最后一个输入。"},
+  {n:"Extend",c:"extend",d:"索引超界处理（下拉）：Clamp 钳制在范围内 / Loop 循环回绕 / Zigzag 之字往返。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Merge CHOP": [
+  {title:"Merge 合并", note:"把多个 CHOP 的通道并排拼成一路输出。", params:[
+  {n:"Align",c:"align",d:"输入时间不一致处理（下拉 11 种）：Automatic 自动（Time Slice 优先）/ Extend to Min/Max 扩展到最大范围 / Stretch to Min/Max 拉伸 / Shift to Minimum/Maximum 平移到最早或最晚 / Shift·Trim·Stretch to First Interval 对齐第一输入 / Trim·Stretch to Smallest Interval 最小公共区间。"},
+  {n:"Duplicate Names",c:"duplicate",d:"通道重名处理（下拉）：Make Unique 加数字保留全部 / Keep First 保留最先出现的 / Keep Last 保留最后出现的 / Replace First with Last 用后者替换前者。",tip:"多路 Merge 后通道莫名变少，先查这里是不是被 Keep First 吃掉了。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Shuffle CHOP": [
+  {title:"Shuffle 重排", note:"通道与样本的行列重组，SOP to CHOP / TOP to CHOP 数据整形必备。", params:[
+  {n:"Method",c:"method",d:"操作方式（下拉 10 种）：Off 不处理 / Swap Channels and Samples 通道样本转置（25 通道×33 样本 → 33 通道×25 样本）/ Sequence Channels by Name 同名通道按数字顺序串联 / Sequence All Channels 全部通道串成一条长通道 / Sequence N Channels 每 N 个通道一组串联 / Sequence Every Nth Channel 每隔 N 取一组 / Sequence All Samples / Split All Samples 每个样本拆成单独通道 / Split N Samples 每 N 个样本一段拆分 / Split Every Nth Sample 每隔 N 取样形成 N 条新通道。",tip:"SOP to CHOP 的 p[xyz] 按点分组：Split Every Nth Sample。"},
+  {n:"N Value",c:"nval",d:"上述四种 N 相关模式的 N 值。"},
+  {n:"Use First Sample Only",c:"firstsample",d:"只取每个通道的第一个样本（Time Slice 数据取当前值）。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Analyze CHOP": [
+  {title:"Analyze 分析", note:"从通道的多个样本中提取统计值，输出单采样长度通道。", params:[
+  {n:"Function",c:"function",d:"统计函数（下拉）：Average 平均 / Sum 总和 / RMS Power 均方根 / Maximum·Minimum 最大最小值 / Index of Maximum·Minimum 最大最小值的样本索引 / 峰值统计组：First/Last/Highest/Lowest Peak 的值与索引、Total Peaks 峰总数 / Duplicates 每通道生成两个附加通道：某值重复次数与首次出现索引。",tip:"频谱取平均得总能量、取最大值定位主频段。"},
+  {n:"Allow Start Peaks / Allow End Peaks",c:"allowstart",d:"首/末样本是否可计为峰（默认不计）。"},
+  {n:"No Peak Value",c:"nopeakvalue",d:"找不到峰时输出的值（默认 -1）。"},
+  {n:"Analyze Valleys vs Peaks",c:"valleys",d:"改为分析谷值而不是峰值。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+"Keyboard In CHOP": [
+  {title:"Keys 按键", note:"把键盘按键状态输出为通道（按下 1 / 松开 0，每帧一值，不区分按下/释放事件）。", params:[
+  {n:"Active",c:"active",d:"监控开关（下拉）：Off 不监控不 cook / On 每帧监控 / While Playing 仅时间线正向播放时捕获。"},
+  {n:"Keys",c:"keys",d:"要监控的按键，从下拉选择：数字 0-9、字母 A-Z、小键盘 0-9。"},
+  {n:"Modifier Keys",c:"modifiers",d:"修饰键条件（下拉 9 种）：Ignore 忽略修饰键状态 / None 无修饰键时才触发 / Ctrl / Alt / Ctrl+Alt / Shift / Shift+Alt / Shift+Ctrl / Shift+Ctrl+Alt。"},
+  {n:"Channel Names",c:"channelnames",d:"通道命名（下拉）：by Key Name 按键名（kq、kw；小键盘 kp0、kp1…）/ by Channel Number 按序号（k1、k2、k3…）。"},
+  {n:"Panels",c:"panels",d:"指定 Panel COMP 路径时，仅该面板获得焦点的键盘事件才被报告。",tip:"要捕获每一次快速击键（事件而非状态）用 Panel Execute DAT，Panel Value 设为 key。"},
+  ]},
+  SEC_CHOP_COMMON,
+],
+});
+
+/* ============ SOP 家族参数详解 ============ */
+const SEC_SOP_INFO = {title:"Info CHOP 通道", note:"SOP 通用：用 Info CHOP 挂到本节点可读到的调试通道。", params:[
+{n:"num_points / num_prims / num_particles",c:"",d:"点数 / 图元数 / 粒子数——先看它确认数据有没有真的进来。"},
+{n:"last_vbo_update_time",c:"",d:"最近一次 VBO（显存顶点缓冲）更新耗时，排查渲染卡顿。"},
+{n:"cook_time / total_cooks",c:"",d:"本节点单帧计算耗时与累计 cook 次数，性能分析用。"},
+]};
+
+Object.assign(DETAILS, {
+"Grid SOP": [
+  {title:"Grid 网格", note:"平面网格生成器：地形、点阵、发射面的万能起点。", params:[
+  {n:"Primitive Type",c:"type",d:"几何类型（下拉）：Polygon 多边形（渲染最常用）/ Mesh 网格 / NURBS 曲面 / Bezier 曲面。"},
+  {n:"Connectivity",c:"surftype",d:"连接方式（下拉，仅 Polygon/Mesh）：Rows 只有横线 / Columns 只有竖线 / Rows and Columns 横竖都有（开放线框）/ Triangles 三角面 / Quadrilaterals 四边形（默认）/ Alternating Triangles 交错三角。",tip:"要做波浪地形选 Polygon+Quadrilaterals；只想要一排点做 instancing 用 Rows 或 Columns。"},
+  {n:"Orientation",c:"orient",d:"所在平面（下拉）：XY Plane 立在屏幕面 / YZ Plane 侧立 / ZX Plane 平躺（地面用这个）。"},
+  {n:"Size / Center",c:"size",d:"网格 X/Y 尺寸与中心点坐标。"},
+  {n:"Rows / Columns",c:"rows",d:"行数/列数，即顶点密度；NURBS/Bezier 时指 hull 数，不能小于对应 Order。"},
+  {n:"U / V Order",c:"orderu",d:"样条阶数+1，仅 NURBS/Bezier 类型有效。"},
+  {n:"Anchor U/V / Reverse Anchors",c:"anchoru",d:"定位/缩放/旋转的参考锚点。"},
+  {n:"Texture Coordinates",c:"texture",d:"UV 生成（下拉）：Off 不生成 / Row & Columns 按行列生成 0-1 的 uv。",tip:"Grid + Noise SOP 做海面时，开 Row & Columns 才有贴图可用。"},
+  {n:"Compute Normals",c:"normals",d:"计算法线。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Line SOP": [
+  {title:"Line 线段", note:"两点一线的极简生成器：点越多分段越多。", params:[
+  {n:"Point A / Point B",c:"pa",d:"起点/终点 XYZ 坐标，决定线的方向和长度。"},
+  {n:"Number of Points",c:"points",d:"线上的点数（最少 2）：20 个点 = 19 段 = 20 个 instancing 位点。",tip:"Line 上的点 + Instancing = 一排整齐元素，比 Grid 更轻量。"},
+  {n:"Texture Coordinates",c:"texture",d:"UV 生成（下拉）：Off 不生成 / Unit 生成 0-1 的 uv（沿线方向）。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Circle SOP": [
+  {title:"Circle 圆形", note:"圆形曲线生成器：注意没有 Mesh 选项，做实心面用 Grid 或 Polygon Fill。", params:[
+  {n:"Primitive Type",c:"type",d:"类型（下拉）：Primitive 隐式圆（做 instancing 时不推荐）/ Polygon 多边形 / NURBS Curve 样条圆 / Bezier Curve 贝塞尔圆。"},
+  {n:"Orientation",c:"orient",d:"所在平面（下拉）：XY / YZ / ZX Plane。"},
+  {n:"Radius / Center",c:"rad",d:"X/Y 半径（不等为椭圆）与圆心坐标。"},
+  {n:"Divisions",c:"divs",d:"边数/点数：3=三角形、4=菱形、6=六边形；开放弧点数=Divisions+1，封闭弧+2。",tip:"Divisions 接 CHOP 动画 = 圆↔多边形渐变动画（SOP 版的图形利器）。"},
+  {n:"Arc Type",c:"arc",d:"弧类型（下拉）：Closed 完整封闭圆 / Open Arc 开放弧段（不闭合）/ Closed Arc 弧+连圆心的边（饼片形）/ Sliced Arc 每个点都与圆心相连（扇形切片）。",tip:"做仪表盘进度弧：Open Arc + 起止角度动画。"},
+  {n:"Arc Angles",c:"angle",d:"起止角度：0→360 为整圆，总角可超 360（多圈缠绕）。"},
+  {n:"Order / Imperfect",c:"order",d:"样条阶数；Imperfect 开启=近似非有理曲线，关闭=精确有理封闭曲线（仅 NURBS/Bezier）。"},
+  {n:"Texture Coordinates / Compute Normals",c:"texture",d:"UV 生成（Off / Face）与法线计算。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Sphere SOP": [
+  {title:"Sphere 球体", note:"球体生成器：Primitive/Polygon/Mesh/NURBS/Bezier 五种形态。", params:[
+  {n:"Primitive Type",c:"type",d:"类型（下拉）：Primitive 隐式球（不能做 instancing）/ Polygon 多边形面（配合 Frequency 细分）/ Mesh 网格 / NURBS / Bezier 曲面。"},
+  {n:"Connectivity",c:"surftype",d:"连接方式（下拉，仅 Mesh）：Rows / Columns / Rows and Columns / Triangles / Quadrilaterals / Alternating Triangles，语义同 Grid SOP。"},
+  {n:"Radius / Center",c:"rad",d:"XYZ 三轴半径（不等=椭球）与球心。"},
+  {n:"Frequency",c:"freq",d:"细分密度，仅 Polygon 类型时控制多边形数量。"},
+  {n:"Rows / Columns",c:"rows",d:"行数/列数，适用 Mesh 与 imperfect NURBS/Bezier。"},
+  {n:"Orientation / Rotate",c:"orient",d:"极轴方向（X/Y/Z，改变极点朝向）与旋转。",tip:"极点集中的问题（北极点挤成一团）换 Orientation 或改用经纬均匀分布。"},
+  {n:"Texture Coordinates",c:"texture",d:"UV 投影（下拉）：Off / Row & Columns 纬度式 / Equirectangular 等距圆柱（贴全景图）/ Fish Eye 鱼眼等。"},
+  {n:"Compute Normals",c:"normals",d:"计算法线。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Box SOP": [
+  {title:"Box 盒子", note:"立方体生成器：注意新版没有 primitive type/frequency，用 Divisions 细分。", params:[
+  {n:"Orient Bounds / Modify Bounds",c:"orientbounds",d:"有输入时：盒子旋转匹配输入方向 / 进一步调整包围盒位置与缩放。"},
+  {n:"Size / Center / Rotate / Scale",c:"size",d:"XYZ 尺寸、中心、旋转与统一缩放。"},
+  {n:"Anchor U/V/W",c:"anchoru",d:"定位/缩放/旋转的参考锚点。"},
+  {n:"Use Divisions / Divisions",c:"dodivs",d:"开启后按 X/Y/Z 数量细分盒子（细分面是开放多边形，渲染不可见）。"},
+  {n:"Enforcement Bars",c:"rebar",d:"每个细分里放四根对角交叉『钢筋』（做线框结构感）。"},
+  {n:"Consolidate Corner Points",c:"consolidatepts",d:"合并角点：6 面 24 点 → 8 点（顶点数直接减掉）。",tip:"要拿 Box 顶点做 instancing 时记得开，不然每角 3 个重复点。"},
+  {n:"Texture Coordinates",c:"texture",d:"UV 投影（下拉 7 种）：Off / Box Inside·Outside 盒式投影（内/外）/ Face Inside·Outside 按面投影 / Cubemap Inside·Outside 立方体贴图（做 skybox 用 cubemapinside）。"},
+  {n:"Compute Normals",c:"normals",d:"计算法线。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Noise SOP": [
+  {title:"Noise 噪声变形", note:"按噪声场推挤顶点：不只是位置，法线/颜色/UV 都能加噪。", params:[
+  {n:"Group",c:"group",d:"只作用于指定组的点（模式匹配）——球体只变形上半部就是靠它。"},
+  {n:"Attribute",c:"attribute",d:"作用属性（下拉）：Point Position 位置（沿法线方向推挤，最常用）/ Point Normals 法线 / Point Diffuse Color 颜色 Cd / Point Alpha / Point Texture UV / Point Texture W。"},
+  {n:"Type",c:"type",d:"噪声函数（下拉 6 种）：Sparse 稀疏卷积质量最高 / Hermite 更快略糙 / Harmonic Summation 可控谐波（最慢）/ Brownian 布朗乱飞 / Random 白噪声 / Alligator 细胞噪声（岩石鳞片感）。"},
+  {n:"Seed",c:"seed",d:"随机种子，不同值图案不同。"},
+  {n:"Period",c:"period",d:"峰间大致间距（=频率倒数），调大=起伏更绵延；Random 类型设 0 为纯随机。"},
+  {n:"Harmonics / Harmonic Spread / Roughness",c:"harmon",d:"高频分量数 / 谐波递增因子（仅 Harmonic Summation）/ 高频强度：0 无谐波、1 全等幅、默认 0.5 指数衰减。",tip:"平面变波浪只用基频（Harmonics 0~2），变岩石加大 Roughness。"},
+  {n:"Exponent",c:"exp",d:"噪声值取幂：>1 趋向 0（圆润丘陵），<1 峰值趋向 ±1（尖锐山脊）。"},
+  {n:"Amplitude",c:"amp",d:"变形幅度缩放。"},
+  {n:"Transform 页",c:"t",d:"在 3D 噪声空间里平移/旋转/缩放采样位置——动画 Translate 让地形持续演化流动。",tip:"Noise SOP Transform 页 Translate 接 CHOP 动画 = 流动的地形。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Transform SOP": [
+  {title:"Transform 几何变换", note:"把变换写进顶点数据（区别于 COMP 在场景里摆位）。", params:[
+  {n:"Group",c:"group",d:"只变换指定组的点。"},
+  {n:"Transform Order / Rotate Order",c:"xord",d:"变换顺序（SRT/STR/RST/RTS/TSR/TRS）与旋转顺序（xyz~zyx），结果不对先查这里。"},
+  {n:"Translate / Rotate / Scale / Pivot",c:"t",d:"平移/旋转/缩放与轴心点：轴心在 (-1,-1,0) 缩放 0.5，几何会向该点收缩。"},
+  {n:"Uniform Scale",c:"scale",d:"三轴等比缩放。"},
+  {n:"Normals Maintain Length",c:"vlength",d:"向量属性（法线、速度）在变换下保持长度不变。"},
+  {n:"Look At / Up Vector / Forward Direction",c:"lookat",d:"持续朝向指定对象；Up Vector 定 +Y 朝向；Forward Direction（下拉 ±X/±Y/±Z）定哪个轴朝前。",tip:"Transform SOP 的 Look At 常让几何逐组朝向目标（如花瓣朝灯）。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Sort SOP": [
+  {title:"Point 点排序", note:"重排顶点编号顺序（不动位置）——instancing 次序、线连接次序都由它决定。", params:[
+  {n:"Point Sort",c:"ptsort",d:"排序规则（下拉）：No Change / By Vertex Order 按顶点序 / By X·Y·Z 按坐标 / Reverse 反转 / Random 随机打乱（用 Seed）/ Shift 循环位移 / Proximity to Point 按与指定点接近度 / Along Vector 沿向量 / Distance to Object 按与对象距离 / Closest Neighbour 最近邻（n×n 慢）。",tip:"Copy SOP 复制次序乱掉时，先 By X/Y/Z 排整齐。"},
+  {n:"Seed / Offset / Point / Vector",c:"pointseed",d:"各模式对应参数：随机种子 / 位移量 / 参考点坐标 / 排序向量。"},
+  ]},
+  {title:"Primitive 图元排序", note:"重排图元（面/线）编号。", params:[
+  {n:"Primitive Sort",c:"primsort",d:"规则同点排序，但额外多 By Type 按图元类型排，没有 By Vertex Order 和 Closest Neighbour。"},
+  ]},
+  {title:"Particle 粒子排序", note:"粒子系统各自独立排序。", params:[
+  {n:"Particle Sort",c:"partsort",d:"选项：No Change / By X·Y·Z / Reverse / Shift / Proximity to Point / Along Vector / Distance to Object（无 Random）。"},
+  {n:"Reverse Results",c:"partreverse",d:"反转本页排序结果。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Facet SOP": [
+  {title:"Facet 几何清理", note:"焊接顶点、统一朝向、算法线——模型破面闪烁时的第一站。", params:[
+  {n:"Group",c:"group",d:"只处理指定组。"},
+  {n:"Unique Points",c:"unique",d:"每个顶点独立 → 所有边变硬边，无平滑着色。"},
+  {n:"Compute Normals（前置）",c:"prenml",d:"基于输入计算法线：点共享处平滑着色，点独立处硬边。"},
+  {n:"Consolidate",c:"cons",d:"合并冗余（下拉）：No Consolidate 不合并 / Consolidate Points Slow·Fast 慢/快速合并相近点 / Consolidate Normals Slow·Fast 慢/快速平均法线。",tip:"合并相邻模型后的接缝、破面：Consolidate Points + 小 Distance。"},
+  {n:"Distance",c:"dist",d:"合并距离阈值（通常 0.01）；0.0 = 必须完全重合才合并。"},
+  {n:"Cusp Polygons / Cusp Angle",c:"cusp",d:"按角度混合平滑/硬边；典型值 20°。"},
+  {n:"Orient Polygons",c:"orientpolys",d:"统一所有多边形绕向（法线朝外/朝内）。"},
+  {n:"Remove Inline Points / Remove Degenerate",c:"inline",d:"删共线冗余点 / 删无意义图元。"},
+  {n:"Compute Normals（后置）",c:"postnml",d:"在合并/Cusp 之后再算一次法线；设了 Cusp 或 Consolidate 时应勾选。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Copy SOP": [
+  {title:"Copy 复制", note:"传统批量复制：无模板=按增量排布；接模板=逐点放置（现多被 GPU instancing 取代，但老教程与 stamp 逐副本变参仍是它）。", params:[
+  {n:"Number of Copies / Primitives per Point",c:"ncy",d:"副本数量；有模板输入时=每个模板点放的副本数。"},
+  {n:"Source Group / Template Group",c:"sourcegrp",d:"只复制源几何的指定部分 / 只用模板的指定部分。"},
+  {n:"Rotate to Normal",c:"nml",d:"模板输入时副本贴模板表面法线定向（模板带 up 属性则朝向完整确定）。"},
+  {n:"Look At / Up Vector",c:"lookat",d:"所有副本朝向指定对象 + 上方向量。"},
+  {n:"Transform Cumulative",c:"cum",d:"开启后每个副本的变换累积叠加在前一个之上（螺旋楼梯效果）。"},
+  {n:"Translate / Rotate / Scale / Pivot",c:"t",d:"相邻副本之间的变换增量。",tip:"28 个副本绕圈：Rotate = 360/me.copyTotal，一公式均匀分布。"},
+  ]},
+  {title:"Stamp 戳记", note:"让上游节点的参数『每个副本重新求值』——逐副本变参的核心机制。", params:[
+  {n:"Stamp Inputs",c:"stamp",d:"开启 stamp 机制。"},
+  {n:"Param / Value",c:"copy0param",d:"stamp 变量名与表达式值；上游参数里用 fetchStamp(变量名, 默认值) 取值。",tip:"经典配方：Circle SOP 的 Divisions 写 fetchStamp('sides',3)，Copy 的 Value 写 me.copyIndex+3 → 三角/四角/五角…一串渐变图形。"},
+  ]},
+  {title:"Attributes 属性传递", note:"模板点属性如何改写副本属性。", params:[
+  {n:"Use Template Point Attribs",c:"doattr",d:"开启属性传递，作用于点/图元/顶点三个层级。"},
+  {n:"Set / Multiply / Add / Subtract",c:"setpt",d:"改写方式：Set 直接覆盖 / Multiply 相乘 / Add 相加 / Subtract 相减；字段默认 * 匹配所有属性。",tip:"模板点带 Cd 颜色 Set 给副本 = 每个副本颜色跟随模板点。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Point SOP": [
+  {title:"Point 逐点操作", note:"逐顶点改位置/颜色/法线/UV 的传统节点；需要更灵活可用 Script SOP，新项目大量场景可改用 POP。", params:[
+  {n:"Group",c:"group",d:"只作用于指定组的点。"},
+  {n:"Position",c:"t",d:"点的 XYZ；表达式用 me.inputPoint.x 保留原值、+5 偏移 5 单位。"},
+  {n:"Color",c:"doclr",d:"（下拉）Keep 保留 / Add 写入 / No 移除；写 Cd 用 me.inputColor[0..3]（RGB+A）。"},
+  {n:"Normal / Texture",c:"donml",d:"（下拉）Keep / Add / No；写 me.inputNormal / me.inputTexture。翻转法线=填 -me.inputNormal[x]。"},
+  {n:"Scale (pscale) / Width",c:"dopscale",d:"pscale 粒子大小属性（配 Particle SOP、Point Sprite MAT）；width 线宽属性（配 Line MAT）。"},
+  {n:"Custom 页",c:"attrNname",d:"自定义属性：Name 属性名 / Type 类型（下拉 float、vec2·3·4、int、ivec2·3·4）/ Value 常量值。"},
+  {n:"Particle 页",c:"dovel",d:"粒子属性：Velocity v、Up Vector up（Copy SOP 定向用）、Mass、Drag、Tension、Spring K。"},
+  {n:"Force 页",c:"doradialf",d:"力场：Radial 径向力（正吸引负排斥）/ Normal 沿法线 / Edge 沿边 / Dir 任意方向 + Radius 距离衰减 + F Scale 总乘数。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Add SOP": [
+  {title:"Points 点", note:"从零建点，或用 Table DAT 批量导入坐标——外部数据变几何的翻译官。", params:[
+  {n:"Points DAT",c:"pointdat",d:"Table DAT 路径，默认前 4 列 = x,y,z,w。",tip:"CHOP 通道 → Table DAT → Add SOP = 信号数据变成空间点云。"},
+  {n:"Named Attributes",c:"namedattribs",d:"开启后 DAT 列用命名定义属性：P(0)-P(3) 位置、N(0)-N(2) 法线、Cd(0)-Cd(3) 颜色、uv(0)-uv(2)；其余列作单浮点属性。"},
+  {n:"Add Points / Position",c:"addpts",d:"手动逐个加点，坐标支持表达式如 op('grid1').points[5].x。"},
+  {n:"Delete Geometry, Keep Points",c:"keep",d:"有输入时：丢弃输入几何只留点（剥壳取点）。"},
+  ]},
+  {title:"Polygons 多边形", note:"把点连成线/面，Pattern 语法很强大。", params:[
+  {n:"Method",c:"method",d:"创建方式（下拉）：By Group 按组 / By Pattern 按模式列表。"},
+  {n:"Add",c:"add",d:"连接规则（下拉）：All Points 全部点连一条 / Groups of N Points 每 N 点一条（配 N）/ Skip Every Nth Point 每隔 N 跳过 / Each Group Separately 每组单独创建。"},
+  {n:"Pattern 语法",c:"poly0pattern",d:"点连接列表：1 2 3 4 依次连接；1-234 范围；0-15:2 每隔一个取；0-15:2,3 每 3 取 2；!4 排除点 4；* 全部点；9-0 逆序。",tip:"Pattern 是 SOP 里最值得记住的微型语法之一。"},
+  {n:"Closed / Polygons Table",c:"closedall",d:"是否闭合；Table DAT 第一列点号序列、第二列 1=闭合 0=开放。"},
+  ]},
+  {title:"Post 后处理", note:"", params:[
+  {n:"Remove Unused Points / Compute Normals",c:"remove",d:"只留已连接的点 / 计算法线（若 DAT 提供了 N 属性则要关掉，避免覆盖）。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Text SOP": [
+  {title:"Text 文字几何", note:"文字 → 3D 轮廓几何；配 Extrude SOP 就是立体字。", params:[
+  {n:"Text",c:"text",d:"文本内容；换行用 Python 表达式写 'First Line\\nSecond Line'（不要用旧版 Legacy Parsing）。"},
+  {n:"Font / Font File / Bold / Italic",c:"font",d:"下拉选系统字体 / 直接指定 .ttf·.otf 文件（自定义字体用这个）；粗体斜体开关。"},
+  {n:"Font Size X / Y / Keep Font Ratio",c:"fontsize",d:"水平/垂直字号；Keep Font Ratio 开启时忽略 Y、保持字体比例。"},
+  {n:"Output",c:"output",d:"输出几何（下拉）：Triangles 三角面（适合着色渲染）/ Closed Polygons 封闭轮廓（适合 Extrude 挤厚、Laser CHOP 激光）/ Open Polygons 开放轮廓（线框渲染、激光）。",tip:"立体 LOGO：Closed Polygons → Extrude；激光打字：Open Polygons → Laser CHOP。"},
+  {n:"Kerning / Line Spacing",c:"kerning",d:"字符间距与行距。"},
+  {n:"Horizontal Align",c:"alignh",d:"水平对齐（下拉）：In Reading Direction 按阅读方向 / Left / Center / Right。"},
+  {n:"Word Wrap / Word Wrap Size",c:"wrap",d:"自动换行与换行宽度。"},
+  {n:"Level of Detail",c:"detail",d:"轮廓细分质量（曲线圆滑度）。"},
+  {n:"Reading Direction",c:"readdirection",d:"（下拉）：Left To Right / Right To Left。"},
+  ]},
+  {title:"Transform 变换", note:"几何自身的平移/旋转/缩放。", params:[
+  {n:"Translate / Rotate / Scale / Pivot",c:"t",d:"常规变换与轴心，含 Transform Order / Rotate Order。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Trail SOP": [
+  {title:"Trail 轨迹", note:"记录几何过去 N 帧的位置并连成轨迹/残影。", params:[
+  {n:"Result Type",c:"result",d:"结果构建（下拉）：Preserve Original 保留原始几何（残影）/ Connect as Mesh 连成网格 / Connect as Polygons 连成多边形（拖尾线）/ Compute Velocity 只计算速度属性 v（给 Shader、粒子用）。",tip:"光点拖尾：Connect as Polygons；只要速度数据不画线：Compute Velocity。"},
+  {n:"Trail Length",c:"length",d:"轨迹长度：连接过去多少帧的几何。"},
+  {n:"Trail Increment",c:"inc",d:"跳帧采样：设 2 = 每隔一帧取一个，轨迹等长但点更少；ghosting 效果更佳。",tip:"接 Particle SOP / Spring SOP 时 Increment 必须为整数。"},
+  {n:"Cache Size",c:"cache",d:"内存中缓存的帧数。"},
+  {n:"Connectivity / Close Rows",c:"surftype",d:"Mesh 类型的连接方式（Rows/Columns/Rowcol/Triangles/Quads/AltTriangles）与闭合行。"},
+  {n:"Velocity Scale",c:"velscale",d:"Compute Velocity 模式下速度值缩放。"},
+  {n:"Reset / Reset Pulse",c:"reset",d:"清空缓存几何（轨迹镜像输入）。"},
+  ]},
+  SEC_SOP_INFO,
+],
+"Merge SOP": [
+  {title:"Merge 合并", note:"多路几何并一路：直接连线，或在参数里按名字（通配符）批量引用。", params:[
+  {n:"Number of Inputs",c:"ninputs",d:"输入数量；下方字段可填 SOP 名称引用，支持通配符（grid* 合并所有 grid 开头的 SOP）。",tip:"不连线按名字合并 = 批量管理同类几何的整洁做法。"},
+  {n:"Interleave",c:"interleave",d:"控制合并后点与图元的编号排布（是否按各输入交错编号）。"},
+  ]},
+  SEC_SOP_INFO,
+],
+});
+
+/* ============ DAT 家族参数详解 ============ */
+const SEC_DAT_COMMON = {title:"Common", note:"DAT 通用页：语言、外部编辑器扩展名与换行。", params:[
+{n:"Language",c:"language",d:"脚本语言来源（下拉）：Input 使用输入端 DAT 的语言 / Node 使用本节点语言。"},
+{n:"Edit/View Extension",c:"extension",d:"对外部编辑器暴露的文件扩展名（下拉）：dat / From Language 按脚本语言推断 / Custom Extension 自定义（配合下一参数）。",tip:"写 Python 的 Text DAT 设成 .py，点 Edit 就能用系统默认编辑器打开并高亮。"},
+{n:"Word Wrap",c:"wordwrap",d:"节点内显示自动换行（下拉）：Input 跟随输入 / On / Off。"},
+]};
+
+Object.assign(DETAILS, {
+"Table DAT": [
+  {title:"Table 表格", note:"手动编辑或从文件加载二维表格；Viewer Active 模式下右键第 0 行/列可增删行列，Tab 跳下一格。", params:[
+  {n:"Edit",c:"edit",d:"打开文本编辑器批量编辑内容。"},
+  {n:"File / Sync to File",c:"file",d:"从 .csv/.tsv/.dat 等文件加载表格；Sync 开启后双向同步——磁盘改动更新 DAT，DAT 改动立即写回文件。",tip:"配置表放工程外用 CSV 管理：改表不用开 TD。"},
+  {n:"Load on Start / Write on Toe Save",c:"loadonstart",d:"启动时重新读文件 / 保存 .toe 时自动把内容写回文件。"},
+  {n:"Default Read Encoding",c:"defaultreadencoding",d:"文件编码（下拉）：Auto Detect 自动 / UTF8 / UTF16-LE / UTF16-BE / CP1252。",tip:"中文 CSV 乱码时改 UTF8 或 Auto Detect。"},
+  {n:"Remove Blank Lines",c:"removeblank",d:"加载时忽略空行。"},
+  ]},
+  {title:"Fill 程序化填充", note:"用表达式批量生成表格内容，不用一行行手填。", params:[
+  {n:"Fill Type",c:"fill",d:"填充方式（下拉 5 种）：Manual 手动 / Set Size 只定行列数 / Set Size and Contents 定尺寸+表达式填充每格 / Fill by Column 按列定义填充 / Fill by Row 按行定义填充。"},
+  {n:"Rows / Columns",c:"rows",d:"表的行数/列数。"},
+  {n:"Cell Expression",c:"cellexpr",d:"每格的表达式，可用 me.subRow / me.subCol 引用当前行列号：me.subRow*10 生成 0,10,20…",tip:"me.subRow 是表格填充的灵魂变量，配 range() 能生成整列序列。"},
+  {n:"Include Names",c:"includenames",d:"额外生成一行列名（或一列行名）。"},
+  {n:"Names / Fills",c:"fills0names",d:"Fill by Row/Column 时的块定义：空格分隔的名字 + 对应表达式。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+"Text DAT": [
+  {title:"File 文本", note:"自由文本容器：Python 脚本、GLSL、笔记都住这里。", params:[
+  {n:"Edit",c:"edit",d:"打开文本编辑器（语言设为 .py 时可用外部编辑器+高亮）。"},
+  {n:"File / Sync to File",c:"file",d:"从 .txt/.dat 或 http(s) 网络文件加载；Sync 开启后与磁盘双向同步。",tip:"脚本放外部 .py 文件、用 Sync 引用 = 可以用 Git 管理版本。"},
+  {n:"Load on Start / Load File（pulse）",c:"loadonstart",d:"启动时重读文件 / 立即重读。"},
+  {n:"Write on Toe Save / Write File（pulse）",c:"write",d:"保存工程时写回磁盘 / 立即写回。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+"Evaluate DAT": [
+  {title:"Evaluate 求值", note:"把表格单元格当 Python 表达式逐格计算成结果，实现「表格→数据」管道。", params:[
+  {n:"Input Data DAT / Expressions DAT",c:"dat",d:"用参数引用代替第一输入（数据表）/ 第二输入（公式表）。"},
+  {n:"Output",c:"output",d:"输出模式（下拉）：Evaluate 逐格求值（默认）/ Input Data 透传数据表 / Input Expression 透传公式表。"},
+  {n:"Expression",c:"expr",d:"无第二输入时对每格统一使用的表达式，单元格值用 me.inputCell.val 引用。",tip:"表格存参数名、Evaluate 用 op(me.inputCell.val).par.width.eval() 查出真值——运行时参数审计。"},
+  {n:"Output Table Size",c:"outputsize",d:"输出尺寸（下拉）：Input 1 按数据表 / Input 2 按公式表（更大时重复最后一行/列公式）。"},
+  {n:"Monitor Data Dependencies",c:"dependency",d:"监控表达式引用的节点与时间依赖；关闭可减少无谓 cook。"},
+  {n:"Convert Backslash Characters",c:"backslash",d:"把 \\n、\\t 转成真实换行/制表符。"},
+  ]},
+  {title:"Scope 行列筛选", note:"只对选中的行列求值（Select DAT 同款机制）。", params:[
+  {n:"Select Rows / Select Cols",c:"extractrows",d:"选择方式（下拉）：All 全部 / by Name 按名称范围 / by Index 按索引范围 / 混合名称索引 / by Values 按值（支持 row[1-4] 模式）/ by Condition 按表达式。"},
+  {n:"Row/Col Select Condition",c:"rowexpr",d:"Python 条件表达式，为真选中该行：re.match('.*', me.inputCell.val) 默认全选。"},
+  {n:"Exclude First Row / Col",c:"xfirstrow",d:"强制包含第一行/列（表头保护）。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+"Select DAT": [
+  {title:"Select 选取", note:"不连线按行列条件从其他 DAT 提取数据。", params:[
+  {n:"DAT",c:"dat",d:"来源 DAT 路径。"},
+  {n:"Select Rows / Select Cols",c:"extractrows",d:"行/列选择（下拉 7 种）：All 全部 / by Name 名称范围 / by Index 索引范围 / by Start Name End Index 混合 / by Start Index End Name 混合 / by Values 按值显式列出（支持 row[1-4] 模式）/ by Condition 按表达式。"},
+  {n:"Row/Col Select Values",c:"rownames",d:"by Values 模式要保留的行/列名，支持模式匹配。"},
+  {n:"Row/Col Select Condition",c:"rowexpr",d:"by Condition 模式的 Python 表达式，为真选中：默认 re.match('.*', me.inputCell.val) != None。",tip:"用 parent().name+'[0-9]*' 可「动态」按父节点名筛行——Replicator 场景神器。"},
+  {n:"From Column / From Row",c:"fromcol",d:"按值/条件选行时，用哪一列的值做匹配（反之亦然）。"},
+  {n:"Include First Row / Col",c:"firstrow",d:"强制包含第一行/列（表头）。"},
+  {n:"Output",c:"output",d:"输出处理（下拉）：Input Data 原样透传 / Strings 按字符串求值展开变量 / Expressions 按表达式求值。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+"Merge DAT": [
+  {title:"Merge 合并", note:"按 7 种方式合并多个 DAT；注意不是简单拼接——Replace/Collapse 模式是数据表重构利器。", params:[
+  {n:"DAT",c:"dat",d:"要合并的 DAT 路径，可与连线输入混用。"},
+  {n:"How",c:"how",d:"合并方式（下拉 7 种）：Append Rows 行追加（配 By Name 按列名对齐）/ Append Columns 列追加 / Collapse Columns 每行拼成一格（结果 1 列）/ Collapse Rows 每列拼成一格（结果 1 行）/ Collapse Cells 全部拼成 1 格 / Replace Cells by Column 按行名替换数据 / Replace Cells by Row 按列名替换数据。",tip:"Append Rows + By Name = 多设备数据表按通道名列对齐合并，比 CHOP 版 Merge 更规整。"},
+  {n:"By Name",c:"byname",d:"追加时按名称匹配行列，不重复添加表头。"},
+  {n:"Concatenate with",c:"spacer",d:"Collapse 模式拼接单元格用的分隔字符串，默认空格。"},
+  {n:"Append Unmatched",c:"unmatched",d:"后续表格中第一表没有的行/列是否也加进输出。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+"CHOP Execute DAT": [
+  {title:"CHOP Execute 通道执行", note:"监听 CHOP 通道状态与数值变化，触发对应 Python 回调——交互逻辑的入口节点。", params:[
+  {n:"Active",c:"active",d:"总开关，关闭时不响应。"},
+  {n:"CHOP / Channel",c:"chop",d:"监听的 CHOP 与通道（通道名支持模式匹配）。"},
+  {n:"Off to On",c:"offtoon",d:"通道从 0 变 1 的第一帧触发 onOffToOn()——按钮按下那一刻。"},
+  {n:"While On",c:"whileon",d:"通道保持 1 期间每帧触发 whileOn()（或每采样）。"},
+  {n:"On to Off",c:"ontooff",d:"通道从 1 变 0 的第一帧触发 onOnToOff()——按钮松开。"},
+  {n:"While Off",c:"whileoff",d:"通道保持 0 期间每帧触发 whileOff()。"},
+  {n:"Value Change",c:"valuechange",d:"通道值任意变化时触发 onValueChange()——滑条拖动实时响应用这个，不是 On/Off。",tip:"五个回调互斥去重：同一帧同时满足 Off to On 和 Value Change 只触发前者。"},
+  {n:"While Off/On Frequency",c:"freq",d:"While 类回调频率（下拉）：Every Sample 每采样 / Once Per Frame 每帧一次。"},
+  {n:"Execute From",c:"executeloc",d:"脚本执行位置（下拉）：Current Node 当前节点 / This Node DAT 父级（方便访问同级）/ Specified Operator 指定组件。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+"Panel Execute DAT": [
+  {title:"Panel Execute 面板执行", note:"监听 Panel COMP 的面板值变化，触发回调——UI 交互的入口节点。", params:[
+  {n:"Active",c:"active",d:"总开关。"},
+  {n:"Panels",c:"panels",d:"要监控的 Panel COMP（Button/Slider/Knob…）。"},
+  {n:"Panel Value",c:"panelvalue",d:"监控哪个面板值（下拉，常用项）：u / v 鼠标归一化坐标 / click 点击状态 / clickstate 按住状态 / state 按钮状态 / value 滑条值 / selected 是否选中 / visible 可见性 / hover 悬停 / enter / exit 进入离开 / key 键盘输入 / focus 焦点。",tip:"要捕获每次快速点击（即使两帧内点了两下）用 click 的 Off to On；要拖动数值用 value 的 Value Change。"},
+  {n:"五种触发条件",c:"offtoon",d:"与 CHOP Execute 相同：Off to On / While On / On to Off / While Off / Value Change，各对应一个回调方法；「on」的判定是值 > 0。"},
+  {n:"Execute From",c:"executeloc",d:"脚本执行位置，选项同 CHOP Execute。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+"OP Execute DAT": [
+  {title:"OP Execute 节点执行", note:"监听任意 OP 的 12 种深层事件，各对应一个回调——批量管理与自动化的瑞士军刀。", params:[
+  {n:"Active / Monitor OPs",c:"active",d:"总开关与监控目标（支持多个）。"},
+  {n:"PreCook / PostCook",c:"precook",d:"节点 cook 之前 / 之后触发 onPreCook() / onPostCook()。"},
+  {n:"On Destroy",c:"opdelete",d:"节点被删除时触发 onDestroy()——自动清理关联数据的钩子。"},
+  {n:"On Flag Change",c:"flagchange",d:"节点任何 Flag 变化时触发。"},
+  {n:"On Wire Change",c:"wirechange",d:"输入连线变化（连接/断开/交换）时触发。"},
+  {n:"On Name Change / On Path Change",c:"namechange",d:"节点改名 / 改路径（被移动）时触发。"},
+  {n:"On UI Change",c:"uichange",d:"节点在网络编辑器里被缩放或移动时触发——做「自动布局跟随」用。"},
+  {n:"On Num Children Change / On Child Rename / On Current Child Change",c:"numchildrenchange",d:"子节点数量变化 / 子节点改名 / 当前节点切换（仅 Component 类）——Replicator 的好友。"},
+  {n:"On Extension Change",c:"extensionchange",d:"节点的 Extension 被修改时触发。"},
+  {n:"Execute From",c:"executeloc",d:"脚本执行位置，选项同 CHOP Execute。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+"Web Client DAT": [
+  {title:"Web Client 网络客户端", note:"发 HTTP 请求收 API/网页数据：天气、股票、AI 接口的入口。", params:[
+  {n:"Active / Request（pulse）",c:"active",d:"总开关 / 手动发一次请求。"},
+  {n:"Request Method",c:"reqmethod",d:"HTTP 方法（下拉 7 种）：GET 获取数据 / POST 提交数据（服务器状态变化）/ PUT 整体替换 / DELETE 删除 / HEAD 只要响应头 / OPTIONS 查询通信选项 / PATCH 部分修改。"},
+  {n:"URL",c:"url",d:"请求地址；安全服务器用 https://。"},
+  {n:"Upload File / Stream / Verify Certificate",c:"uploadfile",d:"上传文件 / 流式接收（服务器需支持）/ TLS 证书验证。"},
+  {n:"Timeout",c:"timeout",d:"超时毫秒数。"},
+  {n:"Include Header in Output",c:"includeheader",d:"输出中包含 HTTP 响应头。"},
+  {n:"两个输入",c:"",d:"输入 0：两列 name/value 的请求头表（如 Content-Type | application/json）；输入 1：请求数据表或文本，GET 时作为 URL 查询参数附加。",tip:"调 JSON API：输入 0 给 Content-Type，POST 正文接输入 1，返回内容在 DAT 里用 json.loads() 解析。"},
+  ]},
+  {title:"Authentication 认证", note:"API 鉴权方式。", params:[
+  {n:"Authentication Type",c:"authtype",d:"认证类型（下拉 5 种）：None 无 / Basic base64 用户名密码 / Digest 加密版 Basic / OAuth1 四参数令牌（App Key/Secret + User Token/Secret）/ OAuth2 Client ID + Token（浏览器申请）。"},
+  {n:"Username / Password 等",c:"username",d:"各认证方式对应的凭据参数。"},
+  ]},
+  {title:"Output 输出", note:"收到的数据与回调。", params:[
+  {n:"Clear Output / Clamp Output as Rows / Maximum Lines",c:"clamp",d:"清空输出 / 输出变 FIFO 滚动表（流式建议开）/ 滚动最大行数。"},
+  {n:"Callbacks DAT",c:"callbacks",d:"onResponse 等回调脚本——数据到了自动处理，别轮询 DAT。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+"Folder DAT": [
+  {title:"Folder 文件夹", note:"把磁盘目录读成表格；Active 关闭时只输出表头（配 Replicator 不删子节点）。", params:[
+  {n:"Root Folder / Refresh",c:"rootfolder",d:"目标文件夹 / 开启后持续监控变化（另有 Refresh Pulse 单次读取）。"},
+  {n:"Asynchronous Update",c:"async",d:"异步读取不阻塞主线程（不掉帧，但变化可能晚一帧反映）。"},
+  {n:"Include Subfolders / Min/Max Depth",c:"subfolders",d:"递归子文件夹与深度限制。"},
+  {n:"Type",c:"type",d:"列出内容（下拉）：Files 仅文件 / Folders 仅文件夹 / Files and Folders 两者。"},
+  {n:"Names / Folders / Extensions",c:"names",d:"模式过滤：文件名、文件夹路径、扩展名（不带点，如 *txt）；另有快捷开关只列 TD 支持的图像/视频/音频类型。"},
+  {n:"Name Format / Date Format",c:"nameformat",d:"名称是否含扩展名（Extension / No Extension）/ 日期格式（Std 标准 / Epoch 时间戳）。"},
+  ]},
+  {title:"Columns 输出列", note:"输出表格包含哪些列，全部可开关。", params:[
+  {n:"Name / Base Name / Extension / Type",c:"namecol",d:"完整文件名 / 无扩展名 / 扩展名 / 系统文件类型。"},
+  {n:"Size / Depth / Folder / Path / Relative Path",c:"sizecol",d:"字节大小 / 距根深度 / 所在文件夹 / 完整路径 / 相对路径。",tip:"读素材库：Path 列直接喂给 Movie File In TOP 的 file 参数（表达式引用），列表自动变播放器。"},
+  {n:"Date Created / Modified / Accessed",c:"datecreated",d:"三个时间戳列。"},
+  ]},
+  SEC_DAT_COMMON,
+],
+});
+
+/* ============ MAT 家族参数详解 ============ */
+const SEC_MAT_COMMON = {title:"Common", note:"MAT 通用页：混合、深度、透明测试、线框、剔除——所有材质共享的渲染控制。", params:[
+{n:"Blending",c:"blending",d:"透明混合，公式 Final = (Src Blend × Src Color) + (Dest Blend × Dest Color)；Blend Operation（Add / Subtract / Reverse Subtract / Min / Max）+ Source/Destination 混合因子，Separate Alpha Function 可给 alpha 单独设。",tip:"发光叠加效果：Blending 开 + Blend Operation = Add，等效 PS 混合模式。"},
+{n:"Depth Test / Write Depth Values",c:"depthtest",d:"深度测试（Less Than / Less or Equal / Equal / Greater / Always）与是否写深度；透明物体常关 Write Depth 避免排序错乱。"},
+{n:"Alpha Test",c:"alphatest",d:"按阈值丢弃像素（Keep Pixels with Alpha + Alpha Threshold），比透明混合省性能——树叶、贴图镂空用。"},
+{n:"Wire Frame",c:"wireframe",d:"线框模式（下拉）：Off / OpenGL Tesselated 细分线框 / Topology 拓扑线框；Line Width 线宽（像素）。"},
+{n:"Cull Face",c:"cullface",d:"面剔除（下拉）：Use Render Setting 跟随渲染设置 / Neither 不剔除 / Back Faces 剔背面 / Front Faces 剔正面 / Both Faces 全剔。",tip:"单面片旋转到背面消失时，先检查这里和几何法线。"},
+{n:"Polygon Depth Offset",c:"polygonoffset",d:"Offset Factor / Units 深度偏移，解决 Z-Fighting（共面闪烁）。"},
+{n:"Parameter Color Space",c:"parmcolorspace",d:"颜色参数解释空间（sRGB / Rec.709 / Rec.2020 / DCI-P3 / ACES2065-1 / ACEScg 等）与 Reference White（SDR/HDR/UI）。"},
+]};
+
+Object.assign(DETAILS, {
+"PBR MAT": [
+  {title:"RGB 颜色", note:"基于物理渲染的核心参数页（参考 Epic Karis PBR 模型）。", params:[
+  {n:"Base Color",c:"basecolor",d:"基础色，参与 diffuse 与 specular 计算。"},
+  {n:"Metallic",c:"metallic",d:"金属度 0-1：0=绝缘体（塑料/木头），1=金属（颜色变高光）。"},
+  {n:"Roughness",c:"roughness",d:"粗糙度 0-1：0=镜面，1=完全哑光；配合 Metallic 是 PBR 质感的最强旋钮。"},
+  {n:"Specular Level",c:"specularlevel",d:"高光强度贡献。"},
+  {n:"Ambient Occlusion",c:"ambientocclusion",d:"AO 强度，影响 Environment Light COMP 贡献。"},
+  {n:"Emit",c:"emit",d:"自发光色——不受光照影响的部分。"},
+  {n:"Constant",c:"constant",d:"直接叠加到最终颜色（finalcolor += Point Color × Constant）。"},
+  {n:"Front/Back Face Lit",c:"facelit",d:"双面光照（下拉）：Front Lit / Back Lit / Use Per-Light。"},
+  {n:"Output Shader",c:"outputshader",d:"把当前自动生成的 GLSL 导出到 GLSL MAT + Text DAT——学习 shader / 微调的入口。",tip:"想要官方 shader 的实现细节，点它导出成代码研究。"},
+  ]},
+  {title:"Maps 贴图", note:"PBR 贴图槽；贴图通用采样选项（Extend/Filter/各向异性/Screen Space/Triplanar）在每个槽位都可展开设置。", params:[
+  {n:"Substance TOP",c:"substancetop",d:"引用 .sbsar Substance 文件，自动解包全部纹理；手动指定的贴图覆盖自动解包。"},
+  {n:"Base Color / Metallic / Roughness / Specular Level / AO / Emit Map",c:"basemap",d:"各 PBR 通道贴图，乘以对应颜色参数。"},
+  {n:"Normal Map (Bump) + Bump Scale",c:"normalmap",d:"法线贴图；需要几何体含切线属性 T[4]（用 Attribute Create SOP 生成）；Bump Scale 控制强度。",tip:"法线贴图没效果？九成是几何缺 tangent 属性。"},
+  {n:"Height Map",c:"heightmap",d:"高度图三件套：Parallax Scale 视差缩放 / Parallax Occlusion 视差遮蔽（高处挡低处）/ Displace Vertices 真实顶点位移 + Midpoint。"},
+  {n:"Texture Sampling Mode",c:"colormapsamplemode",d:"采样模式（下拉，通用）：Regular 常规 UV / Screen Space 屏幕空间坐标 / Triplanar 三平面映射（仅 POP）。"},
+  {n:"Channel Source",c:"channelsource",d:"贴图取哪个通道（下拉）：Luminance / R / G / B / Alpha / RGB Avg / RGBA Avg——灰度类贴图（粗糙度/AO）常用。"},
+  {n:"SOP Texture Coord",c:"colormapcoord",d:"用哪层 UV（uv0-uv7 共 8 层）。"},
+  ]},
+  {title:"Alpha 透明", note:"透明度控制。", params:[
+  {n:"Alpha Map",c:"alphamap",d:"透明贴图，只取红通道。"},
+  {n:"Uniform Alpha",c:"uniformalpha",d:"关闭后 alpha 随法线与相机夹角变化。"},
+  {n:"Alpha Front / Alpha Side / Rolloff",c:"alphamapfront",d:"正面 alpha、侧面 alpha 与过渡软硬度——粒子边缘柔化三件套。"},
+  {n:"Post-Mult Color by Alpha",c:"postmultalpha",d:"最终颜色乘 alpha。"},
+  ]},
+  {title:"Rim 边缘光", note:"可叠加多个 rim light（边缘光）。", params:[
+  {n:"Enable / Color / Color Map",c:"rimenable",d:"边缘光开关与颜色。"},
+  {n:"Center / Width",c:"rimcenter",d:"rim light 在 360° 圆上的位置与扩散宽度。"},
+  {n:"Strength / Strength Ramp",c:"rimstrength",d:"强度与强度分布 ramp。"},
+  ]},
+  {title:"Advanced 高级", note:"阴影、暗部发光与多缓冲输出。", params:[
+  {n:"Shadow Strength / Shadow Color",c:"shadowstrength",d:"阴影浓度与阴影区颜色。"},
+  {n:"Darkness Emit / Color / Map",c:"darknessemit",d:"越暗的区域越多混入该发光色——「暗部提亮」秘技。"},
+  {n:"Write Camera Space Depth to Alpha",c:"depthalpha",d:"把相机空间深度写进 alpha，供后期景深/雾效使用。"},
+  {n:"Apply Point Color",c:"applypointcolor",d:"使用几何体 Cd[4] 点颜色属性。"},
+  {n:"Instance Texture",c:"instancetex",d:"逐实例纹理应用到哪个贴图槽（Base Color / Normal / Emit / Alpha…）——instancing 进阶必备。"},
+  {n:"Color Buffer (RGB)",c:"colorbuf",d:"单 pass 把法线/位置/贴图等输出到 Render TOP 的不同颜色缓冲（World Space Normal、Final Diffuse Color 等）。"},
+  ]},
+  SEC_MAT_COMMON,
+],
+"Phong MAT": [
+  {title:"RGB 颜色", note:"经典光照材质：漫反射+高光，参数直观。", params:[
+  {n:"Diffuse",c:"diff",d:"漫反射颜色——物体的「本色」。"},
+  {n:"Ambient",c:"amb",d:"环境光颜色；可勾选 Ambient uses Diffuse 跟随漫反射。"},
+  {n:"Specular / Shininess",c:"spec",d:"高光颜色与光泽度：高=塑料金属感，低=哑光。"},
+  {n:"Emit / Constant",c:"emit",d:"自发光色 / 直接叠加到最终颜色的常量。"},
+  {n:"Color Map",c:"colormap",d:"颜色贴图，乘以全部光照结果。"},
+  {n:"Diffuse / Specular / Emit Map",c:"diffmap",d:"分别乘对应颜色通道的贴图。"},
+  {n:"Normal Map (Bump)",c:"normalmap",d:"凹凸贴图，需几何含 T[4] 切线（Attribute Create SOP 生成）；Bump Scale 控强度。"},
+  {n:"Height Map",c:"heightmap",d:"视差贴图与顶点位移（同 PBR 三件套）。"},
+  {n:"Environment Map",c:"envmap",d:"环境反射贴图，支持 Sphere Map / Equirectangular（等距圆柱全景）/ Cube Map，可设颜色与旋转。",tip:"金属字、光洁地面：Phong + Equirectangular 环境贴图，一秒出反射。"},
+  {n:"Polygon Front/Back Faces",c:"facelit",d:"双面光照：Use Light Settings / Front Lit / Back Lit。"},
+  ]},
+  {title:"Alpha 透明", note:"与 PBR 相同结构的透明控制。", params:[
+  {n:"Alpha Map / Uniform Alpha / Alpha Front·Side·Rolloff",c:"alphamap",d:"透明贴图（红通道）、均匀 alpha 开关、正侧面 alpha 与过渡。"},
+  {n:"Mult Alpha by Light Luminance",c:"multalphalight",d:"alpha 乘以光照亮度——越暗越透明（虚化光斑常用）。"},
+  ]},
+  {title:"Multi-Texturing 多重纹理", note:"最多 4 张贴图 t0-t3 混合。", params:[
+  {n:"t0-t3 默认相乘 / GLSL Expression",c:"t0",d:"四张贴图默认相乘；可用 GLSL 表达式自定义混合，输出必须是 vec4：vec4(t0.rgb + t1.rgb, 1.0)。"},
+  ]},
+  {title:"Rim / Advanced", note:"边缘光与高级控制（结构同 PBR）。", params:[
+  {n:"Rim 页",c:"rimenable",d:"边缘光：Enable / Color / Center / Width / Strength / Strength Ramp。"},
+  {n:"Secondary Specular / Shininess",c:"secondaryspec",d:"第二层高光——双层高光做「清漆」质感。"},
+  {n:"其余参数",c:"",d:"Shadow Strength/Color、Darkness Emit、Write Camera Space Depth to Alpha、Apply Point Color、Instance Texture、Color Buffer——语义同 PBR MAT 的 Advanced 页。"},
+  ]},
+  SEC_MAT_COMMON,
+],
+"Constant MAT": [
+  {title:"Constant 常数", note:"纯色无光照材质：剪影、平涂、线框风格；参数极简。", params:[
+  {n:"Color / Alpha",c:"colorr",d:"纯色与不透明度（与点 alpha 相乘）。"},
+  {n:"Color Map",c:"colormap",d:"颜色贴图（不受光照影响，原样显示）。"},
+  {n:"Apply Point Color",c:"applypointcolor",d:"乘以几何体点颜色 Cd。"},
+  {n:"Apply Projection Maps",c:"applyprojmaps",d:"应用 Light COMP 的投影贴图颜色（不受光照影响）。"},
+  {n:"贴图采样通用选项",c:"colormapextendu",d:"Extend U/V/W（Hold / Zero / Repeat / Mirror）、Filter（Nearest / Linear / Mipmap Linear）、Anisotropic（Off-16x）、SOP Texture Coord（uv0-7）——每个 MAT 通用。"},
+  ]},
+  SEC_MAT_COMMON,
+],
+"Point Sprite MAT": [
+  {title:"Point Sprite 点精灵", note:"把每个顶点渲染成一张小贴图；最终大小 = pscale 点属性 × 本页参数。", params:[
+  {n:"Color / Alpha / Color Map",c:"colorr",d:"颜色、透明度与贴图（乘以 sprite 颜色）；colormap 支持 3D 纹理数组，w 坐标选数组里的贴图。"},
+  {n:"Point Size + Sizing Model",c:"pointsize",d:"点大小与尺寸模型（下拉）：Constant/Attenuate 常量像素宽（所有点同大，可混合衰减）/ Perspective Correct 以世界单位计（设 3 = 每个 sprite 3 个世界单位宽）。",tip:"粒子要有「近大远小」就选 Perspective Correct。"},
+  {n:"Atten Point Scale / Near·Far / Size Near·Far",c:"attenpscale",d:"衰减混合：0=纯常量 1=纯衰减；近/远距离阈值与对应的缩放，之间线性插值。"},
+  {n:"Size Affected by FOV/OrthoWidth",c:"sizeaffectedbyfov",d:"sprite 像素大小随 FOV 变化（仅 Perspective Correct 模式）。"},
+  {n:"Offset Left/Right/Bottom/Top",c:"offsetleft",d:"裁剪 sprite 四个边缘——贴图圆形但四周有暗边时裁掉。"},
+  ]},
+  SEC_MAT_COMMON,
+],
+"GLSL MAT": [
+  {title:"Load 加载", note:"自定义 shader 的代码入口与编译控制。", params:[
+  {n:"Preprocess Directives",c:"predat",d:"存放预处理指令（#extension 等）的 DAT——必须是 shader 第一行，写在主代码里会被 TD 自动注入的声明打断。"},
+  {n:"Vertex / Pixel / Geometry Shader",c:"vdat",d:"三个着色器代码所在的 Text DAT 路径（本页没有 compute shader，那在 GLSL TOP）。"},
+  {n:"Load Uniform Names",c:"loaduniformnames",d:"读编译后 shader 里已声明且使用的 uniform，自动填入各参数页的名称字段。",tip:"写完 shader 先点它，uniform/sampler 参数自动生成，不用手打名字。"},
+  {n:"Inherit Uniforms/Samplers from",c:"inherit",d:"从另一个 GLSL MAT 继承全部纹理与 uniform。"},
+  {n:"GLSL Version",c:"glslversion",d:"编译版本（下拉）：1.20 ~ 4.60 共 9 档。"},
+  {n:"Lighting Space",c:"lightingspace",d:"世界空间（默认）/ 旧版相机空间（兼容 088 老 shader）。"},
+  {n:"Input/Output Primitive Type / Num Output Vertices",c:"inprim",d:"几何着色器专属：输入图元（Points/Lines/Triangles）、输出图元（Points/Line Strip/Triangle Strip）与最大输出顶点数。"},
+  {n:"Two Sided Coloring",c:"twocolor",d:"双面着色：启用后可写 gl_FrontColor/gl_BackColor，自动传给像素着色器。"},
+  {n:"出错提示",c:"",d:"shader 编译失败时显示蓝红棋盘格错误材质，错误详情看 Textport。"},
+  ]},
+  {title:"Attributes / Samplers", note:"几何属性与纹理的绑定。", params:[
+  {n:"Attributes 页",c:"attr0name",d:"属性名+类型（float/vec2-4、int/ivec2-4、uint/uvec2-4、double 系列）+数组大小；shader 里用 TDAttrib_<属性名>() 访问。"},
+  {n:"Samplers 页",c:"top0",d:"sampler 名 + TOP 纹理（声明需与 TOP 维度匹配 sampler2D/sampler3D）；每个 sampler 可设 Extend/Filter/Anisotropic。"},
+  ]},
+  {title:"Vectors / Arrays / Matrices / Constants", note:"uniform 的四种投递方式。", params:[
+  {n:"Vectors",c:"vec0name",d:"名称+xyzw 四分量值，按类型截取（float 取 x，vec2 取 xy…）。"},
+  {n:"Arrays（CHOP Uniforms）",c:"arr0chop",d:"把 CHOP 通道数据以数组 uniform 送进 shader；Uniform Array 受 $SYS_GFX_GLSL_MAX_UNIFORMS 限制（按 vec4 计），Texture Buffer 上限大得多且互不占配额。",tip:"大数据量（几千点）用 Texture Buffer 而不是 uniform 数组。"},
+  {n:"Matrices",c:"mat0name",d:"mat4 uniform；Relative Xforms：一个 COMP 的世界变换到另一个的世界变换，用于空间转换。"},
+  {n:"Constants",c:"const0name",d:"Specialization Constants（特化常量）赋值。"},
+  ]},
+  SEC_MAT_COMMON,
+],
+"Line MAT": [
+  {title:"Setup 全局设置", note:"影响线/点/向量的宽度模型与遮挡处理。", params:[
+  {n:"Depth Interpolation Model",c:"depthinterpmodel",d:"宽度随距离的变化模型（下拉）：S Curve 近远平面间 S 曲线插值（Bias/Steepness/Linearize 可调）/ Inverse Distance 按 1/z 反距离加权（指数可调）。"},
+  {n:"Distance Near / Far + Width Near / Far",c:"distancenear",d:"近/远平面距离与对应的固定宽度，之间按模型插值——近粗远细的自动处理。"},
+  {n:"Width Affected by FOV/OrthoWidth",c:"widthfov",d:"宽度是否随视野缩放。"},
+  {n:"Lift Direction / Lift Scale",c:"liftdirection",d:"抬线方向（下拉）：Along Camera Z Axis / Along Normal / Toward Camera；防止线被多边形遮挡的经典设置。",tip:"线画在面上被面吃掉：Lift Direction + 一点 Lift Scale。"},
+  {n:"Num Points in Circle",c:"numpoints",d:"模拟圆用的点数，越少越快。"},
+  {n:"线宽单位",c:"",d:"宽度与分辨率无关：1 = 图像宽度的 1/1000；逐点宽度用 SOP 点属性 width（整体）或 pscale（只影响点）。"},
+  ]},
+  {title:"Line 线", note:"线的拐角、端帽与颜色。", params:[
+  {n:"Draw Lines",c:"drawlines",d:"画线开关。"},
+  {n:"Line Joint Type",c:"jointtype",d:"拐角类型（下拉）：Round 圆角 / Miter 尖角 / Bevel 方角；Miter Threshold 超过该角度自动转 Bevel（防止尖角无限延伸）。"},
+  {n:"Line Start/End Cap Type",c:"startcaptype",d:"端帽类型（下拉 5 种）：Round / Square / Triangle / Arrow / None 平头。"},
+  {n:"Line Near/Far Color + Alpha",c:"linenearcolor",d:"近/远颜色与透明度（Specify Far Color 开启后可分别设，之间插值）。"},
+  ]},
+  {title:"Point 点 / Vector 向量", note:"附带画点与向量的能力。", params:[
+  {n:"Draw Points / Point Type",c:"pointtype",d:"画点开关与形状（下拉）：Circle / Sphere / Circle (Sprite) / Square / Cone。"},
+  {n:"Point Size Multiplier",c:"pointsizemult",d:"点大小缩放（默认半径 = 该处线宽）。"},
+  {n:"Draw Vectors / Scale / Taper Strength",c:"drawvectors",d:"画向量开关、长度缩放、末端变细强度；向量来源在 Attributes 页指定（默认 N，可选 P/Cd/uv/自定义）。"},
+  ]},
+  {title:"Caps 端帽", note:"各端帽形状的宽高缩放。", params:[
+  {n:"Round/Square/Triangle/Arrow Width·Height",c:"capwidth",d:"各端帽类型的宽高缩放、Arrow Tail Length 箭头尾长、端帽相对线条的放大倍数。"},
+  {n:"Start/End Caps Pullback",c:"cappullback",d:"0=端帽中心在端点 / 1=端帽尖端在端点。"},
+  ]},
+  SEC_MAT_COMMON,
+],
+});
+
+/* ============ 状态 ============ */
+let stars = new Set(JSON.parse(localStorage.getItem("td_dict_stars") || "[]"));
+let activeCat = "all";
+let starView = false;
+let activeIdx = -1;
+let filtered = [];
+
+const grid = document.getElementById("grid");
+const empty = document.getElementById("empty");
+const searchEl = document.getElementById("search");
+const overlay = document.getElementById("overlay");
+const modal = document.getElementById("modal");
+
+/* ============ 工具 ============ */
+const norm = s => (s || "").toLowerCase().replace(/\s+/g, "");
+function detailText(e) {
+  const d = DETAILS[e.w]; if (!d) return "";
+  return d.map(pg => pg.title + " " + pg.params.map(p => p.n + " " + (p.d || "")).join(" ")).join(" ");
+}
+function matchEntry(e, q) {
+  const qq = norm(q);
+  if (!qq) return true;
+  return norm(e.w).includes(qq) || (e.m || "").includes(q) ||
+         (e.t || "").includes(q) || (e.s || "").includes(q) ||
+         norm(detailText(e)).includes(qq);
+}
+function catCount(key) { return key === "all" ? DATA.length : DATA.filter(e => e.c === key).length; }
+
+/* ============ 渲染 ============ */
+function renderChips() {
+  const box = document.getElementById("chips");
+  const items = [{key:"all", name:"全部", color:"#4a9eff"}]
+    .concat(Object.keys(CATS).map(k => ({key:k, name:CATS[k].name, color:CATS[k].color})));
+  box.innerHTML = items.map(it => {
+    return `<div class="chip ${it.key===activeCat?"on":""}" data-cat="${it.key}"
+      style="${it.key===activeCat?`background:${it.color};border-color:${it.color}`:""}">
+      <span class="dot" style="background:${it.color}"></span>${it.name}
+      <span class="n">${catCount(it.key)}</span></div>`;
+  }).join("");
+  box.querySelectorAll(".chip").forEach(ch => ch.onclick = () => {
+    activeCat = ch.dataset.cat; activeIdx = -1; renderChips(); renderList();
+  });
+}
+
+function renderList() {
+  const q = searchEl.value.trim();
+  filtered = DATA.filter(e =>
+    (activeCat === "all" || e.c === activeCat) &&
+    (!starView || stars.has(e.w)) &&
+    matchEntry(e, q)
+  );
+  const nd = DATA.filter(e => DETAILS[e.w]).length;
+  document.getElementById("countPill").textContent =
+    `共 ${DATA.length} 词条 · ${nd} 个节点含参数详解 · 当前显示 ${filtered.length} 条${starView ? " · 生词本" : ""}`;
+
+  if (!filtered.length) {
+    grid.innerHTML = ""; empty.style.display = "block";
+    empty.innerHTML = starView
+      ? `生词本还是空的<br>点开任意词条右上角的 ⭐ 或详情里的「加入生词本」即可收藏`
+      : `没有找到 <b>「${q}」</b> 相关的词条<br>试试更短的关键词，或检查拼写`;
+    return;
+  }
+  empty.style.display = "none";
+  grid.innerHTML = filtered.map((e, i) => {
+    const cat = CATS[e.c]; const hasD = !!DETAILS[e.w];
+    return `<div class="card ${stars.has(e.w)?"starred":""} ${i===activeIdx?"active":""}" data-idx="${i}">
+      <svg class="star-ico" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+      <div class="card-top"><span class="w">${e.w}</span>${e.p?`<span class="p">${e.p}</span>`:""}</div>
+      <div class="tag-row">
+        <span class="tag" style="background:${cat.color}22;color:${cat.color};border:1px solid ${cat.color}44">${cat.name}</span>
+        ${hasD?`<span class="badge-detail">参数</span>`:""}
+      </div>
+      <div class="m">${e.m}</div>
+    </div>`;
+  }).join("");
+  grid.querySelectorAll(".card").forEach(card => card.onclick = () => openModal(+card.dataset.idx));
+  if (activeIdx >= filtered.length) activeIdx = filtered.length - 1;
+  markActive();
+}
+function markActive() {
+  grid.querySelectorAll(".card").forEach(c => c.classList.toggle("active", +c.dataset.idx === activeIdx));
+  const el = grid.querySelector(".card.active");
+  if (el) el.scrollIntoView({ block: "nearest" });
+}
+
+/* ============ 详情 ============ */
+function detailHTML(e, cat) {
+  const d = DETAILS[e.w]; if (!d) return "";
+  const tabs = d.map((pg, i) =>
+    `<div class="dtab ${i===0?"on":""}" data-di="${i}">${pg.title}</div>`).join("");
+  const panels = d.map((pg, i) => `
+    <div class="dpanel ${i===0?"on":""}" id="dp-${i}">
+      ${pg.note ? `<div class="dpage-note">${pg.note}</div>` : ""}
+      ${pg.params.map(p => `
+        <div class="param">
+          <div class="param-head">
+            <span class="param-name">${p.n}</span>
+            ${p.c?`<span class="param-code">${p.c}</span>`:""}
+          </div>
+          <div class="param-body">
+            <p>${p.d}</p>
+            ${p.tip?`<div class="note">${p.tip}</div>`:""}
+          </div>
+        </div>`).join("")}
+    </div>`).join("");
+  return `
+    <div class="sec">
+      <div class="sec-title"><span class="bar" style="background:${cat.color}"></span>参数详解 · ${d.length} 个参数页（依官方 wiki 核对）</div>
+      <div class="detail-tabs">${tabs}</div>
+      <div style="margin-top:12px">${panels}</div>
+    </div>`;
+}
+
+function openModal(idx) {
+  const e = filtered[idx]; if (!e) return;
+  const cat = CATS[e.c]; const starred = stars.has(e.w);
+  modal.innerHTML = `
+    <div class="modal-head">
+      <button class="modal-close" title="关闭 (Esc)">✕</button>
+      <div class="w">${e.w}</div>
+      ${e.p ? `<div class="p">${e.p}</div>` : ""}
+      <div class="tag-row" style="margin-top:10px">
+        <span class="tag" style="background:${cat.color}22;color:${cat.color};border:1px solid ${cat.color}44">${cat.name}</span>
+        ${DETAILS[e.w]?`<span class="badge-detail">参数详解</span>`:""}
+      </div>
+      <div class="m" style="margin-top:12px">${e.m}</div>
+    </div>
+    <div class="modal-body">
+      <div class="sec sec-role">
+        <div class="sec-title"><span class="bar" style="background:${cat.color}"></span>在 TD 中的作用</div>
+        <div class="txt">${e.t}</div>
+      </div>
+      <div class="sec sec-scene">
+        <div class="sec-title"><span class="bar" style="background:var(--dim)"></span>什么时候会用到</div>
+        <div class="txt">${e.s}</div>
+      </div>
+      ${detailHTML(e, cat)}
+      <div class="modal-foot">
+        <button class="btn-star ${starred?"on":""}" id="btnStar">
+          <svg viewBox="0 0 24 24" fill="${starred?"currentColor":"none"}" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+          <span>${starred ? "已在生词本 · 点击移除" : "加入生词本"}</span>
+        </button>
+        <span class="foot-hint"><span class="kbd">Esc</span> 关闭 · <span class="kbd">↑↓</span> 切换词条</span>
+      </div>
+    </div>`;
+  overlay.classList.add("show");
+  modal.dataset.idx = idx;
+  modal.querySelector(".modal-close").onclick = closeModal;
+  modal.querySelectorAll(".dtab").forEach(t => t.onclick = () => {
+    modal.querySelectorAll(".dtab").forEach(x => x.classList.remove("on"));
+    modal.querySelectorAll(".dpanel").forEach(x => x.classList.remove("on"));
+    t.classList.add("on");
+    modal.querySelector("#dp-" + t.dataset.di).classList.add("on");
+    modal.scrollTop = modal.querySelector(".detail-tabs").offsetTop - 40;
+  });
+  document.getElementById("btnStar").onclick = () => { toggleStar(e.w); openModal(idx); renderList(); };
+}
+function closeModal() { overlay.classList.remove("show"); searchEl.focus(); }
+function toggleStar(word) {
+  stars.has(word) ? stars.delete(word) : stars.add(word);
+  localStorage.setItem("td_dict_stars", JSON.stringify([...stars]));
+}
+
+/* ============ 生词本 ============ */
+const starBtn = document.getElementById("starViewBtn");
+starBtn.onclick = () => {
+  starView = !starView; activeIdx = -1;
+  starBtn.classList.toggle("on", starView);
+  document.getElementById("starViewLabel").textContent = starView ? "退出生词本" : "生词本";
+  renderList();
+};
+
+/* ============ 搜索 & 键盘 ============ */
+searchEl.addEventListener("input", () => { activeIdx = -1; renderList(); });
+document.addEventListener("keydown", ev => {
+  if (ev.key === "/" && document.activeElement !== searchEl) {
+    ev.preventDefault(); searchEl.focus(); return;
+  }
+  const inModal = overlay.classList.contains("show");
+  if (ev.key === "Escape") {
+    if (inModal) { closeModal(); return; }
+    if (document.activeElement === searchEl && searchEl.value) { searchEl.value = ""; renderList(); return; }
+    if (starView) { starBtn.click(); }
+    return;
+  }
+  if (inModal && (ev.key === "ArrowDown" || ev.key === "ArrowUp" || ev.key === "Enter")) {
+    ev.preventDefault();
+    const idx = +modal.dataset.idx;
+    if (ev.key === "ArrowDown" && idx < filtered.length - 1) openModal(idx + 1);
+    if (ev.key === "ArrowUp" && idx > 0) openModal(idx - 1);
+    return;
+  }
+  if (document.activeElement === searchEl && filtered.length) {
+    if (ev.key === "ArrowDown" || ev.key === "ArrowUp") {
+      ev.preventDefault();
+      activeIdx = ev.key === "ArrowDown"
+        ? Math.min(activeIdx + 1, filtered.length - 1)
+        : Math.max(activeIdx - 1, 0);
+      markActive();
+    } else if (ev.key === "Enter" && activeIdx >= 0) {
+      openModal(activeIdx);
+    }
+  }
+});
+overlay.addEventListener("click", ev => { if (ev.target === overlay) closeModal(); });
+
+/* ============ 启动 ============ */
+renderChips();
+renderList();
+searchEl.focus();
+</script>
+</body>
+</html>
